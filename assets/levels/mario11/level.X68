@@ -1,5 +1,5 @@
 MarioDemo:
-   dc.w $1C80   
+   dc.l $001C0080   
    dc.w $0021   
    dc.w $0022   
    dc.w $0023   

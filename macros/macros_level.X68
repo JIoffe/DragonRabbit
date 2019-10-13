@@ -7,10 +7,10 @@ StreamLevel    macro
     move.l  a1, a0                              ; keep a1 fresh
 
     moveq   #0, d2
-    move.b  (a0)+,  d2                          ; D2 has height (tiles)
+    move.w  (a0)+,  d2                          ; D2 has height (tiles)
 
     moveq   #0, d3
-    move.b  (a0)+,  d3                          ; D3 has width (tiles)
+    move.w  (a0)+,  d3                          ; D3 has width (tiles)
     add.l   d3, d3
 
     moveq   #0, d7                              ; Adjust column based on camera
@@ -61,10 +61,10 @@ StreamLevelLeft    macro
     move.l  a1, a0                              ; keep a1 fresh
 
     moveq   #0, d2
-    move.b  (a0)+,  d2                          ; D2 has height (tiles)
+    move.w  (a0)+,  d2                          ; D2 has height (tiles)
 
     moveq   #0, d3
-    move.b  (a0)+,  d3                          ; D3 has width (tiles)
+    move.w  (a0)+,  d3                          ; D3 has width (tiles)
     add.l   d3, d3
 
     moveq   #0, d7                              ; Adjust column based on camera

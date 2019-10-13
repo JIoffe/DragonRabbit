@@ -51,8 +51,7 @@ MainLoop_Level:
     move.w  #0, d1
     bra.s   lvlcam_clamp_max
     lvlcam_clamp_min:
-    move.w  (a1), d0
-    andi.w  #$00FF, d0
+    move.l  (a1), d0
     asl.w   #3, d0
     subi.w  #320, d0            ; 320 pixels from camera start to the end of the frame
     cmp.w   d0, d1

@@ -13,11 +13,11 @@ Level_FillFrame:
 
     moveq   #0, d2
     moveq   #0, d3
-    move.b  (a0)+, d2
-    move.b  (a0)+, d3
+    move.w  (a0)+, d2
+    move.w  (a0)+, d3
 
     sub.w   #vdp_visible_tile_width,   d3                   ; difference between level width and plane width
-    add.w   d3, d3                                          ; tiles * 2 byte offset to skip rows in the level data
+    add.l   d3, d3                                          ; tiles * 2 byte offset to skip rows in the level data
 
     move.l  #vdp_write_plane_a, d7
     framefill_loop:

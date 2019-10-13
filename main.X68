@@ -149,19 +149,17 @@ NotHandled:
 *===============================
 * Art/Sound/Text Assets
 * ===============================
-    include './assets/palettes/palettes_intro_storm.X68'
+    include './assets/cutscenes/intro_storm/palette.X68'
+    include './assets/cutscenes/intro_storm/stamps.X68'
+    include './assets/cutscenes/intro_storm/tiles_clouds.X68'
+
     include './assets/palettes/palettes_titlescreen.X68'
-    include './assets/tiles/tiles_intro_storm.X68'
     include './assets/tiles/tiles_titlescreen.X68'
 
     ; Genesis does - mario!
     include './assets/levels/mario11/tiles.X68'
     include './assets/levels/mario11/palette.X68'
     include './assets/levels/mario11/level.X68'
-stamp_introclouds:
-   dc.b $04
-   dc.b $04
-   dc.w $0000
 
 RomEnd:
 
