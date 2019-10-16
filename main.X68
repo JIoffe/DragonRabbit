@@ -152,6 +152,13 @@ NotHandled:
     include './assets/cutscenes/intro_storm/palette.X68'
     include './assets/cutscenes/intro_storm/stamps.X68'
     include './assets/cutscenes/intro_storm/tiles_clouds.X68'
+    include './assets/cutscenes/intro_storm/tiles_lightningA.X68'
+    include './assets/cutscenes/intro_storm/intro_lightningA.X68'
+    include './assets/cutscenes/intro_storm/tiles_fight.X68'
+    include './assets/cutscenes/intro_storm/intro_fightA.X68'
+    include './assets/cutscenes/intro_storm/intro_fightB.X68'
+    include './assets/cutscenes/intro_storm/intro_slash.X68'
+    include './assets/cutscenes/intro_storm/intro_slash_tiles.X68'
 
     include './assets/palettes/palettes_titlescreen.X68'
     include './assets/tiles/tiles_titlescreen.X68'
@@ -162,6 +169,8 @@ NotHandled:
     include './assets/levels/mario11/level.X68'
 
 RomEnd:
+
+
 
 
 

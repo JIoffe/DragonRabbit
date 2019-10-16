@@ -15,56 +15,54 @@ Palettes_intro_storm:
    dc.w $0AAA
    dc.w $0CCC
    dc.w $0EEE
-   dc.w $0000
-   dc.w $0000
+
+   dc.w $0E66
+   dc.w $0E88
    dc.w $0EEE
-   dc.w $0E00
-   dc.w $00E0
-   dc.w $000E
-   dc.w $00EE
-   dc.w $0E0E
-   dc.w $0EE0
-   dc.w $0222
-   dc.w $0444
-   dc.w $0666
+   dc.w $0E66
+   dc.w $0ECC
+   dc.w $0EAC
+   dc.w $0EAA
+   dc.w $0E68
+   dc.w $0E8A
+   dc.w $0E02
+   dc.w $0EA2
+   dc.w $0020
+   dc.w $0060
+   dc.w $0AA6
+   dc.w $0EE6
+   dc.w $0000
+
+   dc.w $0E66
+   dc.w $0688
+   dc.w $0420
    dc.w $0888
-   dc.w $0AAA
-   dc.w $0CCC
-   dc.w $0EEE
    dc.w $0000
-   dc.w $0000
-   dc.w $0EEE
-   dc.w $0E00
-   dc.w $00E0
-   dc.w $000E
-   dc.w $00EE
-   dc.w $0E0E
-   dc.w $0EE0
-   dc.w $0222
-   dc.w $0444
    dc.w $0666
-   dc.w $0888
-   dc.w $0AAA
    dc.w $0CCC
-   dc.w $0EEE
-   dc.w $0000
-   dc.w $0000
-   dc.w $0EEE
-   dc.w $0E00
-   dc.w $00E0
+   dc.w $0AAA
+   dc.w $0004
    dc.w $000E
-   dc.w $00EE
-   dc.w $0E0E
-   dc.w $0EE0
-   dc.w $0222
    dc.w $0444
-   dc.w $0666
-   dc.w $0888
-   dc.w $0AAA
-   dc.w $0CCC
+   dc.w $0222
+   dc.w $0040
+   dc.w $0A88
+   dc.w $0200
    dc.w $0EEE
 
-*~Font name~Courier New~
-*~Font size~10~
-*~Tab type~1~
-*~Tab size~4~
+   dc.w $0000
+   dc.w $0ECC
+   dc.w $0A66
+   dc.w $0622
+   dc.w $0E88
+   dc.w $0EAA
+   dc.w $0000
+   dc.w $0C88
+   dc.w $0844
+   dc.w $0400
+   dc.w $0842
+   dc.w $0CAA
+   dc.w $0866
+   dc.w $0422
+   dc.w $0ECA
+   dc.w $0EEC

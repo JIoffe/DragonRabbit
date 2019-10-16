@@ -10,6 +10,20 @@ LoadTiles:
 	    move.l 	(a0)+, vdp_data
 	    dbra 	d0, load_tile_loop
 	    rts
+
+* USE lea of tile definition(s) to a0, set d0 to # of tiles, set d1 to offset
+LoadTilesOffset:
+    lsl.l   #3, d0 ;multiply by 8
+    subi.l  #1, d0
+	add.w	d1, d1
+	lsl.w	#4,	d1
+	swap	d1
+	add.l	#vdp_vram_tiles, d1
+    move.l  d1, vdp_control
+	load_tileo_loop:	
+	    move.l 	(a0)+, vdp_data
+	    dbra 	d0, load_tileo_loop
+	    rts
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~

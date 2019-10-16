@@ -2,6 +2,7 @@
 * Macros for streaming through level data to keep the level loop neat
 *===============================================================================
 * - \1 = Column to target (in bytes)
+* - d1 = camera pos YYXX
 *-------------------------------------------------------------------------------
 StreamLevel    macro
     move.l  a1, a0                              ; keep a1 fresh

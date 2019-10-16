@@ -24,3 +24,12 @@ loop\@
     dbra    d0, loop\@
     endm
 
+*------------------------------------
+* Sets BG in CRAM (pal 0, col 0)
+* - \1 = COLOR to set
+*------------------------------------
+SetBG macro
+    move.l  #vdp_cram_write, vdp_control
+    move.w  \1, vdp_data
+    endm
+
