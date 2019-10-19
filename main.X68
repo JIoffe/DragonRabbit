@@ -160,8 +160,10 @@ NotHandled:
     include './assets/cutscenes/intro_storm/intro_slash.X68'
     include './assets/cutscenes/intro_storm/intro_slash_tiles.X68'
 
-    include './assets/palettes/palettes_titlescreen.X68'
-    include './assets/tiles/tiles_titlescreen.X68'
+    include './assets/title-screen/palette.X68'
+    include './assets/title-screen/tiles.X68'
+    include './assets/title-screen/title-rabbit.X68'
+    include './assets/title-screen/title-logo.X68'
 
     ; Genesis does - mario!
     include './assets/levels/mario11/tiles.X68'

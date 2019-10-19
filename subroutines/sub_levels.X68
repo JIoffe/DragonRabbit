@@ -71,7 +71,7 @@ Plane_DrawPattern:
     add.w   d7, d7
     swap    d5
     swap    d7
-    add.l   #vdp_write_plane_a, d7
+    add.l   a5, d7
 
     patternfill_loop:
         move.l  d7, vdp_control
@@ -125,7 +125,7 @@ Plane_DrawPatternFlipH:
     add.w   d7, d7
     swap    d5
     swap    d7
-    add.l   #vdp_write_plane_a, d7
+    add.l   a5, d7
 
     ; Going in reverse...
     ; Move ahead with the pointer and go backwards

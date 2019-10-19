@@ -56,6 +56,9 @@ Init_IntroClouds:
     move.b  #140, d1
 	bsr.w   LoadTilesOffset
 
+    ; For the rest of this state we can just draw patterns to plane A
+    move.l  #vdp_write_plane_a, a5
+
     move.w	#interrupts_enable, sr
     rts
 
