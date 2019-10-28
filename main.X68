@@ -15,31 +15,15 @@ RomStart:
     include './constants/constants_gamestates.X68'
     
 *==============================================================
-* Memory Map for this ROM
+* Memory Map(s) for this ROM
 *==============================================================
-mem_start               EQU $FFFF0000
-frame_state             EQU $FFFF0000       ;WORD
-frame_counter           EQU $FFFF0002       ;WORD
+    include './memorymaps/mem_main.X68'
 
-MEM_buttons_held        EQU $FFFF0004       ;BYTE
-MEM_buttons_pressed     EQU $FFFF0005       ;BYTE
-
-MEM_camera_pos          EQU $FFFF0006       ;WORD
-MEM_camera_y            EQU $FFFF0006       ;WORD
-MEM_camera_z            EQU $FFFF0008       ;WORD
-
-MEM_player_pos_x        EQU $FFFF0006       ;WORD
-MEM_player_pos_y        EQU $FFFF0008       ;WORD
-MEM_player_direction    EQU $FFFF000A       ;WORD
-
-MEM_gamestate           EQU $FFFF000C       ;BYTE
-
-MEM_fade                EQU $FFFF000D       ;WORD
 
 *==================================
 * Flags
 *==================================
-vblank_on_flag          EQU $00000001
+vblank_on_flag          EQU $0001
 
 *==================================
 * Game Constants
@@ -122,7 +106,7 @@ HBlank:
 
 VBlank:
 	bset	#vblank_on_flag, (frame_state)
-	addq    #1, (frame_counter)
+	add.w   #1, (frame_counter)
     bsr.s   ReadInput
 	rte
     
@@ -145,10 +129,12 @@ NotHandled:
     include './subroutines/sub_loadtiles.X68'
     include './subroutines/sub_stamps.X68'
     include './subroutines/sub_levels.X68'
+    include './subroutines/sub_sprites.X68'
 
 *===============================
 * Art/Sound/Text Assets
 * ===============================
+    include './assets/player/baolongtu_sprite.X68'
     include './assets/cutscenes/intro_storm/palette.X68'
     include './assets/cutscenes/intro_storm/stamps.X68'
     include './assets/cutscenes/intro_storm/tiles_clouds.X68'
@@ -171,6 +157,9 @@ NotHandled:
     include './assets/levels/mario11/level.X68'
 
 RomEnd:
+
+
+
 
 
 

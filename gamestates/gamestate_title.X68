@@ -60,7 +60,7 @@ MainLoop_Title:
 
     ; Fade in the face a little bit; one step each 16 frames
     move.w  d1, d0
-    andi.w  #15, d0
+    andi.w  #7, d0
     bne.s   title_fade_done
 
     moveq   #0, d7

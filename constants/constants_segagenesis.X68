@@ -106,7 +106,12 @@ vram_priority_bit       EQU $8000
 vram_vflip_bit          EQU $1000
 vram_hflip_bit          EQU $0800
 
+; Sprite Viewport
+sprite_view_hmin        EQU $0080
+sprite_view_hmax        EQU $01BF
 
+sprite_view_vmin        EQU $0080
+sprite_view_vmax        EQU $016F
 
 
 

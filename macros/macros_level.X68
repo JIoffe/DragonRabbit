@@ -2,20 +2,20 @@
 * Macros for streaming through level data to keep the level loop neat
 *===============================================================================
 * - \1 = Column to target (in bytes)
-* - d1 = camera pos YYXX
+* - d2 = camera pos YYXX
 *-------------------------------------------------------------------------------
 StreamLevel    macro
     move.l  a1, a0                              ; keep a1 fresh
 
-    moveq   #0, d2
-    move.w  (a0)+,  d2                          ; D2 has height (tiles)
+    moveq   #0, d6
+    move.w  (a0)+,  d6                          ; D2 has height (tiles)
 
     moveq   #0, d3
     move.w  (a0)+,  d3                          ; D3 has width (tiles)
     add.l   d3, d3
 
     moveq   #0, d7                              ; Adjust column based on camera
-    move.w  d1, d7
+    move.w  d2, d7
     andi.w  #vdp_plane_pixel_width-1, d7        ; Clamp to plane width
 
     move.w  d7, d4                              ; Floor to multiple of 8, then / 8, * 2
@@ -33,7 +33,7 @@ StreamLevel    macro
     ; to get the appropriate tile in the source data
     ; set a1 to the column we're looking at
     moveq   #0, d5
-    move.w  d1, d5      
+    move.w  d2, d5      
     asr.w   #3, d5                              ; See camera column offset
     add.w   d5, d5
 
@@ -61,15 +61,15 @@ loop\@
 StreamLevelLeft    macro
     move.l  a1, a0                              ; keep a1 fresh
 
-    moveq   #0, d2
-    move.w  (a0)+,  d2                          ; D2 has height (tiles)
+    moveq   #0, d6
+    move.w  (a0)+,  d6                          ; D6 has height (tiles)
 
     moveq   #0, d3
     move.w  (a0)+,  d3                          ; D3 has width (tiles)
     add.l   d3, d3
 
     moveq   #0, d7                              ; Adjust column based on camera
-    move.w  d1, d7
+    move.w  d2, d7
     andi.w  #vdp_plane_pixel_width-1, d7        ; Clamp to plane width
 
     move.w  d7, d4                              ; Floor to multiple of 8, then / 8, * 2
@@ -87,7 +87,7 @@ StreamLevelLeft    macro
     ; to get the appropriate tile in the source data
     ; set a1 to the column we're looking at
     moveq   #0, d5
-    move.w  d1, d5      
+    move.w  d2, d5      
     asr.w   #3, d5                              ; See camera column offset
     add.w   d5, d5
 
