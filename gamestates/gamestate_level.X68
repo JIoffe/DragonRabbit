@@ -1,4 +1,18 @@
+; Controls
+control_jump            EQU joypad_c
+
+; for states in RAM, not VRAM
+sprite_flip_h           EQU $00
+sprite_jumping          EQU $01
+sprite_falling          EQU $02
+
+sprite_airborne         EQU $06             ; bits 2 and 1
+
+
+player_height           EQU $40             ; 64 pixels tall
 player_x_speed          EQU $02
+player_fall_speed       EQU $03
+player_jump_speed       EQU $02
 
 camera_zone_width       EQU $30
 camera_zone_hmin        EQU (vdp_screen_width>>1)-(camera_zone_width>>1)
@@ -39,16 +53,48 @@ MainLoop_Level:
 
     ; d1 will hold the player's position for the entire frame
     move.l  (MEM_player_pos),   d1
+
     ; Move the camera along with the player - d2 holds the camera for the majority of the frame
     move.l  (MEM_camera_pos),   d2
 
+    *---------------------------------------------------------------------------------
+    * Jumping / falling - a jump input will be processed on the next frame!
+    *---------------------------------------------------------------------------------
+    swap    d1
+    move.b  (MEM_player_state), d6
+    btst    #sprite_jumping, d6
+    beq.s   lvl_player_falling
+        subi.w  #player_jump_speed, d1              ; SUBTRACT to go UP
+        bra.s   lvl_player_v_adjusted
+    lvl_player_falling:
+        bset	#sprite_falling, d6
+        addi.w  #player_fall_speed, d1              ; ADD to go DOWN
+    lvl_player_v_adjusted:
+    move.w  d1, d0
+    addi.w  #player_height, d0
+    cmp.w   #200, d0
+    blt.s   lvl_checked_player_feet
+        move.w  #200,   d1                          ; clamp to floor height
+        subi.w  #player_height, d1
+        bclr    #sprite_falling, d6
+        bclr    #sprite_jumping, d6
+
+    lvl_checked_player_feet:
+    swap    d1
+
+    *********************************************************************************************
+    * INPUT... INPUT!!!
+    *********************************************************************************************
     move.b	(MEM_buttons_held), d0
     move.b  d0, d7
     andi.b  #joypad_right, d7
-    beq.s   lvl_check_left              ; Not pressing right; see if pressing left
+    beq.w   lvl_check_left              ; Not pressing right; see if pressing left
     *---------------------------------------------------------------------------------
     * Moving Right
     *---------------------------------------------------------------------------------
+        move.b  (MEM_player_state), d6
+        bclr    #sprite_flip_h, d6
+        move.b  d6, (MEM_player_state)
         addi.w  #player_x_speed, d1
         
         ; Move camera if we are far enough to the right
@@ -69,14 +115,18 @@ MainLoop_Level:
 
         ;Stream level into view from the right
         StreamLevel #vdp_plane_vis_byte_w
-        bra.s   lvl_lr_checked
+        bra.w   lvl_lr_checked
     lvl_check_left:
         move.b	d0, d7
         andi.b  #joypad_left, d7
-        beq.s   lvl_lr_checked
+        beq.w   lvl_lr_checked
         *---------------------------------------------------------------------------------
         * Moving Left
         *---------------------------------------------------------------------------------
+            move.b  (MEM_player_state), d6
+            bset    #sprite_flip_h, d6
+            move.b  d6, (MEM_player_state)
+
             subi.w  #player_x_speed, d1
 
             ; Move camera if we are far enough to the left
@@ -94,6 +144,35 @@ MainLoop_Level:
             ;Stream level into view from the left
             StreamLevelLeft #vdp_plane_byte_width
     lvl_lr_checked:
+
+
+    *---------------------------------------------------------------------------------
+    * And the club is jumpin', jumpin'
+    *---------------------------------------------------------------------------------
+    move.b  (MEM_player_state), d6
+    move.b	(MEM_buttons_held), d0
+    andi.b  #control_jump, d0
+    beq.s   lvl_player_jump_release
+        ; Player either started to jump this frame or is holding a jump
+        bset    #sprite_jumping, d6
+        bclr    #sprite_falling, d6
+        bra.s   lvl_player_jump_checked
+    * move.b  d6, d0
+    * andi.b  #sprite_airborne, d0
+    * beq.s   lvl_player_jump_checked
+    *     move.b	(MEM_buttons_held), d0
+    *     andi.b  #control_jump, d0
+    *     bne.s   lvl_player_jump_held
+    *     bclr    #sprite_jumping, d6
+    *     lvl_player_jump_held:
+    *     bset    #sprite_jumping, d6
+    *     lvl_player_jump_release:
+    lvl_player_jump_release:
+        bclr    #sprite_jumping, d6             ; We're losing altitude!
+    lvl_player_jump_checked:
+    move.b  d6, (MEM_player_state)
+
+
 
     ; Save latest player position
     move.l  d1, (MEM_player_pos)
@@ -128,7 +207,16 @@ MainLoop_Level:
     move.w  d1,  vdp_data
 
     move.w  #$0700,  vdp_data
-    move.w  #65,  vdp_data
+
+    ; Tild ID + any flipping flag
+    move.w  #65, d7
+
+    move.b  (MEM_player_state), d6
+    btst    #sprite_flip_h, d6
+    beq.s   lvl_player_flipped
+    or.w    #vram_hflip_bit, d7
+    lvl_player_flipped:
+    move.w  d7,  vdp_data
 
     swap    d1
     swap    d2
