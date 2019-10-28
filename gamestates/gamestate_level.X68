@@ -11,8 +11,9 @@ sprite_airborne         EQU $06             ; bits 2 and 1
 
 player_height           EQU $40             ; 64 pixels tall
 player_x_speed          EQU $02
-player_fall_speed       EQU $03
-player_jump_speed       EQU $02
+player_fall_speed       EQU $05
+player_jump_speed       EQU $03
+player_jump_height      EQU $60
 
 camera_zone_width       EQU $30
 camera_zone_hmin        EQU (vdp_screen_width>>1)-(camera_zone_width>>1)
@@ -64,6 +65,9 @@ MainLoop_Level:
     move.b  (MEM_player_state), d6
     btst    #sprite_jumping, d6
     beq.s   lvl_player_falling
+        move.b  (MEM_player_jump_height), d0
+        addi.w  #player_jump_speed, d0
+        move.b  d0, (MEM_player_jump_height)
         subi.w  #player_jump_speed, d1              ; SUBTRACT to go UP
         bra.s   lvl_player_v_adjusted
     lvl_player_falling:
@@ -80,6 +84,7 @@ MainLoop_Level:
         bclr    #sprite_jumping, d6
 
     lvl_checked_player_feet:
+    move.b  d6, (MEM_player_state)
     swap    d1
 
     *********************************************************************************************
@@ -150,26 +155,30 @@ MainLoop_Level:
     * And the club is jumpin', jumpin'
     *---------------------------------------------------------------------------------
     move.b  (MEM_player_state), d6
-    move.b	(MEM_buttons_held), d0
-    andi.b  #control_jump, d0
-    beq.s   lvl_player_jump_release
-        ; Player either started to jump this frame or is holding a jump
+    btst    #sprite_falling, d6
+    bne.s   lvl_player_jump_checked
+    btst    #sprite_jumping, d6
+    beq.s   lvl_notjumping
+        ; Player is jumping - see if we are holding jump or not
+        move.b	(MEM_buttons_held), d0
+        andi.b  #control_jump, d0
+        beq.s   lvl_player_jump_release
+            ; Did we reach the apex of our height
+            move.b  (MEM_player_jump_height), d0
+            cmp.b   #player_jump_height, d0
+            bge.s   lvl_player_jump_release
+            bra.s   lvl_player_jump_checked
+    lvl_notjumping:
+        move.b	(MEM_buttons_pressed), d0
+        andi.b  #control_jump, d0
+        beq.s   lvl_player_jump_checked
+        move.b  #0, (MEM_player_jump_height)
         bset    #sprite_jumping, d6
-        bclr    #sprite_falling, d6
         bra.s   lvl_player_jump_checked
-    * move.b  d6, d0
-    * andi.b  #sprite_airborne, d0
-    * beq.s   lvl_player_jump_checked
-    *     move.b	(MEM_buttons_held), d0
-    *     andi.b  #control_jump, d0
-    *     bne.s   lvl_player_jump_held
-    *     bclr    #sprite_jumping, d6
-    *     lvl_player_jump_held:
-    *     bset    #sprite_jumping, d6
-    *     lvl_player_jump_release:
     lvl_player_jump_release:
         bclr    #sprite_jumping, d6             ; We're losing altitude!
     lvl_player_jump_checked:
+
     move.b  d6, (MEM_player_state)
 
 
