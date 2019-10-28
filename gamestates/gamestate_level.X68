@@ -1,6 +1,6 @@
 player_x_speed          EQU $02
 
-camera_zone_width       EQU $50
+camera_zone_width       EQU $30
 camera_zone_hmin        EQU (vdp_screen_width>>1)-(camera_zone_width>>1)
 camera_zone_hmax        EQU (vdp_screen_width>>1)+(camera_zone_width>>1)
 
