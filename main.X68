@@ -150,6 +150,7 @@ NotHandled:
     include './assets/title-screen/tiles.X68'
     include './assets/title-screen/title-rabbit.X68'
     include './assets/title-screen/title-logo.X68'
+    include './assets/title-screen/nose-twitch.X68'
 
     ; Genesis does - mario!
     include './assets/levels/mario11/tiles.X68'

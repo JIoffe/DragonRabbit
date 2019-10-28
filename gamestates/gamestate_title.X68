@@ -118,4 +118,70 @@ MainLoop_Title:
 
     title_scrolltitle_end:
 
+
+    ; Nose twitching rabbit!
+    
+    move.w	#interrupts_disable, sr
+    move.w  (frame_counter), d7
+    cmp.w   #100, d7
+    blt.s   title_nose_twitched
+    move.w  d7, d0
+    andi.w  #15, d0
+    bne.s   title_nose_twitch_up
+        move.l  #$FFFFFFFF, d4
+        lea     TitleNoseTwitchDown112, a0
+        moveq   #0, d1
+        move.w  #112,  d1
+        bsr.w   SetSingleTile
+        lea     TitleNoseTwitchDown122, a0
+        moveq   #0, d1
+        move.w  #122,  d1
+        bsr.w   SetSingleTile
+        bra.s   title_nose_twitched
+    title_nose_twitch_up:
+        move.w  d7, d0
+        andi.w  #7, d0
+        bne.s   title_nose_twitched
+            move.l  #$11111111, d4
+            lea     TitleNoseTwitchUp112, a0
+            moveq   #0, d1
+            move.w  #112,  d1
+            bsr.w   SetSingleTile
+            lea     TitleNoseTwitchUp122, a0
+            moveq   #0, d1
+            move.w  #122,  d1
+            bsr.w   SetSingleTile
+
+    title_nose_twitched:
+    move.w	#interrupts_enable, sr
+
+    * move.w  (frame_counter), d7
+    * move.w  d7, d0
+    * andi.w  #31, d0
+    * beq.s   title_nose_twitch_up
+    *     move.l  #$CCCCCCCC, d4
+    *     move.l  #$BBBBBBBB, d5
+    *     move.l  #$AAAAAAAA, d6
+
+    *     lea     TitleNoseTwitchDown112, a0
+    *     move.w  #112,  d1
+    *     bsr.w   SetSingleTile
+        
+    * title_nose_twitch_up:
+    *     move.w  d7, d0
+    *     andi.w  #15, d0
+    *     beq.s   title_nose_twitched
+    *     move.l  #$FFFFFFFF, d4
+    *     move.l  #$FFFFFFFF, d5
+    *     move.l  #$FFFFFFFF, d6
+    *     lea     TitleNoseTwitchUp112, a0
+    *     move.w  #112,  d1
+    *     bsr.w   SetSingleTile
+    * *     lea     TitleNoseTwitchDown112, a0
+    * *     move.w  #112,  d1
+    * *     bsr.w   SetSingleTile
+
+    * title_nose_twitched:
+
+
     EndLoop

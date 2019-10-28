@@ -11,4 +11,5 @@ MEM_player_pos_x                EQU $FFFF000A       ;WORD
 MEM_camera_pos                  EQU $FFFF000C    ;(alias)
 MEM_camera_pos_y                EQU $FFFF000C       ;WORD
 MEM_camera_pos_x                EQU $FFFF000E       ;WORD
-MEM_fade                        EQU $FFFF0010       ;BYTE
+MEM_player_jump_height          EQU $FFFF0010       ;BYTE
+MEM_fade                        EQU $FFFF0011       ;BYTE
