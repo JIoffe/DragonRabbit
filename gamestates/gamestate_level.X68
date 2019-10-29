@@ -1,6 +1,9 @@
 ; Controls
 control_jump            EQU joypad_c
 
+; Note on velocity - it is by a factor of 8
+; so this means that gravity is actually at 1/4 pixel per frame per frame
+world_gravity           EQU $02
 ; for states in RAM, not VRAM
 sprite_flip_h           EQU $00
 sprite_jumping          EQU $01
@@ -11,9 +14,12 @@ sprite_airborne         EQU $06             ; bits 2 and 1
 
 player_height           EQU $40             ; 64 pixels tall
 player_x_speed          EQU $02
-player_fall_speed       EQU $05
-player_jump_speed       EQU $03
-player_jump_height      EQU $60
+
+player_jump_strength    EQU -$20
+
+player_jump_duration    EQU $18             ; number of frames the player can hold jump to jump higher
+
+
 
 camera_zone_width       EQU $30
 camera_zone_hmin        EQU (vdp_screen_width>>1)-(camera_zone_width>>1)
@@ -38,10 +44,6 @@ Init_Level:
 	move.l  #64, d0
 	bsr.w   LoadTiles
 
-    lea     BaoLongTu_sprite_Idle0, a0
-    move.w  #64, d1
-    bsr.w   PushEmbeddedSpriteFrame
-
     move.l  #$00000000, (MEM_player_pos)
 
     ; We're off to the races!
@@ -61,30 +63,40 @@ MainLoop_Level:
     *---------------------------------------------------------------------------------
     * Jumping / falling - a jump input will be processed on the next frame!
     *---------------------------------------------------------------------------------
-    swap    d1
+    moveq   #0, d0                                      ; Add gravity to velocity
     move.b  (MEM_player_state), d6
-    btst    #sprite_jumping, d6
-    beq.s   lvl_player_falling
-        move.b  (MEM_player_jump_height), d0
-        addi.w  #player_jump_speed, d0
-        move.b  d0, (MEM_player_jump_height)
-        subi.w  #player_jump_speed, d1              ; SUBTRACT to go UP
-        bra.s   lvl_player_v_adjusted
-    lvl_player_falling:
-        bset	#sprite_falling, d6
-        addi.w  #player_fall_speed, d1              ; ADD to go DOWN
-    lvl_player_v_adjusted:
-    move.w  d1, d0
-    addi.w  #player_height, d0
-    cmp.w   #200, d0
-    blt.s   lvl_checked_player_feet
-        move.w  #200,   d1                          ; clamp to floor height
-        subi.w  #player_height, d1
-        bclr    #sprite_falling, d6
-        bclr    #sprite_jumping, d6
 
+    swap    d1
+
+    ;   velocity is at a factor of 8 for subpixel precision
+    move.w  (MEM_player_velocity_y), d0
+    bpl.s   vel_y_positive
+        neg     d0
+        subi.w  #world_gravity, d0
+        move.w  d0, d4
+        lsr.w   #3, d4
+        sub.w   d4, d1
+        neg     d0
+        bra.s   vel_y_adjusted
+        vel_y_positive:
+        addi.w  #world_gravity, d0
+        move.w  d0, d4
+        lsr.w   #3, d4
+        add.w   d4, d1
+    vel_y_adjusted:
+    
+    move.w  #200, d4
+    subi.w  #player_height, d4
+    cmp.w   d4, d1
+    blt.s   lvl_checked_player_feet
+        move.w  d4, d1
+        move.b  #0, (MEM_player_jump_frames)
+        bclr    #sprite_jumping, d6
+        move.b  d6, (MEM_player_state)
+        moveq   #0, d0
     lvl_checked_player_feet:
-    move.b  d6, (MEM_player_state)
+
+    move.w  d0, (MEM_player_velocity_y)
     swap    d1
 
     *********************************************************************************************
@@ -155,28 +167,25 @@ MainLoop_Level:
     * And the club is jumpin', jumpin'
     *---------------------------------------------------------------------------------
     move.b  (MEM_player_state), d6
-    btst    #sprite_falling, d6
-    bne.s   lvl_player_jump_checked
     btst    #sprite_jumping, d6
     beq.s   lvl_notjumping
-        ; Player is jumping - see if we are holding jump or not
         move.b	(MEM_buttons_held), d0
         andi.b  #control_jump, d0
-        beq.s   lvl_player_jump_release
-            ; Did we reach the apex of our height
-            move.b  (MEM_player_jump_height), d0
-            cmp.b   #player_jump_height, d0
-            bge.s   lvl_player_jump_release
-            bra.s   lvl_player_jump_checked
+        beq.s   lvl_player_jump_checked
+            move.b  (MEM_player_jump_frames), d0
+            cmp.b   #player_jump_duration, d0
+            bge.s   lvl_player_jump_checked
+                move.w  #player_jump_strength, (MEM_player_velocity_y)
+                addq    #1, d0
+                move.b  d0, (MEM_player_jump_frames)
+                bra.s   lvl_player_jump_checked
     lvl_notjumping:
         move.b	(MEM_buttons_pressed), d0
         andi.b  #control_jump, d0
         beq.s   lvl_player_jump_checked
-        move.b  #0, (MEM_player_jump_height)
-        bset    #sprite_jumping, d6
-        bra.s   lvl_player_jump_checked
-    lvl_player_jump_release:
-        bclr    #sprite_jumping, d6             ; We're losing altitude!
+            bset    #sprite_jumping, d6
+            move.w  #player_jump_strength, (MEM_player_velocity_y)
+            move.b  #0, (MEM_player_jump_frames)
     lvl_player_jump_checked:
 
     move.b  d6, (MEM_player_state)
@@ -207,30 +216,17 @@ MainLoop_Level:
     *-----------------------------------------------------------
     ; Draw all the sprites - start with the player because players come first!
     ; Every sprite is world position + camera + {sprite_view_hmin,sprite_view_vmin}
+
+    move.w	#interrupts_disable, sr                                     ; Disable interrupts
+
+    lea     BaoLongTu_sprite_Idle0, a0
+    move.w  #64, d5
+    bsr.w   PushEmbeddedSpriteFrame
+
     move.l  #vdp_vram_sprite, vdp_control
-
-    swap    d1
-    swap    d2
-    sub.w   d2, d1
-    add.w   #sprite_view_vmin, d1
-    move.w  d1,  vdp_data
-
-    move.w  #$0700,  vdp_data
-
-    ; Tild ID + any flipping flag
-    move.w  #65, d7
-
     move.b  (MEM_player_state), d6
-    btst    #sprite_flip_h, d6
-    beq.s   lvl_player_flipped
-    or.w    #vram_hflip_bit, d7
-    lvl_player_flipped:
-    move.w  d7,  vdp_data
+    bsr.w   DrawSpriteFrame
 
-    swap    d1
-    swap    d2
-    sub.w   d2, d1
-    add.w   #sprite_view_hmin, d1
-    move.w  d1,  vdp_data
+    move.w	#interrupts_enable, sr                                      ; re-enable interrupts
 
     EndLoop
