@@ -88,7 +88,7 @@ MainLoop_Level:
     move.w  #200, d4
     subi.w  #player_height, d4
     cmp.w   d4, d1
-    blt.s   lvl_checked_player_feet
+    blt.s   lvl_checked_player_feet             ; Player has landed - clear all "jump" flags to let the player jump again
         move.w  d4, d1
         move.b  #0, (MEM_player_jump_frames)
         bclr    #sprite_jumping, d6
