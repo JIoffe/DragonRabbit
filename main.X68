@@ -66,6 +66,8 @@ player_speed            EQU $02
     include './macros/macros_scrolling.X68'
     include './macros/macros_gamestates.X68'
     include './macros/macros_level.X68'
+    include './macros/macros_camera.X68'
+    include './macros/macros_sprites.X68'
 
 Main:
     include './init/init_validatetmss.X68'
@@ -152,12 +154,16 @@ NotHandled:
     include './assets/title-screen/title-logo.X68'
     include './assets/title-screen/nose-twitch.X68'
 
-    ; Genesis does - mario!
-    include './assets/levels/mario11/tiles.X68'
-    include './assets/levels/mario11/palette.X68'
-    include './assets/levels/mario11/level.X68'
+    ; FOR TEST ROOM
+    include './assets/levels/testroom/tiles.X68'
+    include './assets/levels/testroom/palette.X68'
+    include './assets/levels/testroom/level.X68'
 
 RomEnd:
+
+
+
+
 
 *~Font name~Courier New~
 *~Font size~10~

@@ -6,9 +6,11 @@
 * Fills the frame with level tiles given a camera location
 **********************************************************
 ; a0 - lea of level data
+; d1 - loop counter
 ; d2 - Level Height (in tiles)
 ; d3 - Level width (in tiles)
-; d4 - Level rowskip (d3 * 2);
+; d5 - level data pointer
+; d7 - camera position
 Level_FillFrame:
     move.l  #vdp_visible_tile_height-1, d1
 
@@ -17,12 +19,28 @@ Level_FillFrame:
     move.w  (a0)+, d2
     move.w  (a0)+, d3
 
+
+    ; Advance data pointer by camera offset
+    moveq   #0, d5
+    moveq   #0, d0
+    move.w  d7, d5
+    lsr.w   #3, d5
+
+    swap    d7
+    move.w  d7, d0
+    lsr.w   #3, d0
+    mulu.w  d3, d0
+    add.l   d5, d0
+    add.l   d0, d0
+    add.l   d0, a0
+
     sub.w   #vdp_visible_tile_width,   d3                   ; difference between level width and plane width
     add.l   d3, d3                                          ; tiles * 2 byte offset to skip rows in the level data
 
-    move.l  #vdp_write_plane_a, d7
+
+    move.l  #vdp_write_plane_a, d5
     framefill_loop:
-        move.l  d7, vdp_control
+        move.l  d5, vdp_control
         move.l  #vdp_visible_tile_width-1, d0               ; plane width is 64 tiles
         lff_fill:
             move.w  (a0)+, vdp_data
@@ -30,9 +48,9 @@ Level_FillFrame:
 
         add.l   d3, a0                                      ; Advance level data pointer
 
-        swap    d7
-        addi.w  #vdp_plane_byte_width,  d7                  ; Advance vdp command pointer
-        swap    d7
+        swap    d5
+        addi.w  #vdp_plane_byte_width,  d5                  ; Advance vdp command pointer
+        swap    d5
 
         dbra    d1, framefill_loop 
     rts

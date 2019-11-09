@@ -51,7 +51,7 @@ Init_Title:
 
 MainLoop_Title:
     CheckABCStart Title_NotSkipped
-        Goto_Level  MarioDemo
+        GotoTestRoom
         EndLoop
 
     Title_NotSkipped:

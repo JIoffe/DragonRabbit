@@ -18,10 +18,16 @@ Goto_Title macro
 
 * -----------------------------------------------
 * Move to a level
-* - \1 is the label of the level to go to
+* - \1 level
+* - \2 tileset
+* - \3 # of tiles
+* - \4 palettes
 * -----------------------------------------------
 Goto_Level macro
     lea     \1, a1
+    lea     \2, a2
+    move.w  \3, d1
+    lea     \4, a3
     jsr     Init_Level
     lea     MainLoop_Level, a6
     move.b  #gamestate_level, (MEM_gamestate)   

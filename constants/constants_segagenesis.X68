@@ -90,6 +90,7 @@ vdp_plane_vis_pixel_w   EQU vdp_visible_tile_width<<3
 vdp_plane_tile_width    EQU $40             ; Depends on VDP Register 16
 vdp_plane_byte_width    EQU $80
 vdp_plane_pixel_width   EQU $0200
+vdp_plane_pixel_height  EQU $0100
 
 vdp_visible_tile_height EQU $1C
 vdp_plane_tile_height   EQU $20
