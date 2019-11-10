@@ -181,86 +181,114 @@ StreamLevelColumns  macro
     move.w  (a0)+, d3                       ; Level Height
     moveq   #0, d4
     move.w  (a0)+, d4                       ; Level Width
+    move.l  a0, a2                          ; save start of level data
+
     moveq   #0, d0
+    moveq   #0, d6
 
     sub.w   d2, d5
-    bmi.s   stream_column_right
-        ; stream column from the right
-        SeekLevelData
+    bmi.s   stream_column_right             ; previous is less - moving right
+        lsr.w   #3, d5                      
+        stream_columns_l:
+            ; advance level pointer by camera position and column offset
+            swap    d2
+            move.w  d2, d6
+            lsr.w   #3, d6
+            mulu.w  d4, d6
 
-        move.w  #vdp_visible_tile_height, d6
-        stream_column_left_loop:
-            moveq   #0, d7
+            swap    d2
             move.w  d2, d7
             lsr.w   #3, d7
-            add.w   #vdp_plane_tile_width, d7
-            andi.w  #vdp_plane_tile_width-1, d7
+            add.w   d5, d7
+            addq    #1, d7
+            add.w   d7, d6
+            add.w   d6, d6
+            move.l  a2, a0
+            add.l   d6, a0
 
-            swap    d2
-            move.w  d2, d0
-            swap    d2
-            lsr.w   #3, d0
-            addi.w  #vdp_visible_tile_height, d0
-            sub.w   d6, d0
-            andi.w  #vdp_plane_tile_height-1, d0
-            asl.w   #6, d0
-            add.w   d0, d7
+            move.w  #vdp_visible_tile_height, d0
+            stream_column_fill_l:
+                moveq   #0, d7
+                move.w  d2, d7
+                lsr.w   #3, d7
+                add.w   #vdp_plane_tile_width, d7
+                add.w   d5, d7
+                subq    #1, d7
+                andi.w  #vdp_plane_tile_width-1, d7         ; x coord
 
-            add.w   d7, d7
-            swap    d7
-            addi.l  #vdp_write_plane_a, d7
+                swap    d2
+                move.w  d2, d6
+                swap    d2
+                lsr.w   #3, d6
+                addi.w  #vdp_visible_tile_height, d6
+                sub.w   d0, d6
+                andi.w  #vdp_plane_tile_height-1, d6        ; y coord
+                asl.w   #6, d6                              ; y coord offfset
+                add.w   d6, d7
 
-            move.l  d7, vdp_control
-            move.w  (a0), vdp_data
-            add.l   d4, a0
-            dbra    d6, stream_column_left_loop
+                add.w   d7, d7
+                swap    d7
+                addi.l  #vdp_write_plane_a, d7
 
+                move.l  d7, vdp_control
+                move.w  (a0), vdp_data
+                add.l   d4, a0
+                add.l   d4, a0
+                dbra    d0, stream_column_fill_l
+            dbra    d5,  stream_columns_l
         bra.s   stream_column_done
-
     stream_column_right:
-    ; Stream in column to the right side of the screen
+        neg     d5
+        lsr.w   #3, d5
+        addq    #1, d5
+        stream_columns_r:
+            ; advance level pointer by camera position and column offset
+            swap    d2
+            move.w  d2, d6
+            lsr.w   #3, d6
+            mulu.w  d4, d6
 
-    ; advance level pointer by camera position
-    swap    d2
-    move.w  d2, d0
-    lsr.w   #3, d0
-    mulu.w  d4, d0
-    add.w   d4, d4                          ; double for byte offset
+            swap    d2
+            move.w  d2, d7
+            lsr.w   #3, d7
+            add.w   d5, d7
+            addq    #1, d7
+            addi.w  #vdp_visible_tile_width, d7
+            add.w   d7, d6
+            add.w   d6, d6
+            move.l  a2, a0
+            add.l   d6, a0
 
-    swap    d2
-    move.w  d2, d7
-    lsr.w   #3, d7
-    addi.w  #vdp_visible_tile_width, d7
-    add.w   d7, d0
-    add.l   d0, d0
-    add.l   d0, a0
+            move.w  #vdp_visible_tile_height, d0
+            stream_column_fill_r:
+                moveq   #0, d7
+                move.w  d2, d7
+                lsr.w   #3, d7
+                add.w   #vdp_visible_tile_width, d7
+                add.w   d5, d7
+                subq    #1, d7
+                andi.w  #vdp_plane_tile_width-1, d7         ; x coord
 
-    move.w  #vdp_visible_tile_height-1, d6
-    stream_column_right_loop:
-        moveq   #0, d7
-        move.w  d2, d7
-        lsr.w   #3, d7
-        add.w   #vdp_visible_tile_width, d7
-        andi.w  #vdp_plane_tile_width-1, d7
+                swap    d2
+                move.w  d2, d6
+                swap    d2
+                lsr.w   #3, d6
+                addi.w  #vdp_visible_tile_height, d6
+                sub.w   d0, d6
+                andi.w  #vdp_plane_tile_height-1, d6        ; y coord
+                asl.w   #6, d6                              ; y coord offfset
+                add.w   d6, d7
 
-        swap    d2
-        move.w  d2, d0
-        swap    d2
-        lsr.w   #3, d0
-        addi.w  #vdp_visible_tile_height-1, d0
-        sub.w   d6, d0
-        andi.w  #vdp_plane_tile_height-1, d0
-        asl.w   #6, d0
-        add.w   d0, d7
+                add.w   d7, d7
+                swap    d7
+                addi.l  #vdp_write_plane_a, d7
 
-        add.w   d7, d7
-        swap    d7
-        addi.l  #vdp_write_plane_a, d7
-
-        move.l  d7, vdp_control
-        move.w  (a0), vdp_data
-        add.l   d4, a0
-        dbra    d6, stream_column_right_loop
+                move.l  d7, vdp_control
+                move.w  (a0), vdp_data
+                add.l   d4, a0
+                add.l   d4, a0
+                dbra    d0, stream_column_fill_r
+            dbra    d5,  stream_columns_r
     stream_column_done:
     endm
 
@@ -271,76 +299,110 @@ StreamLevelRows  macro
     move.w  (a0)+, d3                       ; Level Height
     moveq   #0, d4
     move.w  (a0)+, d4                       ; Level Width
-    moveq   #0, d0
+    move.l  a0, a2                          ; save start of level data
 
-    swap    d2
+    moveq   #0, d0
+    moveq   #0, d6
+
+    swap    d2                              ; swap to compare Y delta
     swap    d5
     sub.w   d2, d5
-    bmi.s   stream_row_down
+    bmi.s   stream_row_down                 ; previous is less - moving DOWN (positive Y)
         swap    d2
-        SeekLevelData
-        move.w  #vdp_visible_tile_width, d0
-        stream_row_top_loop:
-            moveq   #0, d7
-            move.w  d2, d7
-            lsr.w   #3, d7
-            addi.w  #vdp_visible_tile_width, d7
-            sub.w   d0, d7
-            andi.w  #vdp_plane_tile_width-1, d7
-
+        lsr.w   #3, d5                      
+        stream_row_up:
+            ; advance level pointer by camera position and column offset
             swap    d2
             move.w  d2, d6
-            swap    d2
             lsr.w   #3, d6
-            andi.w  #vdp_plane_tile_height-1, d6
-            asl.w   #6, d6
-            add.w   d6, d7
+            add.w   d5, d6
+            mulu.w  d4, d6
 
-            add.w   d7, d7
-            swap    d7
-            addi.l  #vdp_write_plane_a, d7
-            move.l  d7, vdp_control
-            move.w  (a0)+, vdp_data
-            dbra    d0, stream_row_top_loop
-            bra.s   stream_row_done
+            swap    d2
+            move.w  d2, d7
+            lsr.w   #3, d7
+            add.w   d7, d6
+            add.w   d6, d6
+            move.l  a2, a0
+            add.l   d6, a0
+            addq    #4, a0                  ; we end up a little offset from the columns
+
+            move.w  #vdp_visible_tile_width, d0
+            stream_row_fill_up:
+                moveq   #0, d7
+                move.w  d2, d7
+                lsr.w   #3, d7
+                addi.w  #vdp_visible_tile_width, d7
+                sub.w   d0, d7
+                andi.w  #vdp_plane_tile_width-1, d7         ; x coord
+
+                swap    d2
+                move.w  d2, d6
+                swap    d2
+                lsr.w   #3, d6
+                add.w   d5, d6
+                andi.w  #vdp_plane_tile_height-1, d6        ; y coord
+                asl.w   #6, d6
+                add.w   d6, d7
+
+                add.w   d7, d7
+                swap    d7
+                addi.l  #vdp_write_plane_a, d7
+
+                move.l  d7, vdp_control
+                move.w  (a0)+, vdp_data
+                dbra    d0, stream_row_fill_up
+            dbra    d5,  stream_row_up
+        bra.s   stream_row_done
     stream_row_down:
-        ;   Seek into level data for below this screen
-        move.w  d2, d0
-        lsr.w   #3, d0
-        add.w   #vdp_visible_tile_height, d0
-        mulu.w  d4, d0
-        add.w   d4, d4                          ; double for byte offset
-
         swap    d2
-        move.w  d2, d7
-        lsr.w   #3, d7
-        add.w   d7, d0
-        add.l   d0, d0
-        add.l   d0, a0
-        move.w  #vdp_visible_tile_width-1, d0
-        stream_row_bottom_loop:
-            moveq   #0, d7
-            move.w  d2, d7
-            lsr.w   #3, d7
-            addi.w  #vdp_visible_tile_width-1, d7
-            sub.w   d0, d7
-            andi.w  #vdp_plane_tile_width-1, d7
-
+        neg     d5
+        lsr.w   #3, d5                      
+        stream_row_down_loop:
+            ; advance level pointer by camera position and column offset
             swap    d2
             move.w  d2, d6
-            swap    d2
             lsr.w   #3, d6
+            add.w   d5, d6
             add.w   #vdp_visible_tile_height, d6
-            andi.w  #vdp_plane_tile_height-1, d6
-            asl.w   #6, d6
-            add.w   d6, d7
+            mulu.w  d4, d6
 
-            add.w   d7, d7
-            swap    d7
-            addi.l  #vdp_write_plane_a, d7
-            move.l  d7, vdp_control
-            move.w  (a0)+, vdp_data
-            dbra    d0, stream_row_bottom_loop
+            swap    d2
+            move.w  d2, d7
+            lsr.w   #3, d7
+            add.w   d7, d6
+            add.w   d6, d6
+            move.l  a2, a0
+            add.l   d6, a0
+            addq    #4, a0                  ; we end up a little offset from the columns
+
+            move.w  #vdp_visible_tile_width, d0
+            stream_row_fill_down:
+                moveq   #0, d7
+                move.w  d2, d7
+                lsr.w   #3, d7
+                addi.w  #vdp_visible_tile_width, d7
+                sub.w   d0, d7
+                andi.w  #vdp_plane_tile_width-1, d7         ; x coord
+
+                swap    d2
+                move.w  d2, d6
+                swap    d2
+                lsr.w   #3, d6
+                add.w   d5, d6
+                add.w   #vdp_visible_tile_height, d6
+                andi.w  #vdp_plane_tile_height-1, d6        ; y coord
+                asl.w   #6, d6
+                add.w   d6, d7
+
+                add.w   d7, d7
+                swap    d7
+                addi.l  #vdp_write_plane_a, d7
+
+                move.l  d7, vdp_control
+                move.w  (a0)+, vdp_data
+                dbra    d0, stream_row_fill_down
+            dbra    d5,  stream_row_down_loop
     stream_row_done:
     endm
 

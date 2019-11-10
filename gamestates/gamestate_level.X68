@@ -151,31 +151,57 @@ MainLoop_Level:
 
     ;   velocity is at a factor of 8 for subpixel precision
     move.w  (MEM_player_velocity_y), d0
-    bpl.s   vel_y_positive
-        neg     d0
-        subi.w  #world_gravity, d0
-        move.w  d0, d4
-        lsr.w   #3, d4
-        sub.w   d4, d1
-        neg     d0
-        bra.s   vel_y_adjusted
-        vel_y_positive:
-        addi.w  #world_gravity, d0
-        move.w  d0, d4
-        lsr.w   #3, d4
-        add.w   d4, d1
-    vel_y_adjusted:
+    * bpl.s   vel_y_positive
+    *     neg     d0
+    *     subi.w  #world_gravity, d0
+    *     move.w  d0, d4
+    *     lsr.w   #3, d4
+    *     sub.w   d4, d1
+    *     neg     d0
+    *     bra.s   vel_y_adjusted
+    *     vel_y_positive:
+    *     addi.w  #world_gravity, d0
+    *     move.w  d0, d4
+    *     lsr.w   #3, d4
+    *     add.w   d4, d1
+    * vel_y_adjusted:
+
+    ; check d1 against level
+    * move.l  a1, a0
+    * move.w  (a0)+, d3                            ; d3 has level height
+    * moveq   #0, d4
+    * move.w  (a0)+, d4                            ; d4 has level width
+    * ; determine offset into level data
+    * move.w  d1, d7
+    * lsr.w   #3, d7
+    * mulu.w  d7, d4
+
+    * swap    d1
+    * move.w  d1, d5
+    * swap    d1
+    * lsr.w   #3, d5
+    * add.w   d5, d4
     
-    move.w  #768, d4
-    subi.w  #player_height, d4
-    cmp.w   d4, d1
-    blt.s   lvl_checked_player_feet             ; Player has landed - clear all "jump" flags to let the player jump again
-        move.w  d4, d1
-        move.b  #0, (MEM_player_jump_frames)
-        bclr    #sprite_jumping, d6
-        move.b  d6, (MEM_player_state)
-        moveq   #0, d0
-    lvl_checked_player_feet:
+    * add.w   d4, d4
+    * add.l   d4, a0
+
+    * move.w  (a0), d4
+
+    * tst.w   d4
+    * beq.s   lvl_player_feet_bounds             ; clear all "jump" flags to let player jump again
+    *     move.w  d5, d3
+    *     lvl_player_feet_bounds:
+    *     asl.w   #3, d4
+    * *     lvl_adjust_player_feet:
+    *     subi.w  #player_height, d4
+    *     cmp.w   d4, d1
+    *     blt.s   lvl_checked_player_feet             ; Player has landed - clear all "jump" flags to let the player jump again
+    *         move.w  d4, d1
+    *         move.b  #0, (MEM_player_jump_frames)
+    *         bclr    #sprite_jumping, d6
+    *         move.b  d6, (MEM_player_state)
+    *         moveq   #0, d0
+    * lvl_checked_player_feet:
 
     move.w  d0, (MEM_player_velocity_y)
     swap    d1
@@ -202,21 +228,23 @@ MainLoop_Level:
     lvl_lr_checked:
 
     * ; check up/down - No more flying rabbits!
-    * swap    d1
-    * move.b  d0, d7
-    * andi.b  #joypad_down, d7
-    * beq.s   lvl_check_up              ; Not pressing right; see if pressing left
-    *     ; Moving RIGHT
-    *     addi.w  #player_x_speed, d1
-    *     bra.s   lvl_ud_checked
-    * lvl_check_up:
-    *     move.b	d0, d7
-    *     andi.b  #joypad_up, d7
-    *     beq.s   lvl_ud_checked
-    *         ; Moving LEFT
-    *         subi.w  #player_x_speed, d1
-    * lvl_ud_checked:
-    * swap    d1
+    swap    d1
+    move.b  d0, d7
+    andi.b  #joypad_down, d7
+    beq.s   lvl_check_up              
+        ; Moving RIGHT
+        addi.w  #player_x_speed, d1
+        bra.s   lvl_ud_checked
+        move.w  #0, (MEM_player_velocity_y)
+    lvl_check_up:
+        move.b	d0, d7
+        andi.b  #joypad_up, d7
+        beq.s   lvl_ud_checked
+            ; Moving LEFT
+            subi.w  #player_x_speed, d1
+            move.w  #0, (MEM_player_velocity_y)
+    lvl_ud_checked:
+    swap    d1
 
     move.l  d1, (MEM_player_pos)
 
