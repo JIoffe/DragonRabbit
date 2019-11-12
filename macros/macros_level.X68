@@ -2,7 +2,7 @@
 * Macros for loading specific levels
 *===============================================================================
 GotoTestRoom    macro
-    Goto_Level  TestRoom_level, TESTROOM_tiles, #43, Palettes_TESTROOM
+    Goto_Level  TestRoom_level, TESTROOM_tiles, #221, Palettes_TESTROOM
     endm
 *===============================================================================
 * Macros for streaming through level data to keep the level loop neat

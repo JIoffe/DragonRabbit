@@ -1,5 +1,5 @@
 Palettes_TESTROOM: 
-   dc.w $0866
+   dc.w $0E44
    dc.w $0000
    dc.w $024E
    dc.w $02AE
@@ -15,7 +15,7 @@ Palettes_TESTROOM:
    dc.w $0AAA
    dc.w $0CCC
    dc.w $0444
-   
+
    dc.w $0E0E
    dc.w $0AAA
    dc.w $0888
@@ -32,3 +32,37 @@ Palettes_TESTROOM:
    dc.w $0606
    dc.w $0602
    dc.w $0EEE
+
+   dc.w $0E44
+   dc.w $0466
+   dc.w $0220
+   dc.w $0482
+   dc.w $0462
+   dc.w $0624
+   dc.w $0826
+   dc.w $0EAC
+   dc.w $0E66
+   dc.w $04A2
+   dc.w $0244
+   dc.w $0EAA
+   dc.w $0444
+   dc.w $0E88
+   dc.w $0E68
+   dc.w $0468
+
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000
+   dc.w $0000

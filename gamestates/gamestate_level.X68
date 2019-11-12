@@ -46,8 +46,21 @@ Init_Level:
     bsr.w   LoadTiles
 
     move.l  a3, a0
-    moveq   #2, d0
+    moveq   #3, d0
 	bsr.w   LoadPalettes
+
+    ; Setup background - this will vary by level somehow
+    moveq   #3, d4
+    testroombg_loop:
+        move.l  #vdp_write_plane_b, a5
+        moveq   #0, d5
+        move.w  d4, d5
+        asl.w   #4, d5
+        or.w    #$0600, d5
+        swap    d5
+        lea     TESTROOM_BG, a0
+        bsr.w   Plane_DrawPattern
+        dbra    d4, testroombg_loop
 
     ; first long in level data is the address of player start
     move.l  (a1)+, a6
@@ -131,6 +144,7 @@ Init_Level:
     move.w	#interrupts_enable, sr
     rts
 MainLoop_Level:
+    move.w	#interrupts_disable, sr                                     ; Disable interrupts
 
     ; This implies the camera ONLY moves with input, might need
     ; to refactor or add on to this to support things like moving platforms.
@@ -260,67 +274,6 @@ MainLoop_Level:
     StreamLevelForCamera
 
 
-    * move.b	(MEM_buttons_held), d0
-    * move.b  d0, d7
-    * andi.b  #joypad_right, d7
-    * beq.w   lvl_check_left              ; Not pressing right; see if pressing left
-    *---------------------------------------------------------------------------------
-    * Moving Right
-    *---------------------------------------------------------------------------------
-    *     move.b  (MEM_player_state), d6
-    *     bclr    #sprite_flip_h, d6
-    *     move.b  d6, (MEM_player_state)
-    *     addi.w  #player_x_speed, d1
-        
-    *     ; Move camera if we are far enough to the right
-    *     move.w  d1, d7
-    *     sub.w   #camera_zone_hmax, d7
-    *     cmp.w   d2, d7
-    *     ble.w   lvl_lr_checked
-    *     move.w  d7, d2
-
-    *     ; It might be better to make levels with "borders" rather than do this check...
-    *     move.l  (a1), d0
-    *     asl.w   #3, d0
-    *     subi.w  #320, d0            ; 320 pixels from camera start to the end of the frame - do not let camera go past level
-    *     cmp.w   d0, d2
-    *     ble.s   lvlcam_clamp_max
-    *     move.w  d0, d2
-    *     lvlcam_clamp_max:
-
-    *     ;Stream level into view from the right
-    *     StreamLevel #vdp_plane_vis_byte_w
-    *     bra.w   lvl_lr_checked
-    * lvl_check_left:
-    *     move.b	d0, d7
-    *     andi.b  #joypad_left, d7
-    *     beq.w   lvl_lr_checked
-    *     *---------------------------------------------------------------------------------
-    *     * Moving Left
-    *     *---------------------------------------------------------------------------------
-    *         move.b  (MEM_player_state), d6
-    *         bset    #sprite_flip_h, d6
-    *         move.b  d6, (MEM_player_state)
-
-    *         subi.w  #player_x_speed, d1
-
-    *         ; Move camera if we are far enough to the left
-    *         move.w  d1, d7
-    *         sub.w   #camera_zone_hmin, d7
-    *         cmp.w   d2, d7
-    *         bge.s   lvl_lr_checked
-    *         move.w  d7, d2
-
-    *         btst    #$0F, d2            ; Limit range - assume if we are here, we are below zero
-    *         beq.s   lvlcam_clamp_min
-    *         move.w  #0, d2
-    *         lvlcam_clamp_min:
-
-    *         ;Stream level into view from the left
-    *         StreamLevelLeft #vdp_plane_byte_width
-    * lvl_lr_checked:
-
-
     *---------------------------------------------------------------------------------
     * And the club is jumpin', jumpin'
     *---------------------------------------------------------------------------------
@@ -352,16 +305,90 @@ MainLoop_Level:
     * ---------------------------------------------------------------------------------
     * Scroll Planes Horizontally and vertically
     * ---------------------------------------------------------------------------------
+
+    ; this will vary by level neatly somehow...
+    ; always assume d2 is the camera
     moveq   #0, d0                              ; d0 will loop for every h
     moveq   #0, d7
-    move.b  #vdp_screen_height, d0
+
     move.l  #vdp_vram_hscroll, vdp_control
+    * move.b  #vdp_screen_height, d0
     move.w  d2, d7      
     neg     d7                                  ; scroll against camera
-    lvl_scroll_loop:
+
+    move.b  #47, d0
+    lvl_scroll_loop_a:
         move.w  d7, vdp_data
         move.w  #0, vdp_data
-        dbra    d0, lvl_scroll_loop
+        dbra    d0, lvl_scroll_loop_a
+
+    moveq   #0, d0
+    move.b  #32, d0
+    move.w  d7, d6
+    lsr.w   #1, d6
+    lvl_scroll_loop_b:
+        move.w  d7, vdp_data
+        move.w  d6, vdp_data
+        dbra    d0, lvl_scroll_loop_b
+
+    moveq   #0, d0
+    move.b  #18, d0
+    lsr.w   #1, d6
+    lvl_scroll_loop_c:
+        move.w  d7, vdp_data
+        move.w  d6, vdp_data
+        dbra    d0, lvl_scroll_loop_c
+
+    moveq   #0, d0
+    move.b  #13, d0
+    lsr.w   #1, d6
+    lvl_scroll_loop_d:
+        move.w  d7, vdp_data
+        move.w  d6, vdp_data
+        dbra    d0, lvl_scroll_loop_d
+
+    moveq   #0, d0
+    move.b  #55, d0
+    lsr.w   #1, d6
+    lvl_scroll_loop_e:
+        move.w  d7, vdp_data
+        move.w  d6, vdp_data
+        dbra    d0, lvl_scroll_loop_e
+
+    moveq   #0, d0
+    move.b  #7, d0
+    lvl_scroll_loop_f:
+        move.w  d7, vdp_data
+        move.w  d6, vdp_data
+        dbra    d0, lvl_scroll_loop_f
+
+    ; Grass to trees
+    moveq   #0, d0
+    move.b  #7, d0
+    move.w  d7, d6
+    lsr.w   #3, d6
+    lvl_scroll_loop_g:
+        move.w  d7, vdp_data
+        move.w  d6, vdp_data
+        dbra    d0, lvl_scroll_loop_g
+
+    moveq   #0, d0
+    move.b  #7, d0
+    move.w  d7, d6
+    lsr.w   #2, d6
+    lvl_scroll_loop_h:
+        move.w  d7, vdp_data
+        move.w  d6, vdp_data
+        dbra    d0, lvl_scroll_loop_h
+
+    moveq   #0, d0
+    move.b  #31, d0
+    move.w  d7, d6
+    lsr.w   #1, d6
+    lvl_scroll_loop_i:
+        move.w  d7, vdp_data
+        move.w  d6, vdp_data
+        dbra    d0, lvl_scroll_loop_i
 
     swap    d2
     move.w  d2, d7
@@ -376,11 +403,9 @@ MainLoop_Level:
     ; Draw all the sprites - start with the player because players come first!
     ; Every sprite is world position + camera + {sprite_view_hmin,sprite_view_vmin}
 
-    move.w	#interrupts_disable, sr                                     ; Disable interrupts
-
     lea     BaoLongTu_sprite_Idle0, a0
     moveq   #0,  d5
-    move.w  #43, d5
+    move.w  #221, d5
     bsr.w   PushEmbeddedSpriteFrame
 
     move.l  #vdp_vram_sprite, vdp_control

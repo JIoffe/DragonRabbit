@@ -157,6 +157,7 @@ NotHandled:
     ; FOR TEST ROOM
     include './assets/levels/testroom/tiles.X68'
     include './assets/levels/testroom/palette.X68'
+    include './assets/levels/testroom/bg.X68'
     include './assets/levels/testroom/level.X68'
 
 RomEnd:

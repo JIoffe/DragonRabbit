@@ -57,7 +57,7 @@ DrawSpriteFrame:
         lsl.w   #8, d3
         move.w  d3,  vdp_data                   ; Size and link sent to VDP
 
-        move.w  #44, d3                         ; See if this needs to be h flipped or not
+        move.w  #222, d3                         ; See if this needs to be h flipped or not
         btst    #sprite_flip_h, d6
         beq.s   dsf_flipped
             or.w    #vram_hflip_bit, d3
