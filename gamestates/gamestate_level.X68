@@ -149,48 +149,85 @@ MainLoop_Level:
     ; d1 will hold the player's position for the entire frame
     move.l  (MEM_player_pos),   d1
 
-    ; Move the camera along with the player - d2 holds the camera for the majority of the frame
-    move.l  (MEM_camera_pos),   d2
-
     *---------------------------------------------------------------------------------
     * Jumping / falling - a jump input will be processed on the next frame!
     *---------------------------------------------------------------------------------
     moveq   #0, d0                                      ; Add gravity to velocity
-    move.b  (MEM_player_state), d6
-
     swap    d1
+    move.w  d1, d6                              ; let d6 hold the potential next position
 
-    * ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
-    * move.w  (MEM_player_velocity_y), d0
-    * move.w  d1, d6                              ; let d6 hold the potential next position
-    * bpl.s   vel_y_positive
-    *     neg     d0
-    *     subi.w  #world_gravity, d0
-    *     move.w  d0, d4
-    *     lsr.w   #3, d4
-    *     sub.w   d4, d6
-    *     neg     d0
-    *     bra.s   vel_y_adjusted
-    *     vel_y_positive:
-    *         addi.w  #world_gravity, d0
-    *         move.w  d0, d4
-    *         lsr.w   #3, d4
-    *         add.w   d4, d6
-    * vel_y_adjusted:
+    ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
+    move.w  (MEM_player_velocity_y), d0
+    bpl.s   vel_y_positive
+        neg     d0
+        subi.w  #world_gravity, d0
+        move.w  d0, d4
+        lsr.w   #3, d4
+        sub.w   d4, d6
+        neg     d0
+        bra.s   vel_y_adjusted
+        vel_y_positive:
+            addi.w  #world_gravity, d0
+            move.w  d0, d4
+            lsr.w   #3, d4
+            add.w   d4, d6
+    vel_y_adjusted:
 
-    * ; see if player has dropped beneath tiles
-    * ; ray march for every row the player has dropped
-    * sub.w   d1, d6
-    * bpl.s   lvl_player_falling:
-    *     bra.s   lvl_player_y_adjusted
-    * lvl_player_falling:
-    *     lsr.w   #3, d6
-    *     lvl_player_falling_scan:
-            
-    *         dbra    d6, lvl_player_falling_scan
-    * lvl_player_y_adjusted:
+    ; see if player has dropped beneath tiles
+    ; ray march for every row the player has dropped
+
+    move.w  d6, d7
+    sub.w   d1, d7
+    bpl.s   lvl_player_falling
+        bra.s   lvl_player_y_adjusted
+    lvl_player_falling:
+        add.w   #player_height, d7
+        lsr.w   #3, d7
+        lvl_player_falling_scan:
+            move.l  a1, a0
+            move.w  (a0)+, d3                            ; d3 has level height
+            moveq   #0, d4
+            move.w  (a0)+, d4                            ; d4 has level width
+
+            * * ; determine offset into level data
+            * moveq   #0, d2
+            * move.w  d1, d2
+            * lsr.w   #3, d2
+            * add.w   d7, d2
+            * mulu.w  d4, d2
+
+            * swap    d1
+            * move.w  d1, d5
+            * swap    d1
+            * lsr.w   #3, d5
+            * add.w   d5, d2
+            * add.w   d2, d2
+            * add.l   d2, a0
+
+            * tst.w   (a0)
+            * beq.s   lvl_fall_scan_continue
+            *     asl.w   #3, d2
+            *     sub.w   #player_height, d2
+            *     move.w  d2, d6
+            *     bra.s   lvl_player_landed
+            * lvl_fall_scan_continue:
+            * dbra    d7, lvl_player_falling_scan
+
+        ; check if player has reached level bounds
+        asl.w   #3, d3
+        subi.w  #player_height, d3
+        cmp.w   d3, d6
+        blt.s   lvl_player_y_adjusted
+            move.w  d3, d6
+        lvl_player_landed:
+            move.b  #0, (MEM_player_jump_frames)
+            move.b  (MEM_player_state), d7
+            bclr    #sprite_jumping, d7
+            move.b  d7, (MEM_player_state)
+            moveq   #0, d0
+    lvl_player_y_adjusted:
     move.w  d0, (MEM_player_velocity_y)
-    move.w  d6, d1                          ; set the appropriate position to save to memory
+    move.w  d6, d1
     swap    d1
 
     ; check player pos against level data
@@ -297,6 +334,9 @@ MainLoop_Level:
 
     ; Move the camera as needed
     move.l  a1, a0
+
+    ; Move the camera along with the player - d2 holds the camera for the majority of the frame
+    move.l  (MEM_camera_pos),   d2
     ClampCameraToPlayer d2, d1
     ClampCameraToLevel  d2, d6, d7
 
