@@ -12,7 +12,7 @@ sprite_falling          EQU $02
 sprite_airborne         EQU $06             ; bits 2 and 1
 
 
-player_height           EQU $40             ; 64 pixels tall
+player_height           EQU $30
 player_x_speed          EQU $02
 
 player_jump_strength    EQU -$20
@@ -137,9 +137,6 @@ Init_Level:
         swap    d5
         dbra    d1, fill_frame_y
 
-
-
-
     ; We're off to the races!
     move.w	#interrupts_enable, sr
     rts
@@ -163,29 +160,67 @@ MainLoop_Level:
 
     swap    d1
 
-    ;   velocity is at a factor of 8 for subpixel precision
-    move.w  (MEM_player_velocity_y), d0
+    * ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
+    * move.w  (MEM_player_velocity_y), d0
+    * move.w  d1, d6                              ; let d6 hold the potential next position
     * bpl.s   vel_y_positive
     *     neg     d0
     *     subi.w  #world_gravity, d0
     *     move.w  d0, d4
     *     lsr.w   #3, d4
-    *     sub.w   d4, d1
+    *     sub.w   d4, d6
     *     neg     d0
     *     bra.s   vel_y_adjusted
     *     vel_y_positive:
-    *     addi.w  #world_gravity, d0
-    *     move.w  d0, d4
-    *     lsr.w   #3, d4
-    *     add.w   d4, d1
+    *         addi.w  #world_gravity, d0
+    *         move.w  d0, d4
+    *         lsr.w   #3, d4
+    *         add.w   d4, d6
     * vel_y_adjusted:
 
-    ; check d1 against level
+    * ; see if player has dropped beneath tiles
+    * ; ray march for every row the player has dropped
+    * sub.w   d1, d6
+    * bpl.s   lvl_player_falling:
+    *     bra.s   lvl_player_y_adjusted
+    * lvl_player_falling:
+    *     lsr.w   #3, d6
+    *     lvl_player_falling_scan:
+            
+    *         dbra    d6, lvl_player_falling_scan
+    * lvl_player_y_adjusted:
+    move.w  d0, (MEM_player_velocity_y)
+    move.w  d6, d1                          ; set the appropriate position to save to memory
+    swap    d1
+
+    ; check player pos against level data
     * move.l  a1, a0
     * move.w  (a0)+, d3                            ; d3 has level height
     * moveq   #0, d4
     * move.w  (a0)+, d4                            ; d4 has level width
-    * ; determine offset into level data
+    * * ; determine offset into level data
+    * moveq   #0, d6
+    * move.w  d1, d6
+    * lsr.w   #3, d6
+    * mulu.w  d4, d6
+
+    * swap    d1
+    * move.w  d1, d7
+    * swap    d1
+    * lsr.w   #3, d7
+    * add.w   d7, d6
+    * add.w   d6, d6
+    * add.l   d6, a0
+    * move.w  (a0), d6
+    * tst.w   d6
+    * beq.s   lvl_checked_player_feet
+    *     lsl.w   #3, d7
+    *     move.w  d7, d1
+    *     move.b  #0, (MEM_player_jump_frames)
+    *     bclr    #sprite_jumping, d6
+    *     move.b  d6, (MEM_player_state)
+    *     moveq   #0, d0
+    * bra.s   lvl_checked_player_feet
     * move.w  d1, d7
     * lsr.w   #3, d7
     * mulu.w  d7, d4
@@ -204,21 +239,19 @@ MainLoop_Level:
     * tst.w   d4
     * beq.s   lvl_player_feet_bounds             ; clear all "jump" flags to let player jump again
     *     move.w  d5, d3
-    *     lvl_player_feet_bounds:
-    *     asl.w   #3, d4
+    *     lvl_player_lvl_bounds:
+    *     asl.w   #3, d3
     * *     lvl_adjust_player_feet:
-    *     subi.w  #player_height, d4
-    *     cmp.w   d4, d1
+    *     subi.w  #player_height, d3
+    *     cmp.w   d3, d1
     *     blt.s   lvl_checked_player_feet             ; Player has landed - clear all "jump" flags to let the player jump again
-    *         move.w  d4, d1
+    *         move.w  d3, d1
     *         move.b  #0, (MEM_player_jump_frames)
     *         bclr    #sprite_jumping, d6
     *         move.b  d6, (MEM_player_state)
     *         moveq   #0, d0
     * lvl_checked_player_feet:
 
-    move.w  d0, (MEM_player_velocity_y)
-    swap    d1
 
     *********************************************************************************************
     * INPUT... INPUT!!!
@@ -312,7 +345,6 @@ MainLoop_Level:
     moveq   #0, d7
 
     move.l  #vdp_vram_hscroll, vdp_control
-    * move.b  #vdp_screen_height, d0
     move.w  d2, d7      
     neg     d7                                  ; scroll against camera
 
@@ -332,7 +364,7 @@ MainLoop_Level:
         dbra    d0, lvl_scroll_loop_b
 
     moveq   #0, d0
-    move.b  #18, d0
+    move.b  #16, d0
     lsr.w   #1, d6
     lvl_scroll_loop_c:
         move.w  d7, vdp_data
@@ -340,7 +372,7 @@ MainLoop_Level:
         dbra    d0, lvl_scroll_loop_c
 
     moveq   #0, d0
-    move.b  #13, d0
+    move.b  #12, d0
     lsr.w   #1, d6
     lvl_scroll_loop_d:
         move.w  d7, vdp_data
@@ -348,7 +380,7 @@ MainLoop_Level:
         dbra    d0, lvl_scroll_loop_d
 
     moveq   #0, d0
-    move.b  #55, d0
+    move.b  #25, d0
     lsr.w   #1, d6
     lvl_scroll_loop_e:
         move.w  d7, vdp_data
@@ -356,7 +388,8 @@ MainLoop_Level:
         dbra    d0, lvl_scroll_loop_e
 
     moveq   #0, d0
-    move.b  #7, d0
+    move.b  #30, d0
+    lsr.w   #1, d6
     lvl_scroll_loop_f:
         move.w  d7, vdp_data
         move.w  d6, vdp_data
@@ -366,7 +399,7 @@ MainLoop_Level:
     moveq   #0, d0
     move.b  #7, d0
     move.w  d7, d6
-    lsr.w   #3, d6
+    lsr.w   #4, d6
     lvl_scroll_loop_g:
         move.w  d7, vdp_data
         move.w  d6, vdp_data
@@ -375,27 +408,36 @@ MainLoop_Level:
     moveq   #0, d0
     move.b  #7, d0
     move.w  d7, d6
-    lsr.w   #2, d6
+    lsr.w   #3, d6
     lvl_scroll_loop_h:
         move.w  d7, vdp_data
         move.w  d6, vdp_data
         dbra    d0, lvl_scroll_loop_h
 
     moveq   #0, d0
-    move.b  #31, d0
+    move.b  #7, d0
     move.w  d7, d6
-    lsr.w   #1, d6
+    lsr.w   #2, d6
     lvl_scroll_loop_i:
         move.w  d7, vdp_data
         move.w  d6, vdp_data
         dbra    d0, lvl_scroll_loop_i
+
+    moveq   #0, d0
+    move.b  #31, d0
+    move.w  d7, d6
+    lsr.w   #1, d6
+    lvl_scroll_loop_j:
+        move.w  d7, vdp_data
+        move.w  d6, vdp_data
+        dbra    d0, lvl_scroll_loop_j
 
     swap    d2
     move.w  d2, d7
     move.l  #vdp_vram_vscroll, vdp_control
     move.w  d7,   vdp_data
     move.w  #0, vdp_data
-    swap    d2
+    swap    d2                                  ; swap the camera because we'll be using it for sprites
 
     *-----------------------------------------------------------
     * Sprites
@@ -403,14 +445,20 @@ MainLoop_Level:
     ; Draw all the sprites - start with the player because players come first!
     ; Every sprite is world position + camera + {sprite_view_hmin,sprite_view_vmin}
 
+    moveq   #1, d4                              ; d4 will keep track of *linking*
+
     lea     BaoLongTu_sprite_Idle0, a0
     moveq   #0,  d5
-    move.w  #221, d5
+    move.w  (MEM_player_sprite_start), d5
     bsr.w   PushEmbeddedSpriteFrame
 
     move.l  #vdp_vram_sprite, vdp_control
     move.b  (MEM_player_state), d6
     bsr.w   DrawSpriteFrame
+
+    ; Cap off with a blank sprite (lazy but works I hope)
+    move.l  #0, vdp_data
+    move.l  #0, vdp_data
 
     move.w	#interrupts_enable, sr                                      ; re-enable interrupts
 

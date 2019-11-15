@@ -14,5 +14,6 @@ MEM_camera_pos_x                EQU $FFFF000E       ;WORD
 MEM_player_velocity             EQU $FFFF0010    ;(alias)
 MEM_player_velocity_y           EQU $FFFF0010       ;WORD
 MEM_player_velocity_x           EQU $FFFF0012       ;WORD
-MEM_player_jump_frames          EQU $FFFF0014       ;BYTE
-MEM_fade                        EQU $FFFF0015       ;BYTE
+MEM_player_sprite_start         EQU $FFFF0014       ;WORD
+MEM_player_jump_frames          EQU $FFFF0016       ;BYTE
+MEM_fade                        EQU $FFFF0017       ;BYTE

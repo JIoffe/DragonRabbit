@@ -7,13 +7,9 @@
 * a0: set to frame start
 * 
 PushEmbeddedSpriteFrame:
-    moveq   #0, d0
-    moveq   #0, d7
     move.w  (a0)+,  d0                          ; n tiles in frame (-1)
 
     ; Offset the tiles for this sprite
-	add.w	d5, d5
-	lsl.w	#4,	d5
 	swap	d5
 	add.l	#vdp_vram_tiles, d5
     move.l  d5, vdp_control
@@ -30,50 +26,80 @@ PushEmbeddedSpriteFrame:
 * USE:
 * d1: sprite position (in world)
 * d2: camera position
+* d3: temp for writes
+* d4: link
 * d5: Offset in tiles
 * d6: set to sprite state
+* d7: keep track of tile offset
 * a0: set to frame sprites
 * 
 DrawSpriteFrame:
-    move.w  (a0)+, d0
+        *     dc.w $0003
+        * dc.w $00           ; Offset Vertical
+        * dc.w $000F           ; sprite Size
+        * dc.w $0000           ; sprite tile ID
+        * dc.w $0000           ; Offset Horizontal
+
+    swap    d1
+    swap    d2
+    sub.w   d2, d1
+    add.w   #sprite_view_vmin, d1
+
+    swap    d1
+    swap    d2
+    sub.w   d2, d1
+    add.w   #sprite_view_hmin, d1
+
+    move.w  #222, d7
+    moveq   #0, d0
+    move.w  (a0)+,  d0
+
+    btst    #sprite_flip_h, d6
+    bne.s   dsf_sprite_loop_flipped                 ; reduce the logic on each iteration
     dsf_sprite_loop:
-        move.w  (a0)+,  d7                      ; Holds the offset for this sprite
-                                                ; offset is stored as a word as YYXX ... needs some wiggling.
+        swap    d1
+        move.w  d1, d3
+        swap    d1
+        add.w   (a0)+, d3
+        move.w  d3, vdp_data                        ; first is y offset
+
+        move.w  (a0)+, d3
+        add.w   d4, d3
+        addq    #1, d4
+        move.w  d3, vdp_data                        ; second is size and link
 
         move.w  d7, d3
+        add.w   (a0)+, d3
+        move.w  d3, vdp_data                        ; third is tile ID + priority/h flip/v flip
+
+        move.w  (a0)+, d3
+        andi.w  #$00FF,d3
+        add.w   d1, d3
+        move.w  d3, vdp_data                        ; last is x offset
+        dbra    d0, dsf_sprite_loop
+    rts
+
+    dsf_sprite_loop_flipped:
+        swap    d1
+        move.w  d1, d3
+        swap    d1
+        add.w   (a0)+, d3
+        move.w  d3, vdp_data                        ; first is y offset
+
+        move.w  (a0)+, d3
+        add.w   d4, d3
+        addq    #1, d4
+        move.w  d3, vdp_data                        ; second is size and link
+
+        move.w  d7, d3
+        add.w   (a0)+, d3
+        or.w    #vram_hflip_bit, d3
+        move.w  d3, vdp_data                        ; third is tile ID + priority/h flip/v flip
+
+        move.w  (a0)+, d3
         lsr.w   #8, d3
-
-        moveq   #0, d3
-
-        swap    d1                              ; Translate vertical coord by camera to fit in sprite viewport
-        swap    d2
         add.w   d1, d3
-        sub.w   d2, d3
-        add.w   #sprite_view_vmin, d3
+        move.w  d3, vdp_data                        ; last is x offset
+        dbra    d0, dsf_sprite_loop_flipped
 
-        move.w  d3,  vdp_data                   ; Y position sent to VDP
-
-        move.w  (a0)+,  d3                      ; Holds the *size* value for this sprite
-        lsl.w   #8, d3
-        move.w  d3,  vdp_data                   ; Size and link sent to VDP
-
-        move.w  #222, d3                         ; See if this needs to be h flipped or not
-        btst    #sprite_flip_h, d6
-        beq.s   dsf_flipped
-            or.w    #vram_hflip_bit, d3
-        dsf_flipped:
-        move.w  d3,  vdp_data                   ; Tile data sent to VDP
-
-        move.w  d7, d3
-        andi.w  #$00FF, d3
-        moveq   #0, d3
-        swap    d1                              ; Translate horizontal coord by camera to fit in sprite viewport
-        swap    d2
-        add.w   d1, d3
-        sub.w   d2, d3
-        add.w   #sprite_view_hmin, d3
-
-        move.w  d3,  vdp_data                   ; H position sent to VDP
-
-        * dbra    d0, dsf_sprite_loop
     rts
