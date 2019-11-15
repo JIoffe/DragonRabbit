@@ -12,7 +12,8 @@ sprite_falling          EQU $02
 sprite_airborne         EQU $06             ; bits 2 and 1
 
 
-player_height           EQU $30
+player_height           EQU $40
+player_width            EQU $28
 player_x_speed          EQU $02
 
 player_jump_strength    EQU -$20
@@ -176,44 +177,54 @@ MainLoop_Level:
     ; see if player has dropped beneath tiles
     ; ray march for every row the player has dropped
 
-    move.w  d6, d7
-    sub.w   d1, d7
+    move.l  a1, a0
+    move.w  (a0)+, d3                            ; d3 has level height
+    moveq   #0, d4
+    move.w  (a0)+, d4                            ; d4 has level width
+
+    cmp.w   d1, d6
     bpl.s   lvl_player_falling
-        bra.s   lvl_player_y_adjusted
+    bra.s   lvl_player_y_adjusted
     lvl_player_falling:
+        move.w  d1, d2
+        add.w   #player_height, d2
+        lsr.w   #3, d2
+
+        move.w  d6, d7
         add.w   #player_height, d7
         lsr.w   #3, d7
+        swap    d7
+        swap    d1       
+        move.w  d1, d7
+        lsr.w   #3, d7
+        swap    d7
+        swap    d1
         lvl_player_falling_scan:
-            move.l  a1, a0
-            move.w  (a0)+, d3                            ; d3 has level height
-            moveq   #0, d4
-            move.w  (a0)+, d4                            ; d4 has level width
+            move.l  a0, a2
 
-            * * ; determine offset into level data
-            * moveq   #0, d2
-            * move.w  d1, d2
-            * lsr.w   #3, d2
-            * add.w   d7, d2
-            * mulu.w  d4, d2
+            ; see tile at index
+            moveq   #0, d5
+            move.w  d2, d5
+            mulu.w  d4, d5
 
-            * swap    d1
-            * move.w  d1, d5
-            * swap    d1
-            * lsr.w   #3, d5
-            * add.w   d5, d2
-            * add.w   d2, d2
-            * add.l   d2, a0
+            swap    d7
+            add.w   d7, d5
+            add.w   d5, d5
+            add.l   d5, a2
 
-            * tst.w   (a0)
-            * beq.s   lvl_fall_scan_continue
-            *     asl.w   #3, d2
-            *     sub.w   #player_height, d2
-            *     move.w  d2, d6
-            *     bra.s   lvl_player_landed
-            * lvl_fall_scan_continue:
-            * dbra    d7, lvl_player_falling_scan
+            tst.w   (a2)
+            beq.s   lvl_fall_scan_continue
+            move.w  d2, d6
+            asl.w   #3, d6
+            sub.w   #player_height, d6
+            bra.s   lvl_player_landed
 
-        ; check if player has reached level bounds
+            lvl_fall_scan_continue:
+            addq    #1, d2
+            swap    d7
+            cmp.w   d7, d2
+            ble.s   lvl_player_falling_scan
+
         asl.w   #3, d3
         subi.w  #player_height, d3
         cmp.w   d3, d6
