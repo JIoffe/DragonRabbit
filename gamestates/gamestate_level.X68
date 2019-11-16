@@ -14,6 +14,8 @@ sprite_airborne         EQU $06             ; bits 2 and 1
 
 player_height           EQU $40
 player_width            EQU $28
+player_width_tiles      EQU (player_width>>3)
+player_width_tbytes     EQU (player_width_tiles<<1)
 player_x_speed          EQU $02
 
 player_jump_strength    EQU -$20
@@ -32,25 +34,6 @@ camera_zone_vmin        EQU (vdp_screen_height>>1)-(camera_zone_height>>1)-(play
 camera_zone_vmax        EQU (vdp_screen_height>>1)+(camera_zone_height>>1)-player_height
 
 ; a1 always pointed to the start of the level we're working with
-
-DEBUGCURSORPALETTE:
-   dc.w $0E44
-   dc.w $0000
-   dc.w $000E
-   dc.w $0E00
-   dc.w $00E0
-   dc.w $000E
-   dc.w $00EE
-   dc.w $0E0E
-   dc.w $0EE0
-   dc.w $0222
-   dc.w $0444
-   dc.w $004A
-   dc.w $002A
-   dc.w $000A
-   dc.w $000C
-   dc.w $064E
-
 Init_Level:
     move.w	#interrupts_disable, sr
     move.w  #0, (frame_counter)
@@ -171,24 +154,24 @@ MainLoop_Level:
     *---------------------------------------------------------------------------------
     moveq   #0, d0                                      ; Add gravity to velocity
     swap    d1
-    * move.w  d1, d6                              ; let d6 hold the potential next position
+    move.w  d1, d6                              ; let d6 hold the potential next position
 
-    * ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
-    * move.w  (MEM_player_velocity_y), d0
-    * bpl.s   vel_y_positive
-    *     neg     d0
-    *     subi.w  #world_gravity, d0
-    *     move.w  d0, d4
-    *     lsr.w   #3, d4
-    *     sub.w   d4, d6
-    *     neg     d0
-    *     bra.s   vel_y_adjusted
-    *     vel_y_positive:
-    *         addi.w  #world_gravity, d0
-    *         move.w  d0, d4
-    *         lsr.w   #3, d4
-    *         add.w   d4, d6
-    * vel_y_adjusted:
+    ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
+    move.w  (MEM_player_velocity_y), d0
+    bpl.s   vel_y_positive
+        neg     d0
+        subi.w  #world_gravity, d0
+        move.w  d0, d4
+        lsr.w   #3, d4
+        sub.w   d4, d6
+        neg     d0
+        bra.s   vel_y_adjusted
+        vel_y_positive:
+            addi.w  #world_gravity, d0
+            move.w  d0, d4
+            lsr.w   #3, d4
+            add.w   d4, d6
+    vel_y_adjusted:
 
     * ; see if player has dropped beneath tiles
     * ; ray march for every row the player has dropped
@@ -198,89 +181,73 @@ MainLoop_Level:
     moveq   #0, d4
     move.w  (a0)+, d4                            ; d4 has level width
 
-    moveq   #0, d7
-    move.w  d1, d7
-    lsr.w   #3, d7
-    mulu.w  d4, d7
+    cmp.w   d1, d6
+    bpl.s   lvl_player_falling
+        bra.s   lvl_player_y_adjusted
+    lvl_player_falling:
+        move.w  d1, d2
+        add.w   #player_height, d2
+        lsr.w   #3, d2
+
+        move.w  d6, d7
+        add.w   #player_height, d7
+        lsr.w   #3, d7
+        swap    d7
+        swap    d1       
+        move.w  d1, d7
+        lsr.w   #3, d7
+        swap    d7
+        swap    d1
+        lvl_player_falling_scan:
+            move.l  a0, a2
+
+            ; see tile at index
+            moveq   #0, d5
+            move.w  d2, d5
+            mulu.w  d4, d5
+
+            swap    d7
+            add.w   d7, d5
+            add.w   d5, d5
+            add.l   d5, a2
+
+            tst.w   (a2)
+            beq.s   lvl_fall_scan_check_lr
+            lvl_fall_scan_hit:
+                move.w  d2, d6
+                asl.w   #3, d6
+                subi.w  #player_height, d6
+                bra.s   lvl_player_landed
+            lvl_fall_scan_check_middle:
+                add.w   #player_width_tiles, a2
+                tst.w   (a2)
+                bne.s   lvl_fall_scan_hit
+            lvl_fall_scan_check_lr:
+                add.w   #player_width_tiles, a2
+                tst.w   (a2)
+                bne.s   lvl_fall_scan_hit
+
+            lvl_fall_scan_continue:
+            addq    #1, d2
+            swap    d7
+            cmp.w   d7, d2
+            ble.s   lvl_player_falling_scan
+
+        asl.w   #3, d3
+        subi.w  #player_height, d3
+        cmp.w   d3, d6
+        blt.s   lvl_player_y_adjusted
+            move.w  d3, d6
+        lvl_player_landed:
+            move.b  #0, (MEM_player_jump_frames)
+            move.b  (MEM_player_state), d7
+            bclr    #sprite_jumping, d7
+            move.b  d7, (MEM_player_state)
+            moveq   #0, d0
+    lvl_player_y_adjusted:
+    move.w  d0, (MEM_player_velocity_y)
+    move.w  d6, d1
     swap    d1
-    move.w  d1, d6
-    lsr.w   #3, d6
-    add.w   d6, d7
-    add.w   d7, d7
-    
-    add.l   d7, a0
-
-    move.w  (a0), d7
-    tst.w   d7
-    beq.s   lvl_tile_nocollision
-        lea     DEBUGCURSORPALETTE, a0
-        moveq   #1, d0
-        bsr.w   LoadPalettes
-        bra.s   lvl_tile_collision_checked
-    lvl_tile_nocollision:
-        lea     Palettes_TESTROOM, a0
-        moveq   #1, d0
-        bsr.w   LoadPalettes
-    lvl_tile_collision_checked:
-
-    * cmp.w   d1, d6
-    * bpl.s   lvl_player_falling
-    * bra.s   lvl_player_y_adjusted
-    * lvl_player_falling:
-    *     move.w  d1, d2
-    *     add.w   #player_height, d2
-    *     lsr.w   #3, d2
-
-    *     move.w  d6, d7
-    *     add.w   #player_height, d7
-    *     lsr.w   #3, d7
-    *     swap    d7
-    *     swap    d1       
-    *     move.w  d1, d7
-    *     lsr.w   #3, d7
-    *     swap    d7
-    *     swap    d1
-    *     lvl_player_falling_scan:
-    *         move.l  a0, a2
-
-    *         ; see tile at index
-    *         moveq   #0, d5
-    *         move.w  d2, d5
-    *         mulu.w  d4, d5
-
-    *         swap    d7
-    *         add.w   d7, d5
-    *         add.w   d5, d5
-    *         add.l   d5, a2
-
-    *         tst.w   (a2)
-    *         beq.s   lvl_fall_scan_continue
-    *         move.w  d2, d6
-    *         asl.w   #3, d6
-    *         sub.w   #player_height, d6
-    *         bra.s   lvl_player_landed
-
-    *         lvl_fall_scan_continue:
-    *         addq    #1, d2
-    *         swap    d7
-    *         cmp.w   d7, d2
-    *         ble.s   lvl_player_falling_scan
-
-    *     asl.w   #3, d3
-    *     subi.w  #player_height, d3
-    *     cmp.w   d3, d6
-    *     blt.s   lvl_player_y_adjusted
-    *         move.w  d3, d6
-    *     lvl_player_landed:
-    *         move.b  #0, (MEM_player_jump_frames)
-    *         move.b  (MEM_player_state), d7
-    *         bclr    #sprite_jumping, d7
-    *         move.b  d7, (MEM_player_state)
-    *         moveq   #0, d0
-    * lvl_player_y_adjusted:
-    * move.w  d0, (MEM_player_velocity_y)
-    * move.w  d6, d1
-    * swap    d1
 
 
 
@@ -488,7 +455,6 @@ MainLoop_Level:
 
     move.l  #vdp_vram_sprite, vdp_control
     move.b  (MEM_player_state), d6
-    move.b  #0, d6
     bsr.w   DrawSpriteFrame
 
     ; Cap off with a blank sprite (lazy but works I hope)
