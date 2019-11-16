@@ -23,13 +23,13 @@ player_jump_duration    EQU $18             ; number of frames the player can ho
 
 
 camera_zone_width       EQU $30
-camera_zone_height      EQU $60
+camera_zone_height      EQU $54
 
 camera_zone_hmin        EQU (vdp_screen_width>>1)-(camera_zone_width>>1)
 camera_zone_hmax        EQU (vdp_screen_width>>1)+(camera_zone_width>>1)
 
-camera_zone_vmin        EQU (vdp_screen_height>>1)-(camera_zone_height>>1)
-camera_zone_vmax        EQU (vdp_screen_height>>1)+(camera_zone_height>>1)
+camera_zone_vmin        EQU (vdp_screen_height>>1)-(camera_zone_height>>1)-(player_height>>1)
+camera_zone_vmax        EQU (vdp_screen_height>>1)+(camera_zone_height>>1)-player_height
 
 ; a1 always pointed to the start of the level we're working with
 
@@ -99,34 +99,32 @@ Init_Level:
     add.l   d0, d0
     add.l   d0, a0
 
-    sub.w   #vdp_visible_tile_width,   d3                   ; difference between level width and plane width
-    add.l   d3, d3                                          ; tiles * 2 byte offset to skip rows in the level data
+    sub.w   #vdp_plane_tile_width, d3                   ; difference between level width and plane width
+    add.l   d3, d3                                      ; tiles * 2 byte offset to skip rows in the level data
 
     ; Then camera offset will be used to determine where in VRAM we write to
     lsr.w   #3, d5
     swap    d5
     lsr.w   #3, d5
 
-    move.w  #vdp_visible_tile_height-1, d1
+    move.w  #vdp_plane_tile_height-1, d1
     fill_frame_y:
-        move.w  #vdp_visible_tile_height-1, d6
+        move.w  #vdp_plane_tile_width-1, d6
         sub.w   d1, d6
         add.w   d5, d6
         andi.w  #vdp_plane_tile_height-1, d6
         lsl.w   #6, d6
 
         swap    d5
-        move.w  #vdp_visible_tile_width-1, d0
+        move.w  #vdp_plane_tile_width-1, d0
         fill_frame_x:
             moveq   #0, d7
-            move.w  d6, d7
 
-            move.w  #vdp_visible_tile_width-1, d4
-            sub.w   d0, d4
-            add.w   d5, d4
-            andi.w  #vdp_plane_tile_width-1, d4
-
-            add.w   d4, d7
+            move.w  #vdp_plane_tile_width-1, d7
+            sub.w   d0, d7
+            add.w   d5, d7
+            andi.w  #vdp_plane_tile_width-1, d7
+            add.w   d6, d7
             add.w   d7, d7
             swap    d7
             addi.l  #vdp_write_plane_a, d7
@@ -154,151 +152,93 @@ MainLoop_Level:
     * Jumping / falling - a jump input will be processed on the next frame!
     *---------------------------------------------------------------------------------
     moveq   #0, d0                                      ; Add gravity to velocity
-    swap    d1
-    move.w  d1, d6                              ; let d6 hold the potential next position
+    * swap    d1
+    * move.w  d1, d6                              ; let d6 hold the potential next position
 
-    ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
-    move.w  (MEM_player_velocity_y), d0
-    bpl.s   vel_y_positive
-        neg     d0
-        subi.w  #world_gravity, d0
-        move.w  d0, d4
-        lsr.w   #3, d4
-        sub.w   d4, d6
-        neg     d0
-        bra.s   vel_y_adjusted
-        vel_y_positive:
-            addi.w  #world_gravity, d0
-            move.w  d0, d4
-            lsr.w   #3, d4
-            add.w   d4, d6
-    vel_y_adjusted:
+    * ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
+    * move.w  (MEM_player_velocity_y), d0
+    * bpl.s   vel_y_positive
+    *     neg     d0
+    *     subi.w  #world_gravity, d0
+    *     move.w  d0, d4
+    *     lsr.w   #3, d4
+    *     sub.w   d4, d6
+    *     neg     d0
+    *     bra.s   vel_y_adjusted
+    *     vel_y_positive:
+    *         addi.w  #world_gravity, d0
+    *         move.w  d0, d4
+    *         lsr.w   #3, d4
+    *         add.w   d4, d6
+    * vel_y_adjusted:
 
-    ; see if player has dropped beneath tiles
-    ; ray march for every row the player has dropped
+    * ; see if player has dropped beneath tiles
+    * ; ray march for every row the player has dropped
 
-    move.l  a1, a0
-    move.w  (a0)+, d3                            ; d3 has level height
-    moveq   #0, d4
-    move.w  (a0)+, d4                            ; d4 has level width
-
-    cmp.w   d1, d6
-    bpl.s   lvl_player_falling
-    bra.s   lvl_player_y_adjusted
-    lvl_player_falling:
-        move.w  d1, d2
-        add.w   #player_height, d2
-        lsr.w   #3, d2
-
-        move.w  d6, d7
-        add.w   #player_height, d7
-        lsr.w   #3, d7
-        swap    d7
-        swap    d1       
-        move.w  d1, d7
-        lsr.w   #3, d7
-        swap    d7
-        swap    d1
-        lvl_player_falling_scan:
-            move.l  a0, a2
-
-            ; see tile at index
-            moveq   #0, d5
-            move.w  d2, d5
-            mulu.w  d4, d5
-
-            swap    d7
-            add.w   d7, d5
-            add.w   d5, d5
-            add.l   d5, a2
-
-            tst.w   (a2)
-            beq.s   lvl_fall_scan_continue
-            move.w  d2, d6
-            asl.w   #3, d6
-            sub.w   #player_height, d6
-            bra.s   lvl_player_landed
-
-            lvl_fall_scan_continue:
-            addq    #1, d2
-            swap    d7
-            cmp.w   d7, d2
-            ble.s   lvl_player_falling_scan
-
-        asl.w   #3, d3
-        subi.w  #player_height, d3
-        cmp.w   d3, d6
-        blt.s   lvl_player_y_adjusted
-            move.w  d3, d6
-        lvl_player_landed:
-            move.b  #0, (MEM_player_jump_frames)
-            move.b  (MEM_player_state), d7
-            bclr    #sprite_jumping, d7
-            move.b  d7, (MEM_player_state)
-            moveq   #0, d0
-    lvl_player_y_adjusted:
-    move.w  d0, (MEM_player_velocity_y)
-    move.w  d6, d1
-    swap    d1
-
-    ; check player pos against level data
     * move.l  a1, a0
     * move.w  (a0)+, d3                            ; d3 has level height
     * moveq   #0, d4
     * move.w  (a0)+, d4                            ; d4 has level width
-    * * ; determine offset into level data
-    * moveq   #0, d6
-    * move.w  d1, d6
-    * lsr.w   #3, d6
-    * mulu.w  d4, d6
 
-    * swap    d1
-    * move.w  d1, d7
-    * swap    d1
-    * lsr.w   #3, d7
-    * add.w   d7, d6
-    * add.w   d6, d6
-    * add.l   d6, a0
-    * move.w  (a0), d6
-    * tst.w   d6
-    * beq.s   lvl_checked_player_feet
-    *     lsl.w   #3, d7
-    *     move.w  d7, d1
-    *     move.b  #0, (MEM_player_jump_frames)
-    *     bclr    #sprite_jumping, d6
-    *     move.b  d6, (MEM_player_state)
-    *     moveq   #0, d0
-    * bra.s   lvl_checked_player_feet
-    * move.w  d1, d7
-    * lsr.w   #3, d7
-    * mulu.w  d7, d4
+    * cmp.w   d1, d6
+    * bpl.s   lvl_player_falling
+    * bra.s   lvl_player_y_adjusted
+    * lvl_player_falling:
+    *     move.w  d1, d2
+    *     add.w   #player_height, d2
+    *     lsr.w   #3, d2
 
-    * swap    d1
-    * move.w  d1, d5
-    * swap    d1
-    * lsr.w   #3, d5
-    * add.w   d5, d4
-    
-    * add.w   d4, d4
-    * add.l   d4, a0
+    *     move.w  d6, d7
+    *     add.w   #player_height, d7
+    *     lsr.w   #3, d7
+    *     swap    d7
+    *     swap    d1       
+    *     move.w  d1, d7
+    *     lsr.w   #3, d7
+    *     swap    d7
+    *     swap    d1
+    *     lvl_player_falling_scan:
+    *         move.l  a0, a2
 
-    * move.w  (a0), d4
+    *         ; see tile at index
+    *         moveq   #0, d5
+    *         move.w  d2, d5
+    *         mulu.w  d4, d5
 
-    * tst.w   d4
-    * beq.s   lvl_player_feet_bounds             ; clear all "jump" flags to let player jump again
-    *     move.w  d5, d3
-    *     lvl_player_lvl_bounds:
+    *         swap    d7
+    *         add.w   d7, d5
+    *         add.w   d5, d5
+    *         add.l   d5, a2
+
+    *         tst.w   (a2)
+    *         beq.s   lvl_fall_scan_continue
+    *         move.w  d2, d6
+    *         asl.w   #3, d6
+    *         sub.w   #player_height, d6
+    *         bra.s   lvl_player_landed
+
+    *         lvl_fall_scan_continue:
+    *         addq    #1, d2
+    *         swap    d7
+    *         cmp.w   d7, d2
+    *         ble.s   lvl_player_falling_scan
+
     *     asl.w   #3, d3
-    * *     lvl_adjust_player_feet:
     *     subi.w  #player_height, d3
-    *     cmp.w   d3, d1
-    *     blt.s   lvl_checked_player_feet             ; Player has landed - clear all "jump" flags to let the player jump again
-    *         move.w  d3, d1
+    *     cmp.w   d3, d6
+    *     blt.s   lvl_player_y_adjusted
+    *         move.w  d3, d6
+    *     lvl_player_landed:
     *         move.b  #0, (MEM_player_jump_frames)
-    *         bclr    #sprite_jumping, d6
-    *         move.b  d6, (MEM_player_state)
+    *         move.b  (MEM_player_state), d7
+    *         bclr    #sprite_jumping, d7
+    *         move.b  d7, (MEM_player_state)
     *         moveq   #0, d0
-    * lvl_checked_player_feet:
+    * lvl_player_y_adjusted:
+    * move.w  d0, (MEM_player_velocity_y)
+    * move.w  d6, d1
+    * swap    d1
+
 
 
     *********************************************************************************************
