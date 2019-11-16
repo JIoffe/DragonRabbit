@@ -24578,4 +24578,4 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
 TestRoom_level_playerstart:
-   dc.l $02A00150   
+   dc.l $02000150   

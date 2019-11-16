@@ -27,8 +27,8 @@ player_jump_duration    EQU $18             ; number of frames the player can ho
 camera_zone_width       EQU $30
 camera_zone_height      EQU $54
 
-camera_zone_hmin        EQU (vdp_screen_width>>1)-(camera_zone_width>>1)
-camera_zone_hmax        EQU (vdp_screen_width>>1)+(camera_zone_width>>1)
+camera_zone_hmin        EQU (vdp_screen_width>>1)-(camera_zone_width>>1)-(player_width>>1)
+camera_zone_hmax        EQU (vdp_screen_width>>1)+(camera_zone_width>>1)-(player_width>>1)
 
 camera_zone_vmin        EQU (vdp_screen_height>>1)-(camera_zone_height>>1)-(player_height>>1)
 camera_zone_vmax        EQU (vdp_screen_height>>1)+(camera_zone_height>>1)-player_height
@@ -149,12 +149,52 @@ MainLoop_Level:
     ; d1 will hold the player's position for the entire frame
     move.l  (MEM_player_pos),   d1
 
+    *********************************************************************************************
+    * INPUT... INPUT!!!
+    *********************************************************************************************
+    move.b	(MEM_buttons_held), d0
+
+    move.b  d0, d7
+    andi.b  #joypad_right, d7
+    beq.s   lvl_check_left              ; Not pressing right; see if pressing left
+        ; Moving RIGHT
+        ClearFlipH    (MEM_player_state)
+        addi.w  #player_x_speed, d1
+        bra.s   lvl_lr_checked
+    lvl_check_left:
+        move.b	d0, d7
+        andi.b  #joypad_left, d7
+        beq.s   lvl_lr_checked
+            ; Moving LEFT
+            SetFlipH    (MEM_player_state)
+            subi.w  #player_x_speed, d1
+    lvl_lr_checked:
+
+    * * ; check up/down - No more flying rabbits!
+    * swap    d1
+    * move.b  d0, d7
+    * andi.b  #joypad_down, d7
+    * beq.s   lvl_check_up              
+    *     ; Moving RIGHT
+    *     addi.w  #player_x_speed, d1
+    *     bra.s   lvl_ud_checked
+    *     move.w  #0, (MEM_player_velocity_y)
+    * lvl_check_up:
+    *     move.b	d0, d7
+    *     andi.b  #joypad_up, d7
+    *     beq.s   lvl_ud_checked
+    *         ; Moving LEFT
+    *         subi.w  #player_x_speed, d1
+    *         move.w  #0, (MEM_player_velocity_y)
+    * lvl_ud_checked:
+    * swap    d1
+
     *---------------------------------------------------------------------------------
-    * Jumping / falling - a jump input will be processed on the next frame!
+    * VERTICAL VELOCITY: Jumping / falling
     *---------------------------------------------------------------------------------
     moveq   #0, d0                                      ; Add gravity to velocity
     swap    d1
-    move.w  d1, d6                              ; let d6 hold the potential next position
+    move.w  d1, d6                                      ; let d6 hold the potential next position
 
     ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
     move.w  (MEM_player_velocity_y), d0
@@ -173,6 +213,9 @@ MainLoop_Level:
             add.w   d4, d6
     vel_y_adjusted:
 
+    *****************************************************************
+    * COLLIDE PLAYER AGAINST LEVEL TILES
+    *****************************************************************
     * ; see if player has dropped beneath tiles
     * ; ray march for every row the player has dropped
 
@@ -180,6 +223,7 @@ MainLoop_Level:
     move.w  (a0)+, d3                            ; d3 has level height
     moveq   #0, d4
     move.w  (a0)+, d4                            ; d4 has level width
+    move.l  a0, a2                               ; save this point
 
     cmp.w   d1, d6
     bpl.s   lvl_player_falling
@@ -249,48 +293,9 @@ MainLoop_Level:
     move.w  d6, d1
     swap    d1
 
-
-
-    *********************************************************************************************
-    * INPUT... INPUT!!!
-    *********************************************************************************************
-    move.b	(MEM_buttons_held), d0
-
-    move.b  d0, d7
-    andi.b  #joypad_right, d7
-    beq.s   lvl_check_left              ; Not pressing right; see if pressing left
-        ; Moving RIGHT
-        ClearFlipH    (MEM_player_state)
-        addi.w  #player_x_speed, d1
-        bra.s   lvl_lr_checked
-    lvl_check_left:
-        move.b	d0, d7
-        andi.b  #joypad_left, d7
-        beq.s   lvl_lr_checked
-            ; Moving LEFT
-            SetFlipH    (MEM_player_state)
-            subi.w  #player_x_speed, d1
-    lvl_lr_checked:
-
-    * ; check up/down - No more flying rabbits!
-    swap    d1
-    move.b  d0, d7
-    andi.b  #joypad_down, d7
-    beq.s   lvl_check_up              
-        ; Moving RIGHT
-        addi.w  #player_x_speed, d1
-        bra.s   lvl_ud_checked
-        move.w  #0, (MEM_player_velocity_y)
-    lvl_check_up:
-        move.b	d0, d7
-        andi.b  #joypad_up, d7
-        beq.s   lvl_ud_checked
-            ; Moving LEFT
-            subi.w  #player_x_speed, d1
-            move.w  #0, (MEM_player_velocity_y)
-    lvl_ud_checked:
-    swap    d1
-
+    ************************************************************
+    * SAVE PLAYER POSITION TO MEMORY
+    ************************************************************
     move.l  d1, (MEM_player_pos)
 
     ; Move the camera as needed

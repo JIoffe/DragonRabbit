@@ -155,33 +155,4 @@ MainLoop_Title:
     title_nose_twitched:
     move.w	#interrupts_enable, sr
 
-    * move.w  (frame_counter), d7
-    * move.w  d7, d0
-    * andi.w  #31, d0
-    * beq.s   title_nose_twitch_up
-    *     move.l  #$CCCCCCCC, d4
-    *     move.l  #$BBBBBBBB, d5
-    *     move.l  #$AAAAAAAA, d6
-
-    *     lea     TitleNoseTwitchDown112, a0
-    *     move.w  #112,  d1
-    *     bsr.w   SetSingleTile
-        
-    * title_nose_twitch_up:
-    *     move.w  d7, d0
-    *     andi.w  #15, d0
-    *     beq.s   title_nose_twitched
-    *     move.l  #$FFFFFFFF, d4
-    *     move.l  #$FFFFFFFF, d5
-    *     move.l  #$FFFFFFFF, d6
-    *     lea     TitleNoseTwitchUp112, a0
-    *     move.w  #112,  d1
-    *     bsr.w   SetSingleTile
-    * *     lea     TitleNoseTwitchDown112, a0
-    * *     move.w  #112,  d1
-    * *     bsr.w   SetSingleTile
-
-    * title_nose_twitched:
-
-
     EndLoop
