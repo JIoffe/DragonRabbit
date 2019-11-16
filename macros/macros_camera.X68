@@ -200,7 +200,7 @@ StreamLevelColumns  macro
             move.w  d2, d7
             lsr.w   #3, d7
             add.w   d5, d7
-            addq    #1, d7
+            subq    #1, d7
             add.w   d7, d6
             add.w   d6, d6
             move.l  a2, a0
@@ -252,7 +252,7 @@ StreamLevelColumns  macro
             move.w  d2, d7
             lsr.w   #3, d7
             add.w   d5, d7
-            addq    #1, d7
+            subq    #1, d7
             addi.w  #vdp_visible_tile_width, d7
             add.w   d7, d6
             add.w   d6, d6
@@ -325,7 +325,6 @@ StreamLevelRows  macro
             add.w   d6, d6
             move.l  a2, a0
             add.l   d6, a0
-            addq    #4, a0                  ; we end up a little offset from the columns
 
             move.w  #vdp_visible_tile_width, d0
             stream_row_fill_up:
@@ -374,7 +373,6 @@ StreamLevelRows  macro
             add.w   d6, d6
             move.l  a2, a0
             add.l   d6, a0
-            addq    #4, a0                  ; we end up a little offset from the columns
 
             move.w  #vdp_visible_tile_width, d0
             stream_row_fill_down:

@@ -33,6 +33,24 @@ camera_zone_vmax        EQU (vdp_screen_height>>1)+(camera_zone_height>>1)-playe
 
 ; a1 always pointed to the start of the level we're working with
 
+DEBUGCURSORPALETTE:
+   dc.w $0E44
+   dc.w $0000
+   dc.w $000E
+   dc.w $0E00
+   dc.w $00E0
+   dc.w $000E
+   dc.w $00EE
+   dc.w $0E0E
+   dc.w $0EE0
+   dc.w $0222
+   dc.w $0444
+   dc.w $004A
+   dc.w $002A
+   dc.w $000A
+   dc.w $000C
+   dc.w $064E
+
 Init_Level:
     move.w	#interrupts_disable, sr
     move.w  #0, (frame_counter)
@@ -152,7 +170,7 @@ MainLoop_Level:
     * Jumping / falling - a jump input will be processed on the next frame!
     *---------------------------------------------------------------------------------
     moveq   #0, d0                                      ; Add gravity to velocity
-    * swap    d1
+    swap    d1
     * move.w  d1, d6                              ; let d6 hold the potential next position
 
     * ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
@@ -175,10 +193,35 @@ MainLoop_Level:
     * ; see if player has dropped beneath tiles
     * ; ray march for every row the player has dropped
 
-    * move.l  a1, a0
-    * move.w  (a0)+, d3                            ; d3 has level height
-    * moveq   #0, d4
-    * move.w  (a0)+, d4                            ; d4 has level width
+    move.l  a1, a0
+    move.w  (a0)+, d3                            ; d3 has level height
+    moveq   #0, d4
+    move.w  (a0)+, d4                            ; d4 has level width
+
+    moveq   #0, d7
+    move.w  d1, d7
+    lsr.w   #3, d7
+    mulu.w  d4, d7
+    swap    d1
+    move.w  d1, d6
+    lsr.w   #3, d6
+    add.w   d6, d7
+    add.w   d7, d7
+    
+    add.l   d7, a0
+
+    move.w  (a0), d7
+    tst.w   d7
+    beq.s   lvl_tile_nocollision
+        lea     DEBUGCURSORPALETTE, a0
+        moveq   #1, d0
+        bsr.w   LoadPalettes
+        bra.s   lvl_tile_collision_checked
+    lvl_tile_nocollision:
+        lea     Palettes_TESTROOM, a0
+        moveq   #1, d0
+        bsr.w   LoadPalettes
+    lvl_tile_collision_checked:
 
     * cmp.w   d1, d6
     * bpl.s   lvl_player_falling
@@ -445,6 +488,7 @@ MainLoop_Level:
 
     move.l  #vdp_vram_sprite, vdp_control
     move.b  (MEM_player_state), d6
+    move.b  #0, d6
     bsr.w   DrawSpriteFrame
 
     ; Cap off with a blank sprite (lazy but works I hope)
