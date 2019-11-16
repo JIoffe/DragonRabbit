@@ -13,9 +13,12 @@ sprite_airborne         EQU $06             ; bits 2 and 1
 
 
 player_height           EQU $40
+player_height_tiles     EQU (player_height>>3)
 player_width            EQU $28
 player_width_tiles      EQU (player_width>>3)
 player_width_tbytes     EQU (player_width_tiles<<1)
+player_side_scan_height EQU player_height_tiles-1             ; Give some wiggle room when scanning for side-to-side collisions
+
 player_x_speed          EQU $02
 
 player_jump_strength    EQU -$20
@@ -148,6 +151,7 @@ MainLoop_Level:
 
     ; d1 will hold the player's position for the entire frame
     move.l  (MEM_player_pos),   d1
+    move.w  d1, d6
 
     *********************************************************************************************
     * INPUT... INPUT!!!
@@ -158,17 +162,73 @@ MainLoop_Level:
     andi.b  #joypad_right, d7
     beq.s   lvl_check_left              ; Not pressing right; see if pressing left
         ; Moving RIGHT
-        ClearFlipH    (MEM_player_state)
-        addi.w  #player_x_speed, d1
+        ClearFlipH    (MEM_player_state), d2
+        addi.w  #player_x_speed, d6
         bra.s   lvl_lr_checked
     lvl_check_left:
         move.b	d0, d7
         andi.b  #joypad_left, d7
         beq.s   lvl_lr_checked
             ; Moving LEFT
-            SetFlipH    (MEM_player_state)
-            subi.w  #player_x_speed, d1
+            SetFlipH    (MEM_player_state), d2
+            subi.w  #player_x_speed, d6
     lvl_lr_checked:
+
+    *******************************************************************
+    * Player collision against level (horizontal)
+    *******************************************************************
+    move.l  a1, a0
+    move.w  (a0)+, d3                            ; d3 has level height
+    moveq   #0, d4
+    move.w  (a0)+, d4                            ; d4 has level width
+
+    moveq   #0, d0
+    moveq   #0, d5
+
+    move.w  d6, d2
+    lsr.w   #3, d2   
+
+    cmp.w   d1, d6
+    blt.s   lvl_player_moving_left
+        add.w   #player_width_tiles, d2     ; moving right - scan the right side
+        lea     lvl_player_right_scan_hit, a3
+        bra.s   lvl_side_prescan   ;player is moving right
+    lvl_player_moving_left:
+        lea     lvl_player_left_scan_hit, a3
+        lvl_side_prescan:
+        swap    d1
+        move.w  d1, d5
+        lsr.w   #3, d5
+        swap    d1
+        mulu.w  d4, d5
+
+        add.w   d2, d5
+        add.w   d5, d5
+        add.l   d5, a0
+
+        add.w   d4, d4
+        move.w  #player_side_scan_height, d0
+        lvl_side_scan:
+            tst.w   (a0)
+            bne.s   lvl_side_scan_hit
+            add.l   d4, a0
+            dbra    d0, lvl_side_scan
+        bra.s  lvl_player_x_adjusted
+
+    lvl_side_scan_hit:
+        jmp     (a3)
+    lvl_player_left_scan_hit:
+        addq    #1, d2
+        asl.w   #3, d2
+        move.w  d2, d6
+        bra.s   lvl_player_x_adjusted
+    lvl_player_right_scan_hit:
+        sub.w   #player_width_tiles, d2
+        asl.w   #3, d2
+        move.w  d2, d6
+
+    lvl_player_x_adjusted:
+    move.w  d6, d1                      ; update active player position
 
     * * ; check up/down - No more flying rabbits!
     * swap    d1
@@ -217,13 +277,12 @@ MainLoop_Level:
     * COLLIDE PLAYER AGAINST LEVEL TILES
     *****************************************************************
     * ; see if player has dropped beneath tiles
-    * ; ray march for every row the player has dropped
+    * ; ray march for every row the player has dropped (The player can fall faster than moving side-to-side)
 
     move.l  a1, a0
     move.w  (a0)+, d3                            ; d3 has level height
     moveq   #0, d4
     move.w  (a0)+, d4                            ; d4 has level width
-    move.l  a0, a2                               ; save this point
 
     cmp.w   d1, d6
     bpl.s   lvl_player_falling
@@ -244,7 +303,6 @@ MainLoop_Level:
         swap    d1
         lvl_player_falling_scan:
             move.l  a0, a2
-
             ; see tile at index
             moveq   #0, d5
             move.w  d2, d5

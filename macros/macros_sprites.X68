@@ -2,10 +2,11 @@
 * Sets the sprite flip H flag at a memory address
 *===============================================================================
 * - \1 = memory address
+* - \2 = register to use
 SetFlipH    macro
-    move.b  \1, d6
-    bset    #sprite_flip_h, d6
-    move.b  d6, \1
+    move.b  \1, \2
+    bset    #sprite_flip_h, \2
+    move.b  \2, \1
     endm
 
 
@@ -13,8 +14,9 @@ SetFlipH    macro
 * Clears the sprite flip H flag at a memory address
 *===============================================================================
 * - \1 = memory address
+* - \2 = register to use
 ClearFlipH    macro
-    move.b  \1, d6
-    bclr    #sprite_flip_h, d6
-    move.b  d6, \1
+    move.b  \1, \2
+    bclr    #sprite_flip_h, \2
+    move.b  \2, \1
     endm
