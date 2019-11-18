@@ -14,10 +14,13 @@ sprite_airborne         EQU $06             ; bits 2 and 1
 
 player_height           EQU $40
 player_height_tiles     EQU (player_height>>3)
-player_width            EQU $28
+player_width            EQU $18
 player_width_tiles      EQU (player_width>>3)
 player_width_tbytes     EQU (player_width_tiles<<1)
 player_side_scan_height EQU player_height_tiles-1             ; Give some wiggle room when scanning for side-to-side collisions
+
+player_sprite_offsetX   EQU $1C             ; How much to offset the player sprite for rendering
+player_s_flip_offsetX   EQU $0F             ; How much to offset the player sprite for rendering
 
 player_x_speed          EQU $02
 
@@ -516,8 +519,18 @@ MainLoop_Level:
     move.w  (MEM_player_sprite_start), d5
     bsr.w   PushEmbeddedSpriteFrame
 
-    move.l  #vdp_vram_sprite, vdp_control
+    ; Offset player sprite to center character
     move.b  (MEM_player_state), d6
+
+    btst    #sprite_flip_h, d6
+    bne.s   player_sprite_adjust_r
+    sub.w   #player_sprite_offsetX, d1
+    bra.s   player_sprite_adjusted
+    player_sprite_adjust_r:
+    sub.w   #player_s_flip_offsetX, d1
+    player_sprite_adjusted:
+
+    move.l  #vdp_vram_sprite, vdp_control
     bsr.w   DrawSpriteFrame
 
     ; Cap off with a blank sprite (lazy but works I hope)
