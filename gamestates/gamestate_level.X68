@@ -1,5 +1,6 @@
 ; Controls
 control_jump            EQU joypad_c
+control_attack          EQU joypad_a
 
 ; Note on velocity - it is by a factor of 8
 ; so this means that gravity is actually at 1/4 pixel per frame per frame
@@ -8,6 +9,12 @@ world_gravity           EQU $02
 sprite_flip_h           EQU $00
 sprite_jumping          EQU $01
 sprite_falling          EQU $02
+
+; Player combo moves
+player_attack_1         EQU $03
+player_attack_2         EQU $04
+player_attack_3         EQU $05
+player_attack_4         EQU $06
 
 sprite_airborne         EQU $06             ; bits 2 and 1
 
@@ -233,24 +240,6 @@ MainLoop_Level:
     lvl_player_x_adjusted:
     move.w  d6, d1                      ; update active player position
 
-    * * ; check up/down - No more flying rabbits!
-    * swap    d1
-    * move.b  d0, d7
-    * andi.b  #joypad_down, d7
-    * beq.s   lvl_check_up              
-    *     ; Moving RIGHT
-    *     addi.w  #player_x_speed, d1
-    *     bra.s   lvl_ud_checked
-    *     move.w  #0, (MEM_player_velocity_y)
-    * lvl_check_up:
-    *     move.b	d0, d7
-    *     andi.b  #joypad_up, d7
-    *     beq.s   lvl_ud_checked
-    *         ; Moving LEFT
-    *         subi.w  #player_x_speed, d1
-    *         move.w  #0, (MEM_player_velocity_y)
-    * lvl_ud_checked:
-    * swap    d1
 
     *---------------------------------------------------------------------------------
     * VERTICAL VELOCITY: Jumping / falling
@@ -399,6 +388,18 @@ MainLoop_Level:
             move.b  #0, (MEM_player_jump_frames)
     lvl_player_jump_checked:
 
+    *----------------------------------------------------------------------------------
+    * ATTACK!
+    *----------------------------------------------------------------------------------
+    move.b	(MEM_buttons_held), d0
+    andi.b  #control_attack, d0
+    beq.s   lvl_player_not_attacking
+        bset    #player_attack_1, d6
+        bra.s   lvl_player_attack_checked
+    lvl_player_not_attacking:
+        bclr    #player_attack_1, d6
+    lvl_player_attack_checked:
+
     move.b  d6, (MEM_player_state)
 
 
@@ -514,14 +515,22 @@ MainLoop_Level:
 
     moveq   #1, d4                              ; d4 will keep track of *linking*
 
+
+    ; Select animation based on player state
+    move.b  (MEM_player_state), d6
+    btst    #player_attack_1, d6
+    beq.s   lvl_player_idle
+    lea     BaoLongTu_sprite_Attack10, a0
+    bra.s   lvl_player_animation_selected
+    lvl_player_idle:
     lea     BaoLongTu_sprite_Idle0, a0
+    lvl_player_animation_selected:
+
     moveq   #0,  d5
     move.w  (MEM_player_sprite_start), d5
     bsr.w   PushEmbeddedSpriteFrame
 
     ; Offset player sprite to center character
-    move.b  (MEM_player_state), d6
-
     btst    #sprite_flip_h, d6
     bne.s   player_sprite_adjust_r
     sub.w   #player_sprite_offsetX, d1
