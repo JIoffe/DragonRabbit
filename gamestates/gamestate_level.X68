@@ -16,6 +16,9 @@ player_attack_2         EQU $04
 player_attack_3         EQU $05
 player_attack_4         EQU $06
 
+player_attack_duration  EQU $08
+player_combo_time       EQU $20
+
 sprite_airborne         EQU $06             ; bits 2 and 1
 
 
@@ -391,16 +394,51 @@ MainLoop_Level:
     *----------------------------------------------------------------------------------
     * ATTACK!
     *----------------------------------------------------------------------------------
-    move.b	(MEM_buttons_held), d0
-    andi.b  #control_attack, d0
-    beq.s   lvl_player_not_attacking
-        bset    #player_attack_1, d6
-        bra.s   lvl_player_attack_checked
-    lvl_player_not_attacking:
+    move.b  (MEM_player_attack_frames), d5
+    addq    #1, d5
+
+    cmp.b   #player_combo_time, d5
+    blt.s   lvl_player_combo_reset
         bclr    #player_attack_1, d6
+        bclr    #player_attack_2, d6
+        bclr    #player_attack_3, d6
+    lvl_player_combo_reset:
+
+    move.b	(MEM_buttons_pressed), d0
+    andi.b  #control_attack, d0
+    beq.s   lvl_player_attack_checked
+        ; in combo range, see  which round we're ready for
+        btst    #player_attack_3, d6
+        beq.s   player_combo2
+            bclr    #player_attack_2, d6
+            bclr    #player_attack_3, d6
+            bset    #player_attack_1, d6
+            move.b  #0, d5
+            bra.s   lvl_player_attack_checked
+
+        player_combo2:
+        btst    #player_attack_2, d6
+        beq.s   player_combo1
+            bset    #player_attack_3, d6
+            move.b  #0, d5
+            bra.s   lvl_player_attack_checked
+            
+        player_combo1:
+        btst    #player_attack_1, d6
+        beq.s   player_combo0
+            bset    #player_attack_2, d6
+            move.b  #0, d5
+            bra.s   lvl_player_attack_checked
+
+        player_combo0:
+        bset    #player_attack_1, d6
+        move.b  #0, d5
     lvl_player_attack_checked:
 
     move.b  d6, (MEM_player_state)
+    move.b  d5, (MEM_player_attack_frames)
+
+
 
 
     * ---------------------------------------------------------------------------------
@@ -518,10 +556,29 @@ MainLoop_Level:
 
     ; Select animation based on player state
     move.b  (MEM_player_state), d6
+
+    test_attack_duration:
+    move.b  (MEM_player_attack_frames), d0
+    cmp.b   #player_attack_duration, d0
+    bge.s   lvl_player_idle
+
+    btst    #player_attack_3, d6
+    beq.s   select_attack_2
+        lea     BaoLongTu_sprite_Attack30, a0
+        bra.s   lvl_player_animation_selected
+
+    select_attack_2:
+    btst    #player_attack_2, d6
+    beq.s   select_attack_1
+        lea     BaoLongTu_sprite_Attack20, a0
+        bra.s   lvl_player_animation_selected
+
+    select_attack_1:
     btst    #player_attack_1, d6
     beq.s   lvl_player_idle
-    lea     BaoLongTu_sprite_Attack10, a0
-    bra.s   lvl_player_animation_selected
+        lea     BaoLongTu_sprite_Attack10, a0
+        bra.s   lvl_player_animation_selected
+
     lvl_player_idle:
     lea     BaoLongTu_sprite_Idle0, a0
     lvl_player_animation_selected:
