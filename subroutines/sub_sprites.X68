@@ -50,7 +50,7 @@ DrawSpriteFrame:
     sub.w   d2, d1
     add.w   #sprite_view_hmin, d1
 
-    move.w  #222, d7
+    move.w  #264, d7
     moveq   #0, d0
     move.w  (a0)+,  d0
 

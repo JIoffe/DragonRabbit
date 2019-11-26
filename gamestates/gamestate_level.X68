@@ -38,6 +38,7 @@ player_jump_strength    EQU -$20
 
 player_jump_duration    EQU $18             ; number of frames the player can hold jump to jump higher
 
+player_tile_allocation  EQU $40             ; keep 64 tiles free for the player animation at all times
 
 
 camera_zone_width       EQU $30
@@ -76,7 +77,7 @@ Init_Level:
         asl.w   #4, d5
         or.w    #$0600, d5
         swap    d5
-        lea     TESTROOM_BG, a0
+        lea     TestRoom_BG, a0
         bsr.w   Plane_DrawPattern
         dbra    d4, testroombg_loop
 
