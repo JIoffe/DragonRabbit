@@ -10,9 +10,17 @@ Init_Title:
 	moveq   #2, d0
 	bsr.w   LoadPalettes
 
+    ; Ensure that the 3rd palette is blank
+    moveq   #0, d0
+    move.b  #15, d0
+    moveq   #2, d1
+    lea     palette_empty, a0
+    bsr.w   LoadPaletteOffset
+
+
 	lea     Tiles_TitleScreen, a0
     moveq   #0, d0
-	move.b  #217, d0
+	move.b  #255, d0
 	bsr.w   LoadTiles
 
     ; Draw bunny face - mirror half of the face for the full profile
@@ -24,6 +32,12 @@ Init_Title:
     move.l  #$010C0000, d5
     lea     title_rabbitR, a0
     bsr.w   Plane_DrawPatternFlipH
+
+    ; Draw "press start" pattern which will fade in and out later
+    move.l  #$10190000, d5
+    lea     title_press_start, a0
+    bsr.w   Plane_DrawPattern  
+
 
     ; Add block '217' which is just a black square...
     ; use this to hide the scrolling logo so it appears to come in from the right
@@ -122,10 +136,11 @@ MainLoop_Title:
     ; Nose twitching rabbit!
     
     move.w	#interrupts_disable, sr
-    move.w  (frame_counter), d7
-    cmp.w   #100, d7
+    move.w  (frame_counter), d6
+    cmp.w   #100, d6
     blt.s   title_nose_twitched
-    move.w  d7, d0
+
+    move.w  d6, d0
     andi.w  #15, d0
     bne.s   title_nose_twitch_up
         move.l  #$FFFFFFFF, d4
@@ -139,7 +154,7 @@ MainLoop_Title:
         bsr.w   SetSingleTile
         bra.s   title_nose_twitched
     title_nose_twitch_up:
-        move.w  d7, d0
+        move.w  d6, d0
         andi.w  #7, d0
         bne.s   title_nose_twitched
             move.l  #$11111111, d4
@@ -153,6 +168,27 @@ MainLoop_Title:
             bsr.w   SetSingleTile
 
     title_nose_twitched:
+
+    ; Fade the "Press Start" in and out
+    cmp.w   #130, d6
+    blt.s   title_press_start_faded
+    moveq   #0, d0
+    move.b  #15, d0
+    moveq   #2, d1
+    move.w  d6, d2
+    andi.w  #31, d2
+    bne.s   title_press_start_off
+        lea     palette_press_start, a0
+        bsr.w   LoadPaletteOffset
+        bra.s   title_press_start_faded
+    title_press_start_off:
+        move.w  d6, d2
+        andi.w  #15, d2
+        bne.s   title_press_start_faded
+            lea     palette_empty, a0
+            bsr.w   LoadPaletteOffset
+    title_press_start_faded:
+
     move.w	#interrupts_enable, sr
 
     EndLoop

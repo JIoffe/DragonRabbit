@@ -1,4 +1,4 @@
-;217 tile(s)
+;225 tile(s)
 Tiles_TitleScreen:
    dc.l $FFFF22FF
    dc.l $FFFFF222
@@ -1736,3 +1736,67 @@ Tiles_TitleScreen:
    dc.l $FFFFFFFF
    dc.l $FFFFFFFF
    dc.l $FFFFFFFF
+   dc.l $75222852
+   dc.l $7561F2F6
+   dc.l $7F677286
+   dc.l $7F6182F2
+   dc.l $7F222856
+   dc.l $756777F6
+   dc.l $7F6777F6
+   dc.l $77777777
+   dc.l $22475222
+   dc.l $75255677
+   dc.l $7F21F677
+   dc.l $2287F222
+   dc.l $76475677
+   dc.l $712FF677
+   dc.l $77F2F222
+   dc.l $77777777
+   dc.l $2F762228
+   dc.l $77865777
+   dc.l $7782F777
+   dc.l $2F742265
+   dc.l $77777166
+   dc.l $77445164
+   dc.l $2FF62261
+   dc.l $77777777
+   dc.l $76222877
+   dc.l $86577777
+   dc.l $82F77777
+   dc.l $74226577
+   dc.l $77716677
+   dc.l $44516477
+   dc.l $F6226177
+   dc.l $77777777
+   dc.l $77622282
+   dc.l $78657777
+   dc.l $782F7777
+   dc.l $77422657
+   dc.l $77771667
+   dc.l $74451647
+   dc.l $7F622617
+   dc.l $77777777
+   dc.l $22226762
+   dc.l $76F77166
+   dc.l $76F77444
+   dc.l $76F77651
+   dc.l $76F75222
+   dc.l $76F74477
+   dc.l $76F76F77
+   dc.l $77777777
+   dc.l $77522247
+   dc.l $F7567525
+   dc.l $47F67F21
+   dc.l $27F22287
+   dc.l $2F567647
+   dc.l $4656712F
+   dc.l $525677F2
+   dc.l $77777777
+   dc.l $22222677
+   dc.l $776F7777
+   dc.l $776F7777
+   dc.l $776F7777
+   dc.l $776F7777
+   dc.l $776F7777
+   dc.l $176F7777
+   dc.l $77777777

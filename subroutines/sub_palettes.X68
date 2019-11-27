@@ -15,6 +15,21 @@ LoadPalettes:
         dbra    d0, load_palette_loop
         rts
 
+* USE: lea of palettes to a0
+* set number of palettes to load to d0
+* set offset to d1
+LoadPaletteOffset:
+    moveq   #0, d7
+    move.b  d1, d7
+    lsl.l   #5, d7
+    swap    d7
+    add.l   #vdp_cram_write, d7
+    move.l  d7, vdp_control
+    load_palette_o_loop:
+        move.w (a0)+, vdp_data
+        dbra    d0, load_palette_o_loop
+        rts
+
 * USE: set d0 to the fade amount of the palette
 *      lea of palette to a0
 FadePalette:

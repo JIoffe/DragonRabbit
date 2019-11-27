@@ -64,6 +64,7 @@ Level_FillFrame:
 ; d2 - Level Height (in tiles)
 ; d3 - Level width (in tiles)
 ; d4 - Level rowskip (d3 * 2);
+; a5 - PLANE TO DRAW TO
 Plane_DrawPattern:
     moveq   #0, d2
     moveq   #0, d3

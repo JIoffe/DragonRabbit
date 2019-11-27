@@ -11,7 +11,7 @@ Palettes_intro_storm:
    dc.w $0E00
    dc.w $0444
    dc.w $0666
-   dc.w $0888
+   dc.w $0000
    dc.w $0AAA
    dc.w $0CCC
    dc.w $0EEE

@@ -33,6 +33,25 @@ Palettes_TitleScreen:
    dc.w $00CE
    dc.w $0666
 
+   palette_press_start:
+   dc.w $0000
+   dc.w $0222
+   dc.w $0EEE
+   dc.w $0666
+   dc.w $0AAA
+   dc.w $0444
+   dc.w $0CCC
+   dc.w $0000
+   dc.w $0888
+   dc.w $04E4
+   dc.w $0CC8
+   dc.w $0A86
+   dc.w $0826
+   dc.w $0E22
+   dc.w $0AEE
+   dc.w $0666
+
+
    ; this is to fade in the rabbit face
    palette_title_rabbit:
    dc.w $0000

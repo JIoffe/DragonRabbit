@@ -136,6 +136,9 @@ NotHandled:
 *===============================
 * Art/Sound/Text Assets
 * ===============================
+    palette_empty:
+    dc.w    $0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0
+
     include './assets/player/baolongtu_sprite.X68'
     include './assets/cutscenes/intro_storm/palette.X68'
     include './assets/cutscenes/intro_storm/stamps.X68'
@@ -147,12 +150,14 @@ NotHandled:
     include './assets/cutscenes/intro_storm/intro_fightB.X68'
     include './assets/cutscenes/intro_storm/intro_slash.X68'
     include './assets/cutscenes/intro_storm/intro_slash_tiles.X68'
+    include './assets/cutscenes/intro_storm/pattern_trees.X68'
 
     include './assets/title-screen/palette.X68'
     include './assets/title-screen/tiles.X68'
     include './assets/title-screen/title-rabbit.X68'
     include './assets/title-screen/title-logo.X68'
     include './assets/title-screen/nose-twitch.X68'
+    include './assets/title-screen/press-start.X68'
 
     ; FOR TEST ROOM
     include './assets/levels/testroom/tiles.X68'

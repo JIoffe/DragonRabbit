@@ -16,7 +16,7 @@ Init_IntroClouds:
 	bsr.w   LoadPalettes
 	
 	lea     Tiles_intro_storm, a0
-	move.l  #17, d0
+	move.l  #177, d0
 	bsr.w   LoadTiles
 	
     ; Fill sky with dark cloud color
@@ -42,18 +42,31 @@ Init_IntroClouds:
         bra.s   init_introclouds_loop
     end_init_introclouds_loop:
 
+    ; Fill Lower half of sky with TREES
+    moveq   #3, d4
+    move.l  #vdp_write_plane_b, a5
+    intro_tree_fill:
+        lea     pattern_intro_trees, a0
+        moveq   #0, d5
+        move.w  d4, d5
+        asl.w   #4, d5
+        add.w   #$0E00, d5
+        swap    d5
+        bsr.w   Plane_DrawPattern
+        dbra    d4, intro_tree_fill
+
 
     ; Load LIGHTNING BOLLTTTTT
 	lea     tiles_lightningA, a0
 	move.l  #123, d0
     moveq   #0,  d1
-    move.b  #17, d1
+    move.b  #177, d1
 	bsr.w   LoadTilesOffset
 
     ; KILLER RABBIT
     lea     tiles_intro_fight, a0
 	move.l  #257, d0
-    move.b  #140, d1
+    move.w  #300, d1
 	bsr.w   LoadTilesOffset
 
     ; For the rest of this state we can just draw patterns to plane A
@@ -91,7 +104,7 @@ MainLoop_Clouds:
     ; Flash once...
     cmp.w   #80, d4
     bne.s   ic_f1
-        move.l  #$09040011, d5
+        move.l  #$090400B1, d5
         bra.w   Bolt_Clouds
     ic_f1:
 
@@ -103,7 +116,7 @@ MainLoop_Clouds:
     ; Maybe lightning strikes twice
     cmp.w   #180, d4
     bne.s   ic_f3
-        move.l  #$080C0011, d5
+        move.l  #$080C00B1, d5
         bra.w   Bolt_Clouds
     ic_f3:
 
@@ -115,17 +128,17 @@ MainLoop_Clouds:
     cmp.w   #270, d4
     bne.s   ic_f5
         SetBG   #lightning_bg
-        move.l  #$03180011, d5
+        move.l  #$031800B1, d5
         lea     intro_lightningA, a0
         bsr.w   Plane_DrawPattern
 
         ; Add the jump attack to the plane
         lea     intro_FightA, a0
-        move.l  #$0207008C, d5
+        move.l  #$0207012C, d5
         bsr.w   Plane_DrawPattern
 
         lea     intro_FightB, a0
-        move.l  #$1200008C, d5
+        move.l  #$1200012C, d5
         bsr.w   Plane_DrawPattern
 
         EndLoop
