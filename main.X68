@@ -132,6 +132,7 @@ NotHandled:
     include './subroutines/sub_stamps.X68'
     include './subroutines/sub_levels.X68'
     include './subroutines/sub_sprites.X68'
+    include './subroutines/sub_collision.X68'
 
 *===============================
 * Art/Sound/Text Assets
@@ -164,6 +165,12 @@ NotHandled:
     include './assets/levels/testroom/palette.X68'
     include './assets/levels/testroom/bg.X68'
     include './assets/levels/testroom/level.X68'
+    include './assets/levels/testroom/enemies.X68'
+
+*=====================================
+* Items / Enemies / Thingamabobs
+*=====================================
+    include './assets/items/item_table.X68'
 RomEnd:
 
 

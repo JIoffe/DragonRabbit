@@ -28,8 +28,7 @@ PushEmbeddedSpriteFrame:
 * d2: camera position
 * d3: temp for writes
 * d4: link
-* d5: Offset in tiles
-* d6: set to sprite state
+* d6: LOWRD - set to sprite state
 * d7: keep track of tile offset
 * a0: set to frame sprites
 * 
@@ -50,17 +49,17 @@ DrawSpriteFrame:
     sub.w   d2, d1
     add.w   #sprite_view_hmin, d1
 
-    move.w  #264, d7
     moveq   #0, d0
     move.w  (a0)+,  d0
 
     btst    #sprite_flip_h, d6
     bne.s   dsf_sprite_loop_flipped                 ; reduce the logic on each iteration
     dsf_sprite_loop:
+        move.w  (a0)+, d3
+        ext.w   d3
         swap    d1
-        move.w  d1, d3
+        add.w  d1, d3
         swap    d1
-        add.w   (a0)+, d3
         move.w  d3, vdp_data                        ; first is y offset
 
         move.w  (a0)+, d3
@@ -74,16 +73,18 @@ DrawSpriteFrame:
 
         move.w  (a0)+, d3
         andi.w  #$00FF,d3
+        ext.w   d3                                  ; extend polarity for negative offsets
         add.w   d1, d3
         move.w  d3, vdp_data                        ; last is x offset
         dbra    d0, dsf_sprite_loop
     rts
 
     dsf_sprite_loop_flipped:
+        move.w  (a0)+, d3
+        ext.w   d3
         swap    d1
-        move.w  d1, d3
+        add.w  d1, d3
         swap    d1
-        add.w   (a0)+, d3
         move.w  d3, vdp_data                        ; first is y offset
 
         move.w  (a0)+, d3
@@ -98,6 +99,7 @@ DrawSpriteFrame:
 
         move.w  (a0)+, d3
         lsr.w   #8, d3
+        ext.w   d3                                  ; extend polarity for negative offsets
         add.w   d1, d3
         move.w  d3, vdp_data                        ; last is x offset
         dbra    d0, dsf_sprite_loop_flipped

@@ -2,8 +2,9 @@
 * Macros for loading specific levels
 *===============================================================================
 GotoTestRoom    macro
-    move.w  #263<<5,  (MEM_player_sprite_start)
-    Goto_Level  TestRoom_level, TESTROOM_tiles, #263, Palettes_TESTROOM
+    move.w  #322<<5,  (MEM_player_tiles_start)
+    move.w  #323, (MEM_player_sprite_index)
+    Goto_Level  TestRoom_level, TESTROOM_tiles, #322, Palettes_TESTROOM
     endm
 
 *===============================================================================

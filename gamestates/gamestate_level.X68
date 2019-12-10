@@ -29,8 +29,9 @@ player_width_tiles      EQU (player_width>>3)
 player_width_tbytes     EQU (player_width_tiles<<1)
 player_side_scan_height EQU player_height_tiles-1             ; Give some wiggle room when scanning for side-to-side collisions
 
-player_sprite_offsetX   EQU $1C             ; How much to offset the player sprite for rendering
-player_s_flip_offsetX   EQU $0F             ; How much to offset the player sprite for rendering
+player_attack_width     EQU $2A
+player_attack_height    EQU player_height
+player_attack_bboffset  EQU (player_height<<16)|player_attack_width
 
 player_x_speed          EQU $02
 
@@ -85,6 +86,16 @@ Init_Level:
     move.l  (a1)+, a6
     move.l  (a6),  d0
     move.l  d0, (MEM_player_pos)
+
+    ; second long is the address of where items are held
+    move.l  (a1)+, a6
+    move.w  (a6)+, d0
+    move.w  d0, (MEM_LEVELITEM_COUNT)
+    move.l  #MEM_LEVELITEMS, a4
+    lvl_copy_items_to_ram:
+        move.w  (a6)+, (a4)+
+        move.l  (a6)+, (a4)+
+        dbra    d0, lvl_copy_items_to_ram
 
 
     ; Move camera to upper left of camera box
@@ -397,6 +408,9 @@ MainLoop_Level:
     *----------------------------------------------------------------------------------
     move.b  (MEM_player_attack_frames), d5
     addq    #1, d5
+    bvc.b   attack_frames_added                 ; clip so we don't see weird oddities on 0
+    move.b  #$FF, d5
+    attack_frames_added:
 
     cmp.b   #player_combo_time, d5
     blt.s   lvl_player_combo_reset
@@ -405,9 +419,23 @@ MainLoop_Level:
         bclr    #player_attack_3, d6
     lvl_player_combo_reset:
 
+    move.b  #0, (MEM_player_att_strength)                       ; clear the attack strength on each frame
+
     move.b	(MEM_buttons_pressed), d0
     andi.b  #control_attack, d0
-    beq.s   lvl_player_attack_checked
+    beq.w   lvl_player_attack_checked
+        move.b  #1, (MEM_player_att_strength)                   ; to make it easier for now, all attacks will have 1 strength
+
+        ; adjust the hitbox for player attack
+        move.l  d1, d3
+        btst    #sprite_flip_h, d6
+        beq.s   lvl_player_att_hitbox_adjusted
+            subi.w  #player_attack_width, d3
+        lvl_player_att_hitbox_adjusted:
+        move.l  d3, (MEM_playerattack_min)
+        addi.l  #player_attack_bboffset, d3
+        move.l  d3, (MEM_playerattack_max)
+
         ; in combo range, see  which round we're ready for
         btst    #player_attack_3, d6
         beq.s   player_combo2
@@ -585,22 +613,59 @@ MainLoop_Level:
     lvl_player_animation_selected:
 
     moveq   #0,  d5
-    move.w  (MEM_player_sprite_start), d5
+    move.w  (MEM_player_tiles_start), d5
     bsr.w   PushEmbeddedSpriteFrame
 
-    ; Offset player sprite to center character
-    btst    #sprite_flip_h, d6
-    bne.s   player_sprite_adjust_r
-    sub.w   #player_sprite_offsetX, d1
-    bra.s   player_sprite_adjusted
-    player_sprite_adjust_r:
-    sub.w   #player_s_flip_offsetX, d1
-    player_sprite_adjusted:
-
     move.l  #vdp_vram_sprite, vdp_control
+    move.w  (MEM_player_sprite_index), d7
     bsr.w   DrawSpriteFrame
 
-    ; Cap off with a blank sprite (lazy but works I hope)
+    moveq   #0, d5
+    move.w  (MEM_LEVELITEM_COUNT), d5
+    lea     MEM_LEVELITEMS, a4
+    lea     lvl_item_update_done, a5            ; jmp back here after calling item subroutine
+
+    lvl_pvitem_update:
+        lea     Game_ItemTable, a3
+        moveq   #0, d3
+        move.b  (a4)+, d3
+        add.w   d3, d3
+        add.w   d3, d3
+
+        move.l	(a3,d3.w), a3        
+        jmp     (a3)
+
+        lvl_item_update_done:
+        dbra    d5, lvl_pvitem_update
+
+
+    **********************************************
+    * DEBUG
+    * SHOW A POSITION
+    **********************************************
+    * move.l  (MEM_playerattack_min), d1
+    * swap    d1
+    * swap    d2
+    * sub.w   d2, d1
+    * add.w   #sprite_view_vmin, d1
+    * move.w  d1, vdp_data
+
+    * move.w  d4, vdp_data
+    * move.w  #3, vdp_data
+    
+    * swap    d1
+    * swap    d2
+    * sub.w   d2, d1
+    * add.w   #sprite_view_hmin, d1
+    * move.w  d1, vdp_data
+
+
+    ******************************************************
+    * END DEBUG 
+    ******************************************************
+
+
+    ; Cap off with a blank sprite (worst case this limits our sprites to 79 *gasp*)
     move.l  #0, vdp_data
     move.l  #0, vdp_data
 
