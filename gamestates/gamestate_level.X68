@@ -627,29 +627,9 @@ MainLoop_Level:
     move.w  (MEM_player_sprite_index), d7
     bsr.w   DrawSpriteFrame
 
-
     ***************************************************
-    * ITEMS in level,  like enemies and collectibles
+    * EFFECTS - blood, sparkles
     ***************************************************
-    moveq   #0, d5
-    move.w  (MEM_LEVELITEM_COUNT), d5
-    lea     MEM_LEVELITEMS, a4
-    lea     lvl_item_update_done, a5            ; jmp back here after calling item subroutine
-
-    lvl_pvitem_update:
-        lea     Game_ItemTable, a3
-        moveq   #0, d3
-        move.b  (a4)+, d3
-        add.w   d3, d3
-        add.w   d3, d3
-
-        movea.l	(a3,d3.w), a3        
-        jmp     (a3)
-
-        lvl_item_update_done:
-        dbra    d5, lvl_pvitem_update
-
-    ; Work on effects like blood and sparkles (sounds like a band name!)
     ; Assume effects are created by things happening on-screen and are always visible
     ; that is why we only allocate 16 of them.
     moveq   #0, d5
@@ -689,6 +669,27 @@ MainLoop_Level:
             dbra    d5, lvl_effects_update
 
     lvl_effects_done:
+
+    ***************************************************
+    * ITEMS in level,  like enemies and collectibles
+    ***************************************************
+    moveq   #0, d5
+    move.w  (MEM_LEVELITEM_COUNT), d5
+    lea     MEM_LEVELITEMS, a4
+    lea     lvl_item_update_done, a5            ; jmp back here after calling item subroutine
+
+    lvl_pvitem_update:
+        lea     Game_ItemTable, a3
+        moveq   #0, d3
+        move.b  (a4)+, d3
+        add.w   d3, d3
+        add.w   d3, d3
+
+        movea.l	(a3,d3.w), a3        
+        jmp     (a3)
+
+        lvl_item_update_done:
+        dbra    d5, lvl_pvitem_update
 
 
     **********************************************
