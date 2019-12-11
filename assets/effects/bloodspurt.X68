@@ -5,11 +5,6 @@ bloodspurt_effect:
     move.b  (a4)+, d6
     move.l  (a4)+, d1
 
-    tst.b   d6
-    beq.s   end_bloodspurt
-
-    
-
     lea     bloodspurt4, a0
     moveq   #0, d7
     move.b  d6, d7
@@ -23,7 +18,6 @@ bloodspurt_effect:
     addq    #1, d7
     jsr     DrawSprite
 
-    end_bloodspurt:
     move.l  (SP)+, a0
     move.b  d6, (a0)                        ; save state updates
     jmp (a5)

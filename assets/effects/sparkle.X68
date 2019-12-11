@@ -5,9 +5,6 @@ sparkle_effect:
     move.b  (a4)+, d6
     move.l  (a4)+, d1
 
-    tst.b   d6
-    beq.s   end_sparkle
-
     lea     sparkle1, a0
     move.b  d6, d3
     subq    #1, d6
@@ -25,7 +22,6 @@ sparkle_effect:
     addq    #1, d7
     jsr     DrawSprite
 
-    end_sparkle:
     move.l  (SP)+, a0
     move.b  d6, (a0)                        ; save state updates
     jmp (a5)
