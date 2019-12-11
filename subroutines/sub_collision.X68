@@ -5,8 +5,7 @@
 ; d1 - min point of box to check agianst player attack box
 ; d2 - max point of box to check against player attack box
 ; d3 - holds the damage, which may be 0
-; d4 - working value for position to test
-; d6, d7 - used for comparing positions
+; d7 - used for comparing positions
 **************************************************
 RecievePlayerAttack:                                                ; (abbreviated as rpa for labels)
     move.b  (MEM_player_att_strength), d3
@@ -16,34 +15,22 @@ RecievePlayerAttack:                                                ; (abbreviat
     rpa_checkbounds:
     moveq   #0, d3
 
-    move.b  d6, -(SP)
-    move.l  (MEM_playerattack_min), d6
     move.l  (MEM_playerattack_max), d7
+    sub.l   d1, d7
+    bmi.s   rpa_collision_done
+    tst.w   d7
+    bmi.s   rpa_collision_done
 
-    cmp.w   d6, d2
-    blt.s   rpa_collision_done
-
-    cmp.w   d7, d1
-    bgt.s   rpa_collision_done
-
-    ; X is alright, check Y
-    move.l  d1, d4
-    swap    d4
-    swap    d2
-    swap    d6
-    swap    d7
-
-    cmp.w   d6, d2
-    blt.s   rpa_collision_done
-
-    cmp.w   d7, d4
-    bgt.s   rpa_collision_done
+    move.l  (MEM_playerattack_min), d7
+    sub.l   d2, d7
+    bpl.s   rpa_collision_done
+    tst.w   d7
+    bpl.s   rpa_collision_done
 
     ; return damage
     move.b  (MEM_player_att_strength), d3
 
     rpa_collision_done:
-    move.b  (SP)+, d6
     jmp (a2)
 
 **************************************************
@@ -58,25 +45,20 @@ RecievePlayerAttack:                                                ; (abbreviat
 CollideAgainstPlayer: 
     moveq   #0, d7
 
+    ; test against max bound of player first to be consistent with other subroutines
+
     move.l  (MEM_player_pos), d3
     move.l  d3, d4
     addi.l  #player_bb_offset, d4
+    sub.l   d1, d4
+    bmi.s   cap_collision_done
+    tst.w   d4
+    bmi.s   cap_collision_done
 
-    cmp.w   d3, d2
-    blt.s   cap_collision_done
-    cmp.w   d4, d1
-    bgt.s   cap_collision_done
-
-    ; X is alright, check Y
-    swap    d1
-    swap    d2
-    swap    d3
-    swap    d4
-
-    cmp.w   d3, d2
-    blt.s   cap_collision_done
-    cmp.w   d4, d4
-    bgt.s   cap_collision_done
+    sub.l   d2, d3
+    bpl.s   cap_collision_done
+    tst.w   d3
+    bpl.s   cap_collision_done
 
     ;return true
     moveq   #1, d7
