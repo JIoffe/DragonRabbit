@@ -30,6 +30,8 @@ GemsH_Update:
 
             tst.b   d7
             beq.s   gemh_uncollected
+                swap    d1
+                AddSparkle
                 bclr    d0, d6
 
             gemh_uncollected:
