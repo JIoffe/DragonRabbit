@@ -8,6 +8,9 @@ AddBloodSpurt macro
     move.w  (SP)+, d7
     endm
 
+* -----------------------------------------------
+* Adds a few bursts of blood around a point
+* -----------------------------------------------
 AddDeathBloodBurst macro
     move.w  d7, -(SP)
     move.l  d1, -(SP)

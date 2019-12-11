@@ -46,7 +46,43 @@ RecievePlayerAttack:                                                ; (abbreviat
     move.b  (SP)+, d6
     jmp (a2)
 
+**************************************************
+* Tests if bounding box intersects current player bounding box
+; Check that maximum overlaps minimum
+; a2 - point to return to
+; d1 - min point of box to check agianst player box
+; d2 - max point of box to check against player box
+; d3 - d4 holds player's bounding box in this subroutine
+; d7 will hold the result
+**************************************************
+CollideAgainstPlayer: 
+    moveq   #0, d7
 
+    move.l  (MEM_player_pos), d3
+    move.l  d3, d4
+    addi.l  #player_bb_offset, d4
+
+    cmp.w   d3, d2
+    blt.s   cap_collision_done
+    cmp.w   d4, d1
+    bgt.s   cap_collision_done
+
+    ; X is alright, check Y
+    swap    d1
+    swap    d2
+    swap    d3
+    swap    d4
+
+    cmp.w   d3, d2
+    blt.s   cap_collision_done
+    cmp.w   d4, d4
+    bgt.s   cap_collision_done
+
+    ;return true
+    moveq   #1, d7
+
+    cap_collision_done:
+    jmp (a2)
 *     **************************************************
 * * Tests if given point is in range of player attack
 * ; a2 - point to return to

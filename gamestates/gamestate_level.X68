@@ -28,6 +28,7 @@ player_width            EQU $18
 player_width_tiles      EQU (player_width>>3)
 player_width_tbytes     EQU (player_width_tiles<<1)
 player_side_scan_height EQU player_height_tiles-1             ; Give some wiggle room when scanning for side-to-side collisions
+player_bb_offset        EQU (player_height<<16)|player_width
 
 player_attack_width     EQU $2A
 player_attack_height    EQU player_height
