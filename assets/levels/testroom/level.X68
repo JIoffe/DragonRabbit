@@ -24581,7 +24581,7 @@ TestRoom_level:
 TestRoom_level_playerstart:
    dc.l $02480088   
 TestRoom_level_items:
-   dc.w $0003   
+   dc.w $0004   
 * Item: MogurenEnemy
    dc.w $0206               ; type/state TTSS
    dc.l $02A0010A           ; position YYXX
@@ -24594,3 +24594,6 @@ TestRoom_level_items:
 * Item: GemHorizontal
    dc.w $00F0               ; type/state TTSS
    dc.l $024101F1           ; position YYXX
+* Item: MogurenEnemy
+   dc.w $0206               ; type/state TTSS
+   dc.l $01400228           ; position YYXX
