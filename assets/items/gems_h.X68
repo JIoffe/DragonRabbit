@@ -4,6 +4,8 @@ gem_spacing_h               EQU     $14
 gem_spacing_v               EQU     $10
 gem_bb_offset               EQU     (gem_height<<16)|gem_width
 
+gemh_bb_offset              EQU     (gem_height<<16)|(gem_spacing_h<<3)
+
 GemsH_Update:
     move.l  a4, -(SP)
     move.b  (a4)+, d6
@@ -11,6 +13,8 @@ GemsH_Update:
 
     tst.b   d6
     beq.s   gemsh_done
+
+    CancelOutOfView     gemsh_done, d2, d3, #gemh_bb_offset, d1
 
     moveq   #7, d0
     lea     gemh_collision_test, a2

@@ -408,3 +408,33 @@ StreamLevelForCamera    macro
     StreamLevelColumns
     StreamLevelRows
     endm
+
+***********************************
+* Jumps to a failure case if a box is not in view of the camera
+* \1 - failure label
+* \2 - Camera Position
+* \3 - Box Start
+* \4 - Box Size
+* \5 - Register for temp
+CancelOutOfView     macro
+    ; check if upper left corner is beyond the bottom right edge of the screen
+    move.l  \2, \5
+    addi.l  #vdp_screen_max, \5
+    sub.l   \3, \5
+    bmi.s   checkfailed\@
+    tst.w   \5
+    bmi.s   checkfailed\@
+
+    ; check if lower right corner is beyond the top left edge of the screen
+    move.l  \2, \5
+    sub.l   \3, \5
+    subi.l  \4, \5
+    bpl.s   checkfailed\@
+    tst.w   \5
+    bpl.s   checkfailed\@
+
+    bra.s   checkpassed\@
+checkfailed\@
+    bra.w   \1
+checkpassed\@
+    endm

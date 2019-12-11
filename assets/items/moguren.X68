@@ -14,6 +14,8 @@ Moguren_Update:
     andi.b  #6, d3          ; mask out health
     beq.w   mogu_done
 
+    CancelOutOfView     mogu_done, d2, d1, #mogu_bb_offset, d3
+
     move.l  d2, -(SP)
     move.l  d1, d2
     addi.l  #mogu_bb_offset, d2

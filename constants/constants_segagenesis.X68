@@ -82,6 +82,7 @@ vdp_vsram_write         EQU $14000000
 * VDP Screen width and height (in pixels)
 vdp_screen_width        EQU $0140
 vdp_screen_height       EQU $00F0
+vdp_screen_max          EQU (vdp_screen_height<<16)|vdp_screen_width
 
 vdp_visible_tile_width  EQU $28             ; Depends on VDP Mode Register 4
 vdp_plane_vis_byte_w    EQU vdp_visible_tile_width<<1
