@@ -105,3 +105,36 @@ DrawSpriteFrame:
         dbra    d0, dsf_sprite_loop_flipped
 
     rts
+
+* Prepares a single sprite (up to 4x4) for VDP
+* USE:
+* d1: sprite position (in world)
+* d2: camera position
+* d3: temp for writes
+* d4: link
+* d6: LOWRD - set to sprite state
+* d7: keep track of tile offset
+* a0: set to frame sprites
+* 
+DrawSprite:
+    swap    d1
+    swap    d2
+    sub.w   d2, d1
+    add.w   #sprite_view_vmin, d1
+    move.w  d1, vdp_data                        ; first is y offset
+
+    move.w  (a0)+, d3
+    add.w   d4, d3
+    addq    #1, d4
+    move.w  d3, vdp_data                        ; second is size and link
+
+    move.w  d7, d3
+    add.w   (a0)+, d3
+    move.w  d3, vdp_data                        ; third is tile ID + priority/h flip/v flip
+
+    swap    d1
+    swap    d2
+    sub.w   d2, d1
+    add.w   #sprite_view_hmin, d1
+    move.w  d1, vdp_data                        ; last is x offset
+    rts

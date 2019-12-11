@@ -23,12 +23,12 @@ RomStart:
 *==================================
 * Flags
 *==================================
-vblank_on_flag          EQU $0001
+vblank_on_flag                  EQU $0001
 
 *==================================
-* Game Constants
+* Important constants
 *==================================
-player_speed            EQU $02
+player_tile_allocation          EQU $40
 
 *-----------------------------------------------------------
 * CPU VECTORS
@@ -68,6 +68,7 @@ player_speed            EQU $02
     include './macros/macros_level.X68'
     include './macros/macros_camera.X68'
     include './macros/macros_sprites.X68'
+    include './macros/macros_effects.X68'
 
 Main:
     include './init/init_validatetmss.X68'
@@ -133,6 +134,7 @@ NotHandled:
     include './subroutines/sub_levels.X68'
     include './subroutines/sub_sprites.X68'
     include './subroutines/sub_collision.X68'
+    include './subroutines/sub_effects.X68'
 
 *===============================
 * Art/Sound/Text Assets
@@ -160,6 +162,9 @@ NotHandled:
     include './assets/title-screen/nose-twitch.X68'
     include './assets/title-screen/press-start.X68'
 
+    include './assets/levels/core-tiles.X68'
+    include './assets/levels/core-sprites.X68'
+    
     ; FOR TEST ROOM
     include './assets/levels/testroom/tiles.X68'
     include './assets/levels/testroom/palette.X68'
@@ -171,6 +176,7 @@ NotHandled:
 * Items / Enemies / Thingamabobs
 *=====================================
     include './assets/items/item_table.X68'
+    include './assets/effects/effects_table.X68'
 RomEnd:
 
 

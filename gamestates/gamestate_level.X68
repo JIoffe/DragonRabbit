@@ -65,6 +65,13 @@ Init_Level:
     move.w  d1, d0
     bsr.w   LoadTiles
 
+    moveq   #0, d0
+    
+    lea     CoreGameTiles, a0
+	move.l  #76, d0
+    move.w  (MEM_UI_sprite_start), d1
+	bsr.w   LoadTilesOffset
+
     move.l  a3, a0
     moveq   #3, d0
 	bsr.w   LoadPalettes
@@ -620,6 +627,10 @@ MainLoop_Level:
     move.w  (MEM_player_sprite_index), d7
     bsr.w   DrawSpriteFrame
 
+
+    ***************************************************
+    * ITEMS in level,  like enemies and collectibles
+    ***************************************************
     moveq   #0, d5
     move.w  (MEM_LEVELITEM_COUNT), d5
     lea     MEM_LEVELITEMS, a4
@@ -632,11 +643,52 @@ MainLoop_Level:
         add.w   d3, d3
         add.w   d3, d3
 
-        move.l	(a3,d3.w), a3        
+        movea.l	(a3,d3.w), a3        
         jmp     (a3)
 
         lvl_item_update_done:
         dbra    d5, lvl_pvitem_update
+
+    ; Work on effects like blood and sparkles (sounds like a band name!)
+    ; Assume effects are created by things happening on-screen and are always visible
+    ; that is why we only allocate 16 of them.
+    moveq   #0, d5
+    move.w  (MEM_effects_count), d5
+    beq.s   lvl_effects_done
+        subq    #1, d5
+        move.w  #0, (MEM_effects_count)         ; we will rebuild this later 
+
+        lea     MEM_effects, a4
+        movea.l a4, a2                      ; save a reference going backwards so we can rebuild with survivors
+
+        lea     lvl_effect_update_done, a5
+
+        lvl_effects_update:
+            move.l  a4, -(SP)                  ; save a reference to the start of this object in case we're keeping it
+
+            lea     Game_EffectTable, a3
+            moveq   #0, d3
+            move.b  (a4)+, d3
+            add.w   d3, d3
+            add.w   d3, d3
+
+            movea.l	(a3,d3.w), a3        
+            jmp     (a3)
+
+            lvl_effect_update_done:
+
+            ; d6 will hold the state of the effect. If it is 0, it is time to remove
+            move.l  (SP)+, a0
+            tst.b   d6
+            beq.s   lvl_fx_skip
+                move.w  (a0)+, (a2)+
+                move.l  (a0)+, (a2)+
+                addi.w  #1, (MEM_effects_count)
+            lvl_fx_skip:
+
+            dbra    d5, lvl_effects_update
+
+    lvl_effects_done:
 
 
     **********************************************
