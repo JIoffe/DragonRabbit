@@ -419,22 +419,17 @@ StreamLevelForCamera    macro
 CancelOutOfView     macro
     ; check if upper left corner is beyond the bottom right edge of the screen
     move.l  \2, \5
-    addi.l  #vdp_screen_max, \5
+    addi.l  #vdp_screen_max, \5     ; Hi-word screen height, lo-word screen width
     sub.l   \3, \5
-    bmi.s   checkfailed\@
+    bmi.w   \1                      ; Not in view
     tst.w   \5
-    bmi.s   checkfailed\@
+    bmi.w   \1                      ; Not in view
 
     ; check if lower right corner is beyond the top left edge of the screen
     move.l  \2, \5
     sub.l   \3, \5
     subi.l  \4, \5
-    bpl.s   checkfailed\@
+    bpl.w   \1                      ; Not in view
     tst.w   \5
-    bpl.s   checkfailed\@
-
-    bra.s   checkpassed\@
-checkfailed\@
-    bra.w   \1
-checkpassed\@
+    bpl.w   \1                      ; Not in view
     endm
