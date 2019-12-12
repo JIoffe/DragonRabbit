@@ -611,7 +611,7 @@ MainLoop_Level:
     test_attack_duration:
     move.b  (MEM_player_attack_frames), d0
     cmp.b   #player_attack_duration, d0
-    bge.s   lvl_player_idle
+    bge.s   lvl_player_notattacking
         ; choose player attack frame
         btst    #player_attack_3, d6
         beq.s   select_attack_2
@@ -626,12 +626,30 @@ MainLoop_Level:
 
         select_attack_1:
         btst    #player_attack_1, d6
-        beq.s   lvl_player_idle
+        beq.s   lvl_player_notattacking
             lea     BaoLongTu_sprite_Attack10, a0
             bra.s   lvl_player_animation_selected
 
+    lvl_player_notattacking:
+        btst    #sprite_jumping, d6
+        beq.s   lvl_player_not_jumping
+            lea     BaoLongTu_sprite_Jumping0, a0
+            bra.s   lvl_player_animation_selected
+        lvl_player_not_jumping:
+        btst    #player_walking, d6
+        beq.s   lvl_player_idle
+            ; select walking frame - 2 frames for now
+            move.w  (frame_counter), d5
+            andi.w  #15, d5
+            cmp.w   #8, d5
+            blt.s   player_walk_frame1          
+                lea     BaoLongTu_sprite_Walking0, a0
+                bra.s   lvl_player_animation_selected
+            player_walk_frame1:
+                lea     BaoLongTu_sprite_Walking1, a0
+                bra.s   lvl_player_animation_selected
     lvl_player_idle:
-    lea     BaoLongTu_sprite_Idle0, a0
+        lea     BaoLongTu_sprite_Idle0, a0
     lvl_player_animation_selected:
 
     moveq   #0,  d5
