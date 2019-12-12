@@ -177,6 +177,9 @@ NotHandled:
 *=====================================
     include './assets/items/item_table.X68'
     include './assets/effects/effects_table.X68'
+
+    NoOpTrap:
+        jmp     MainLoop
 RomEnd:
 
 
