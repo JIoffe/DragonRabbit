@@ -3,7 +3,10 @@ moguren_recoil_frames       EQU     $18
 
 moguren_width               EQU     $20
 moguren_height              EQU     $1F
+mogu_collision_offset       EQU     moguren_height-2
 mogu_bb_offset              EQU     (moguren_height<<16)|moguren_width
+
+mogu_speed                  EQU     $01
 
 Moguren_Update:
     move.l  a4, -(SP)
@@ -44,9 +47,61 @@ Moguren_Update:
     beq.s   mogu_walking_anim
         subq    #1, d7
         lea     Moguren_Hurt0, a0 
-        bra.s   mogu_anim_chosen
+        bra.s   mogu_anim_chosen                    ; Mushroom also is "stunnen" by attack and will not move, skip over that logic
     
     mogu_walking_anim:
+        ***********************************************************
+        * Move until we bump into a wall or edge
+        * (the mushroom naturally faces left, so "flip" means moving right)
+        ***********************************************************
+        move.l  d1, d3
+        btst    #sprite_flip_h, d6
+        beq.s   mogu_move_left
+            addi.w  #mogu_speed, d1
+            addi.w  #moguren_width, d3
+            bra.s   mogu_moved  
+        mogu_move_left:
+            subi.w  #mogu_speed, d1
+            subq    #1, d3
+        mogu_moved:
+
+        **********************************
+        * Bump against the edges
+        **********************************
+        movea.l a1, a0
+        moveq   #0, d2
+        addq    #2, a0
+        move.w  (a0)+, d2
+        move.w  d2, -(SP)           ; push level width to stack
+        swap    d3
+        addi.w  #mogu_collision_offset, d3
+        lsr.w   #3, d3
+        mulu.w  d3, d2
+        swap    d3
+        lsr.w   #3, d3
+        add.w   d3, d2
+        add.w   d2, d2
+        add.l   d2, a0
+        move.w  (SP)+, d2           ; restore width
+
+        tst.w   (a0)
+        bne.s   mogu_bumped
+        ; check under feet
+        add.w   d2, d2
+        add.w   d2, d2
+        add.l   d2, a0
+        tst.w   (a0)
+        beq.s   mogu_bumped
+        bra.s   mogu_bump_skip
+            mogu_bumped:
+            bchg    #sprite_flip_h, d6
+        mogu_bump_skip:
+
+
+        movea.l a4, a0
+        subq    #4, a0
+        move.l  d1, (a0)                          ; Update position in RAM
+
         ; Only two frames...
         move.w  (frame_counter), d3
         add.w   a4, d3                      ; mix it up a little bit to make them look more random

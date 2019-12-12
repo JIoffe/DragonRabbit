@@ -16,6 +16,8 @@ player_attack_2         EQU $04
 player_attack_3         EQU $05
 player_attack_4         EQU $06
 
+player_walking          EQU $07
+
 player_attack_duration  EQU $08
 player_combo_time       EQU $20
 
@@ -206,6 +208,18 @@ MainLoop_Level:
             SetFlipH    (MEM_player_state), d2
             subi.w  #player_x_speed, d6
     lvl_lr_checked:
+
+    ; If player's trying to move, set the walking flag
+    move.b  (MEM_player_state), d5
+    cmp.w   d1, d6
+    beq.s   lvl_not_walking
+        bset    #player_walking, d5
+        bra.s   lvl_walkingflag_set
+    lvl_not_walking:
+        bclr    #player_walking, d5
+    lvl_walkingflag_set:
+    move.b  d5, (MEM_player_state)
+
 
     *******************************************************************
     * Player collision against level (horizontal)
@@ -598,23 +612,23 @@ MainLoop_Level:
     move.b  (MEM_player_attack_frames), d0
     cmp.b   #player_attack_duration, d0
     bge.s   lvl_player_idle
+        ; choose player attack frame
+        btst    #player_attack_3, d6
+        beq.s   select_attack_2
+            lea     BaoLongTu_sprite_Attack30, a0
+            bra.s   lvl_player_animation_selected
 
-    btst    #player_attack_3, d6
-    beq.s   select_attack_2
-        lea     BaoLongTu_sprite_Attack30, a0
-        bra.s   lvl_player_animation_selected
+        select_attack_2:
+        btst    #player_attack_2, d6
+        beq.s   select_attack_1
+            lea     BaoLongTu_sprite_Attack20, a0
+            bra.s   lvl_player_animation_selected
 
-    select_attack_2:
-    btst    #player_attack_2, d6
-    beq.s   select_attack_1
-        lea     BaoLongTu_sprite_Attack20, a0
-        bra.s   lvl_player_animation_selected
-
-    select_attack_1:
-    btst    #player_attack_1, d6
-    beq.s   lvl_player_idle
-        lea     BaoLongTu_sprite_Attack10, a0
-        bra.s   lvl_player_animation_selected
+        select_attack_1:
+        btst    #player_attack_1, d6
+        beq.s   lvl_player_idle
+            lea     BaoLongTu_sprite_Attack10, a0
+            bra.s   lvl_player_animation_selected
 
     lvl_player_idle:
     lea     BaoLongTu_sprite_Idle0, a0
