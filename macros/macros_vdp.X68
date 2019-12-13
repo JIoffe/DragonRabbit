@@ -18,9 +18,9 @@ loop\@
 *---------------------------------------
 ClearVram macro
     move.l  #vdp_vram_write, vdp_control
-    move.w  #$7fff,d0
+    move.w  #$7fff, d0
 loop\@
-    move.w  #$0000, vdp_data
+    move.w  #0, vdp_data
     dbra    d0, loop\@
     endm
 

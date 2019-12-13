@@ -55,7 +55,7 @@ Init_Title:
 
         dbra    d0, title_border_fill
 
-    move.w  #$0000, (MEM_fade)
+    move.b  #$0000, (MEM_fade)
     ; From here, draw to plane b
     move.l  #vdp_write_plane_b, a5
     move.w	#interrupts_enable, sr
@@ -78,7 +78,7 @@ MainLoop_Title:
     bne.s   title_fade_done
 
     moveq   #0, d7
-    move.w  (MEM_fade), d7
+    move.b  (MEM_fade), d7
     cmp.b   #$06, d7
     bge.s   title_fade_done
 
@@ -92,7 +92,7 @@ MainLoop_Title:
 	bsr.w   LoadPalettes
 
     addi.b  #$01, d7
-    move.w  d7, (MEM_fade)
+    move.b  d7, (MEM_fade)
     title_fade_done:
 
     cmp.w   #title_scrolldelay, d1

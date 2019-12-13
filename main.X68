@@ -61,6 +61,7 @@ player_tile_allocation          EQU $40
 *================================================
 * Macros
 *================================================
+    include './macros/macros_math.X68'
     include './macros/macros_input.X68'
     include './macros/macros_vdp.X68'
     include './macros/macros_scrolling.X68'

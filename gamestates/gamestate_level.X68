@@ -54,11 +54,16 @@ camera_zone_hmax        EQU (vdp_screen_width>>1)+(camera_zone_width>>1)-(player
 camera_zone_vmin        EQU (vdp_screen_height>>1)-(camera_zone_height>>1)-(player_height>>1)
 camera_zone_vmax        EQU (vdp_screen_height>>1)+(camera_zone_height>>1)-player_height
 
+lvl_fadein_interval     EQU $03
+
 ; a1 always pointed to the start of the level we're working with
 Init_Level:
     move.w	#interrupts_disable, sr
     move.w  #0, (frame_counter)
     ClearVram
+    bsr.w   ClearCRAM
+
+    move.b  #$0E, (MEM_fade)              ; Start at full fade and then fade in
 
     * - a1 level
     * - a2 tileset
@@ -75,9 +80,7 @@ Init_Level:
     move.w  (MEM_UI_sprite_start), d1
 	bsr.w   LoadTilesOffset
 
-    move.l  a3, a0
-    moveq   #3, d0
-	bsr.w   LoadPalettes
+    move.l  a3, (MEM_palette)
 
     ; Setup background - this will vary by level somehow
     moveq   #3, d4
@@ -178,6 +181,30 @@ Init_Level:
     ; We're off to the races!
     move.w	#interrupts_enable, sr
     rts
+
+Fadein_Level:
+    move.w	#interrupts_disable, sr                                     ; Disable interrupts
+    move.w  (frame_counter), d5
+    moveq   #0, d1
+    move.b  (MEM_fade), d1
+
+    andi.w  #lvl_fadein_interval, d5
+    bne.s   lvl_fadein_advance
+        subi.b  #2, d1
+        move.b  d1, (MEM_fade)
+    lvl_fadein_advance:
+
+    move.l  (MEM_palette), a0
+    moveq   #3, d0
+	bsr.w   FadePalettes
+
+    tst.b   d1
+    bne.s   lvl_continuefadein
+        lea     MainLoop_Level, a6                              ; fade-in complete, just go through the usual level logic
+        move.l  (MEM_palette), a0
+        moveq   #3, d0
+        bsr.w   LoadPalettes                                    ; make sure the palette is actually correct
+    lvl_continuefadein:
 MainLoop_Level:
     move.w	#interrupts_disable, sr                                     ; Disable interrupts
 

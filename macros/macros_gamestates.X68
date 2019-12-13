@@ -29,7 +29,7 @@ Goto_Level macro
     move.w  \3, d1
     lea     \4, a3
     jsr     Init_Level
-    lea     MainLoop_Level, a6
+    lea     Fadein_Level, a6
     move.b  #gamestate_level, (MEM_gamestate)   
     endm
 
