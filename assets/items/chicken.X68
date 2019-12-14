@@ -34,6 +34,14 @@ Chicken_Update:
         move.b  d6, d3
         andi.b  #6, d3
         AddBloodburstIfDead
+
+        ; Losing all his feathers!
+        move.l  d1, d3
+        addi.l  #$FFE30000, d1
+        AddFeathers
+        
+        move.l  d3, d1
+
         move.b  #chicken_recoil_frames, d7
     chicken_damage_skip:
 
@@ -71,13 +79,7 @@ Chicken_Update:
         ; Only two frames...
         move.w  (frame_counter), d3
         add.w   a4, d3                      ; mix it up a little bit to make them look more random
-        andi.w  #15, d3
-        cmp.b   #8, d3
-        bge.s   chicken_frame_b
-        lea     Chicken_Walking0, a0
-        bra.s   chicken_anim_chosen
-        chicken_frame_b:
-        lea     Chicken_Walking1, a0
+        ToggleFrames    #16, Chicken_Walking0, Chicken_Walking1, d3
     chicken_anim_chosen:
 
     asl.b   #3, d7

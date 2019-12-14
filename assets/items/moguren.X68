@@ -77,13 +77,7 @@ Moguren_Update:
         ; Only two frames...
         move.w  (frame_counter), d3
         add.w   a4, d3                      ; mix it up a little bit to make them look more random
-        andi.w  #31, d3
-        cmp.b   #16, d3
-        bge.s   mogu_frame_b
-        lea     Moguren_Walking0, a0
-        bra.s   mogu_anim_chosen
-        mogu_frame_b:
-        lea     Moguren_Walking1, a0
+        ToggleFrames    #32, Moguren_Walking0, Moguren_Walking1, d3
     mogu_anim_chosen:
 
     asl.b   #3, d7

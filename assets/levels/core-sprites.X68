@@ -26,3 +26,6 @@ sparkle2:
    dc.w $0500
    dc.w $0048
 
+ChickenFeathers:
+   dc.b $05
+   dc.w $019E
