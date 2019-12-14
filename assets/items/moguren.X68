@@ -68,35 +68,7 @@ Moguren_Update:
         **********************************
         * Bump against the edges
         **********************************
-        movea.l a1, a0
-        moveq   #0, d2
-        addq    #2, a0
-        move.w  (a0)+, d2
-        move.w  d2, -(SP)           ; push level width to stack
-        swap    d3
-        addi.w  #mogu_collision_offset, d3
-        lsr.w   #3, d3
-        mulu.w  d3, d2
-        swap    d3
-        lsr.w   #3, d3
-        add.w   d3, d2
-        add.w   d2, d2
-        add.l   d2, a0
-        move.w  (SP)+, d2           ; restore width
-
-        tst.w   (a0)
-        bne.s   mogu_bumped
-        ; check under feet
-        add.w   d2, d2
-        add.w   d2, d2
-        add.l   d2, a0
-        tst.w   (a0)
-        beq.s   mogu_bumped
-        bra.s   mogu_bump_skip
-            mogu_bumped:
-            bchg    #sprite_flip_h, d6
-        mogu_bump_skip:
-
+        BumpAgainstEdgesMacro   #mogu_collision_offset
 
         movea.l a4, a0
         subq    #4, a0

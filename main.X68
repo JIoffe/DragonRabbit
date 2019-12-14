@@ -70,6 +70,7 @@ player_tile_allocation          EQU $40
     include './macros/macros_camera.X68'
     include './macros/macros_sprites.X68'
     include './macros/macros_effects.X68'
+    include './macros/macros_enemies.X68'
 
 Main:
     include './init/init_validatetmss.X68'

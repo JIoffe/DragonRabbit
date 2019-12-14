@@ -195,14 +195,14 @@ Fadein_Level:
     lvl_fadein_advance:
 
     move.l  (MEM_palette), a0
-    moveq   #3, d0
+    moveq   #4, d0
 	bsr.w   FadePalettes
 
     tst.b   d1
     bne.s   lvl_continuefadein
         lea     MainLoop_Level, a6                              ; fade-in complete, just go through the usual level logic
         move.l  (MEM_palette), a0
-        moveq   #3, d0
+        moveq   #4, d0
         bsr.w   LoadPalettes                                    ; make sure the palette is actually correct
     lvl_continuefadein:
 MainLoop_Level:

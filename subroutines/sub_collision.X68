@@ -65,3 +65,41 @@ CollideAgainstPlayer:
 
     cap_collision_done:
     jmp (a2)
+
+**************************************************
+* Tests if bounding box intersects current player bounding box
+; Check that maximum overlaps minimum
+; a2 - point to return to
+; d3 - point to start first check (for check against walls)
+**************************************************
+BumpAgainstEdges:
+    movea.l a1, a0
+    moveq   #0, d2
+    addq    #2, a0
+    move.w  (a0)+, d2
+    move.w  d2, -(SP)           ; push level width to stack
+
+    ; At this point d3 is swapped so that Y is at the loword and represents the offset from position to check against
+    lsr.w   #3, d3
+    mulu.w  d3, d2
+    swap    d3
+    lsr.w   #3, d3
+    add.w   d3, d2
+    add.w   d2, d2
+    add.l   d2, a0
+    move.w  (SP)+, d2           ; restore width
+
+    tst.w   (a0)
+    bne.s   edge_bumped
+    ; check under feet
+    add.w   d2, d2
+    add.w   d2, d2
+    add.l   d2, a0
+    tst.w   (a0)
+    beq.s   edge_bumped
+    bra.s   edge_bump_skip
+        edge_bumped:
+        bchg    #sprite_flip_h, d6
+    edge_bump_skip:
+
+    jmp (a2)

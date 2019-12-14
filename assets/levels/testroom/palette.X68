@@ -50,19 +50,19 @@ Palettes_TESTROOM:
    dc.w $0E68
    dc.w $0468
 
+   dc.w $0C0E
+   dc.w $0804
+   dc.w $0602
+   dc.w $0402
+   dc.w $0844
+   dc.w $02AE
+   dc.w $028A
+   dc.w $000E
+   dc.w $00EE
+   dc.w $0EEE
    dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
-   dc.w $0000
+   dc.w $0E0E
+   dc.w $0E0E
+   dc.w $0E0E
+   dc.w $0E0E
+   dc.w $0E0E
