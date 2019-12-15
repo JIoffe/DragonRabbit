@@ -10,6 +10,10 @@ BumpAgainstEdgesMacro macro
 bumpchecked\@
     endm
 
+*-------------------------------------------
+* Checks if player attack intersects bounding box,
+* returns received damage in d3
+* \1 - Size of bounding box to compute
 GetDamageReceived   macro
     lea     receivedmg_test\@, a2
     jmp     RecievePlayerAttack

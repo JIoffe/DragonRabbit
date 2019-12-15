@@ -26,6 +26,11 @@ sparkle2:
    dc.w $0500
    dc.w $0048
 
+; Level Effects
 ChickenFeathers:
    dc.w $0500
    dc.w $019E
+
+NutProjectile:
+   dc.w $0500
+   dc.w $0285

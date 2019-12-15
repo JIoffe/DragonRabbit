@@ -24581,7 +24581,7 @@ TestRoom_level:
 TestRoom_level_playerstart:
    dc.l $02480088   
 TestRoom_level_items:
-   dc.w $0005   
+   dc.w $0009   
 * Item: MogurenEnemy
    dc.w $0206               ; type/state TTSS
    dc.l $02A0010A           ; position YYXX
@@ -24600,3 +24600,15 @@ TestRoom_level_items:
 * Item: ChickenEnemy
    dc.w $0306               ; type/state TTSS
    dc.l $020802D8           ; position YYXX
+* Item: ChipmunkEnemy
+   dc.w $0406               ; type/state TTSS
+   dc.l $00FA0098           ; position YYXX
+* Item: ChipmunkEnemy
+   dc.w $0406               ; type/state TTSS
+   dc.l $008A039C           ; position YYXX
+* Item: ChickenEnemy
+   dc.w $0306               ; type/state TTSS
+   dc.l $0140046F           ; position YYXX
+* Item: MogurenEnemy
+   dc.w $0206               ; type/state TTSS
+   dc.l $01590441           ; position YYXX

@@ -1,4 +1,4 @@
-;644 tile(s)
+;648 tile(s)
 TESTROOM_tiles:
    dc.l $00000000
    dc.l $00000000
@@ -5152,3 +5152,35 @@ TESTROOM_tiles:
    dc.l $0000EEDD
    dc.l $00000EEE
    dc.l $000000EE
+   dc.l $00000DDD
+   dc.l $000DDCCC
+   dc.l $00DCC666
+   dc.l $0DCC966D
+   dc.l $0DC96666
+   dc.l $DC666666
+   dc.l $DC66666D
+   dc.l $DC6D66DE
+   dc.l $DC666DEA
+   dc.l $DC66DEAD
+   dc.l $DC6DEADC
+   dc.l $0DDEADC6
+   dc.l $0DEADC66
+   dc.l $0EADC666
+   dc.l $00DCCDDD
+   dc.l $00000EEE
+   dc.l $DDD00000
+   dc.l $CCCDDE00
+   dc.l $666DEAD0
+   dc.l $66DEADC0
+   dc.l $6DEADCC0
+   dc.l $DEADC6DE
+   dc.l $EADC66DE
+   dc.l $ADC666DE
+   dc.l $DC66D6DE
+   dc.l $C66666DE
+   dc.l $66666DDE
+   dc.l $6666DDE0
+   dc.l $D66DDDE0
+   dc.l $66DDDE00
+   dc.l $DDDEE000
+   dc.l $EEE00000
