@@ -61,8 +61,8 @@ Palettes_TESTROOM:
    dc.w $00EE
    dc.w $0EEE
    dc.w $0000
-   dc.w $0E0E
-   dc.w $0E0E
-   dc.w $0E0E
-   dc.w $0E0E
+   dc.w $046A
+   dc.w $068A
+   dc.w $0448
+   dc.w $0226
    dc.w $0E0E

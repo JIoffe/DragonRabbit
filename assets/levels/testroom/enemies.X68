@@ -78,3 +78,71 @@ Chicken:
         dc.w $0192           ; sprite tile ID
         dc.w $FFFC           ; Offset Horizontal
 **************************************************
+* Compression: NONE
+* Embedded: FALSE
+* Tiles to Allocate: 37
+Chipmunk:
+    Chipmunk_Idle:
+    dc.w $0000           ; frame count
+    dc.l Chipmunk_Idle0
+    Chipmunk_Idle0:
+        dc.w $0003
+        dc.w $0008           ; Offset Vertical
+        dc.w $0F00     ; sprite Size
+        dc.w $021F           ; sprite tile ID
+        dc.w $0D00           ; Offset Horizontal
+        dc.w $0008           ; Offset Vertical
+        dc.w $0700     ; sprite Size
+        dc.w $022F           ; sprite tile ID
+        dc.w $FD20           ; Offset Horizontal
+        dc.w $0000           ; Offset Vertical
+        dc.w $0800     ; sprite Size
+        dc.w $0237           ; sprite tile ID
+        dc.w $0114           ; Offset Horizontal
+        dc.w $0028           ; Offset Vertical
+        dc.w $0C00     ; sprite Size
+        dc.w $023A           ; sprite tile ID
+        dc.w $0706           ; Offset Horizontal
+    Chipmunk_Attack:
+    dc.w $0000           ; frame count
+    dc.l Chipmunk_Attack0
+    Chipmunk_Attack0:
+        dc.w $0003
+        dc.w $0026           ; Offset Vertical
+        dc.w $0C00     ; sprite Size
+        dc.w $023E           ; sprite tile ID
+        dc.w $0805           ; Offset Horizontal
+        dc.w $000E           ; Offset Vertical
+        dc.w $0E00     ; sprite Size
+        dc.w $0242           ; sprite tile ID
+        dc.w $1FEE           ; Offset Horizontal
+        dc.w $000E           ; Offset Vertical
+        dc.w $0E00     ; sprite Size
+        dc.w $024E           ; sprite tile ID
+        dc.w $FF0E           ; Offset Horizontal
+        dc.w $00FE           ; Offset Vertical
+        dc.w $0900     ; sprite Size
+        dc.w $025A           ; sprite tile ID
+        dc.w $0015           ; Offset Horizontal
+    Chipmunk_Hurt:
+    dc.w $0000           ; frame count
+    dc.l Chipmunk_Hurt0
+    Chipmunk_Hurt0:
+        dc.w $0003
+        dc.w $0004           ; Offset Vertical
+        dc.w $0F00     ; sprite Size
+        dc.w $0260           ; sprite tile ID
+        dc.w $FF0E           ; Offset Horizontal
+        dc.w $0024           ; Offset Vertical
+        dc.w $0D00     ; sprite Size
+        dc.w $0270           ; sprite tile ID
+        dc.w $020B           ; Offset Horizontal
+        dc.w $000C           ; Offset Vertical
+        dc.w $0E00     ; sprite Size
+        dc.w $0278           ; sprite tile ID
+        dc.w $1FEE           ; Offset Horizontal
+        dc.w $0024           ; Offset Vertical
+        dc.w $0000     ; sprite Size
+        dc.w $0284           ; sprite tile ID
+        dc.w $2203           ; Offset Horizontal
+**************************************************

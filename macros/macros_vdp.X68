@@ -33,3 +33,32 @@ SetBG macro
     move.w  \1, vdp_data
     endm
 
+
+*---------------------------------------
+* Sends a VRAM Tile Command
+* - \1 register with offset
+* - \2 temp register
+*---------------------------------------
+WriteVramTilesByBytes macro
+    ; VRAM commands are a little funky
+    ; the last two bits of the address have to be the first 2 bits in the command
+	move.w	\1, \2
+	andi.w	#$C000, \2		; mask out the last two bits and move them to the front
+	rol.w	#2, \2
+
+	andi.w	#$3FFF, \1
+	swap	\1
+	addi.l	#vdp_vram_tiles, \1
+	or.l	\2, \1
+    move.l  \1, vdp_control
+    endm
+
+*---------------------------------------
+* Sends a VRAM Tile Command
+* - \1 register with offset
+* - \2 temp register
+*---------------------------------------
+WriteVramTilesByTiles macro
+    lsl.w	#5, \1          ; multiply by 32 bytes to get the offset
+    WriteVramTilesByBytes \1, \2
+    endm

@@ -1,4 +1,4 @@
-chickenfeathers_lifespan       EQU     $C9
+chickenfeathers_lifespan       EQU     $19
 
 chickenfeathers_effect:
     move.l  a4, -(SP)

@@ -10,9 +10,8 @@ PushEmbeddedSpriteFrame:
     move.w  (a0)+,  d0                          ; n tiles in frame (-1)
 
     ; Offset the tiles for this sprite
-	swap	d5
-	add.l	#vdp_vram_tiles, d5
-    move.l  d5, vdp_control
+    WriteVramTilesByBytes d5, d7
+    
     pesf_tile_loop:
         move.l  (a0)+, vdp_data
         dbra    d0, pesf_tile_loop

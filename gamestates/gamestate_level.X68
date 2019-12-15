@@ -77,6 +77,7 @@ Init_Level:
     
     lea     CoreGameTiles, a0
 	move.l  #76, d0
+    moveq   #0, d1
     move.w  (MEM_UI_sprite_start), d1
 	bsr.w   LoadTilesOffset
 

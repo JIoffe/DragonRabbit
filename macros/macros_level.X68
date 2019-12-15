@@ -3,10 +3,10 @@
 *===============================================================================
 GotoTestRoom    macro
     lea     NoOpTrap, a6
-    move.w  #417<<5,  (MEM_player_tiles_start)
-    move.w  #417+player_tile_allocation, (MEM_UI_sprite_start)
-    move.w  #418, (MEM_player_sprite_index)
-    Goto_Level  TestRoom_level, TESTROOM_tiles, #417, Palettes_TESTROOM
+    move.w  #644<<5,  (MEM_player_tiles_start)
+    move.w  #644+player_tile_allocation, (MEM_UI_sprite_start)
+    move.w  #645, (MEM_player_sprite_index)
+    Goto_Level  TestRoom_level, TESTROOM_tiles, #644, Palettes_TESTROOM
     endm
 
 *===============================================================================
