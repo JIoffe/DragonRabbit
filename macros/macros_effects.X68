@@ -33,7 +33,7 @@ AddFeathers macro
     move.w  #$0200|chickenfeathers_lifespan, d7
     jsr     AddEffect
 
-    add.w   #16, d1
+    add.l   #$00080016, d1
     move.w  #$0200|chickenfeathers_lifespan>>1, d7
     jsr     AddEffect
 

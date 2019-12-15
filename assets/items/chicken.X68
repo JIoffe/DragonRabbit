@@ -37,7 +37,7 @@ Chicken_Update:
 
         ; Losing all his feathers!
         move.l  d1, d3
-        addi.l  #$FFE30000, d1
+        subi.l  #$00100000, d1
         AddFeathers
         
         move.l  d3, d1
