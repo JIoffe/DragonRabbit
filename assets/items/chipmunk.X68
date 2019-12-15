@@ -21,6 +21,11 @@ Chipmunk_Update:
     addi.l  #chipmunk_bb_offset, d2
     GetDamageReceived
 
+    ; mask out the health
+    move.b  d6, d7
+    andi.b  #7, d6
+    lsr.b   #3, d7
+
     tst.b   d3
     beq.s   chipmunk_damage_skip
         AddBloodSpurt
@@ -31,7 +36,22 @@ Chipmunk_Update:
         movea.l a4, a0
         suba.l  #5, a0
         move.b  d6, (a0)                        ; save state updates
+        tst.b   d6
+        bne.s   chipmunk_damage_skip
+            bra.w   chipmunk_done
     chipmunk_damage_skip:
+
+    tst.b   d7
+    beq.s   chipmunk_recoil_updated
+        subq    #1, d7
+        asl.b   #3, d7
+        add.b   d7, d6
+
+        movea.l a4, a0
+        suba.l  #5, a0
+        move.b  d6, (a0)                        ; save state updates
+        lsr.b   #3, d7
+    chipmunk_recoil_updated:
 
     move.w (MEM_player_pos_x), d3           ; always face the player
     cmp.w   d1, d3
@@ -41,15 +61,6 @@ Chipmunk_Update:
     chipmunk_flip_off:
         bclr    #sprite_flip_h, d6
     chipmunk_flipped:
-
-    * tst.b   d7
-    * beq.s   chipmunk_recoil_updated
-    *     subq    #1, d7
-    *     move.b  d7, d3
-    *     asl.b   #4, d3
-    *     andi.b  #15, d6                          ; mask out the health flip flags
-    *     add.b   d3, d6
-    * chipmunk_recoil_updated:
 
     ; Attack every so often
     move.w  (frame_counter), d3
@@ -78,11 +89,11 @@ Chipmunk_Update:
         lea     Chipmunk_Attack0, a0
         bra.s   Chipmunk_BehaviorChosen
     Chipmunk_NotAttacking:
-        * tst.b   d7
-        * beq.s   chipmunk_nothurt
-        *     lea     Chipmunk_Hurt0, a0
-        *     bra.s   Chipmunk_BehaviorChosen
-        * chipmunk_nothurt:
+        tst.b   d7
+        beq.s   chipmunk_nothurt
+            lea     Chipmunk_Hurt0, a0
+            bra.s   Chipmunk_BehaviorChosen
+        chipmunk_nothurt:
             lea     Chipmunk_Idle0, a0
     Chipmunk_BehaviorChosen:
 
