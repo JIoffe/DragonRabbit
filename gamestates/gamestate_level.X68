@@ -40,7 +40,7 @@ player_x_speed          EQU $02
 
 player_jump_strength    EQU -$20
 
-player_jump_duration    EQU $18             ; number of frames the player can hold jump to jump higher
+player_jump_duration    EQU $10             ; number of frames the player can hold jump to jump higher
 
 player_tile_allocation  EQU $40             ; keep 64 tiles free for the player animation at all times
 
@@ -53,6 +53,9 @@ camera_zone_hmax        EQU (vdp_screen_width>>1)+(camera_zone_width>>1)-(player
 
 camera_zone_vmin        EQU (vdp_screen_height>>1)-(camera_zone_height>>1)-(player_height>>1)
 camera_zone_vmax        EQU (vdp_screen_height>>1)+(camera_zone_height>>1)-player_height
+
+camera_zone_bb_start    EQU (camera_zone_vmin<<16)|camera_zone_hmin
+camera_zone_bb_offset   EQU (camera_zone_height<<16)|camera_zone_width
 
 lvl_fadein_interval     EQU $03
 
@@ -315,20 +318,10 @@ MainLoop_Level:
 
     ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
     move.w  (MEM_player_velocity_y), d0
-    bpl.s   vel_y_positive
-        neg     d0
-        subi.w  #world_gravity, d0
-        move.w  d0, d4
-        lsr.w   #3, d4
-        sub.w   d4, d6
-        neg     d0
-        bra.s   vel_y_adjusted
-        vel_y_positive:
-            addi.w  #world_gravity, d0
-            move.w  d0, d4
-            lsr.w   #3, d4
-            add.w   d4, d6
-    vel_y_adjusted:
+    addi.w  #world_gravity, d0
+    move.w  d0, d4
+    asr.w   #3, d4
+    add.w   d4, d6
 
     *****************************************************************
     * COLLIDE PLAYER AGAINST LEVEL TILES
