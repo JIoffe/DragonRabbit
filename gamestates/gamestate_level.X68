@@ -38,9 +38,9 @@ player_attack_bboffset  EQU (player_height<<16)|player_attack_width
 
 player_x_speed          EQU $02
 
-player_jump_strength    EQU -$20
+player_jump_strength    EQU -$1A
 
-player_jump_duration    EQU $10             ; number of frames the player can hold jump to jump higher
+player_jump_duration    EQU $18             ; number of frames the player can hold jump to jump higher
 
 player_tile_allocation  EQU $40             ; keep 64 tiles free for the player animation at all times
 
