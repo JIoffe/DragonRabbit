@@ -15,10 +15,8 @@ Init_IntroClouds:
 	moveq   #4, d0
 	bsr.w   LoadPalettes
 	
-	lea     Tiles_intro_storm, a0
-	move.l  #177, d0
-	bsr.w   LoadTiles
-	
+    DMA68KtoVRAM    5664, Tiles_intro_storm, $20
+
     ; Fill sky with dark cloud color
     move.l  #vdp_write_plane_b, vdp_control
     move.l  #intro_cloud_fill, d0
@@ -56,18 +54,9 @@ Init_IntroClouds:
         dbra    d4, intro_tree_fill
 
 
-    ; Load LIGHTNING BOLLTTTTT
-	lea     tiles_lightningA, a0
-	move.l  #123, d0
-    moveq   #0,  d1
-    move.b  #177, d1
-	bsr.w   LoadTilesOffset
-
-    ; KILLER RABBIT
-    lea     tiles_intro_fight, a0
-	move.l  #257, d0
-    move.w  #300, d1
-	bsr.w   LoadTilesOffset
+    ; Load LIGHTNING and Rabbit fight
+    DMA68KtoVRAM    3936, tiles_lightningA, 5696
+    DMA68KtoVRAM    8224, tiles_intro_fight, 9632
 
     ; For the rest of this state we can just draw patterns to plane A
     move.l  #vdp_write_plane_a, a5
@@ -177,10 +166,7 @@ MainLoop_Clouds:
         move.l  #vdp_write_plane_b, a0
         bsr.w   ClearPlane
 
-        lea     intro_slash_tiles, a0
-        move.l  #182, d0
-        bsr.w   LoadTiles
-
+        DMA68KtoVRAM    5824, intro_slash_tiles, $20
         move.w	#interrupts_enable, sr
 
         EndLoop

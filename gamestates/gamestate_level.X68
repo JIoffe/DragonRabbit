@@ -71,18 +71,18 @@ Init_Level:
     * - a1 level
     * - a2 tileset
     * - a3 palettes
-    moveq   #0, d0
-    move.l  a2, a0
-    move.w  d1, d0
-    bsr.w   LoadTiles
+    lsl.w   #4, d1
+    move.l  a2, d2
+    move.l  #$20, d3
+    jsr     TriggerDMADumpToVRAM
 
-    moveq   #0, d0
-    
-    lea     CoreGameTiles, a0
-	move.l  #76, d0
-    moveq   #0, d1
-    move.w  (MEM_UI_sprite_start), d1
-	bsr.w   LoadTilesOffset
+    move.w  #$04C0, d1
+    move.l  #CoreGameTiles, d2
+    moveq   #0, d3
+    move.w  (MEM_UI_sprite_start), d3
+    addq    #1, d3
+    lsl.w   #5, d3
+    jsr     TriggerDMADumpToVRAM
 
     move.l  a3, (MEM_palette)
 
@@ -677,7 +677,7 @@ MainLoop_Level:
     move.w  (MEM_player_tiles_start), d5
     bsr.w   PushEmbeddedSpriteFrame
 
-    move.l  #vdp_vram_sprite, vdp_control
+    move.l  #vdp_vram_sprite, vdp_control               ; start drawing sprites
     move.w  (MEM_player_sprite_index), d7
     bsr.w   DrawSpriteFrame
 
