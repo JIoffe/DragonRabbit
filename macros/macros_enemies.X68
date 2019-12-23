@@ -20,6 +20,17 @@ GetDamageReceived   macro
 receivedmg_test\@
     endm
 
+*-------------------------------------------------
+* Adds burst of blood and points
+* \1 - points to add
+*-------------------------------------------------
+AddPointsAndBloodburst  macro
+    bne.s   death_skip\@
+    AddDeathBloodBurst
+    AddPoints   \1
+death_skip\@
+    endm
+
 AddBloodburstIfDead macro
     bne.s   deathblood_skip\@
         AddDeathBloodBurst

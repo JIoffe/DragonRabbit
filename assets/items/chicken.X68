@@ -6,6 +6,8 @@ chicken_collision_offset      EQU     chicken_height-2
 chicken_speed                 EQU     $02  
 chicken_bb_offset             EQU     (chicken_height<<16)|chicken_width
 
+chicken_points                EQU     50
+
 Chicken_Update:
     move.l  a4, -(SP)
     move.b  (a4)+, d6
@@ -33,7 +35,7 @@ Chicken_Update:
         subq    #2, d6
         move.b  d6, d3
         andi.b  #6, d3
-        AddBloodburstIfDead
+        AddPointsAndBloodburst  #chicken_points
 
         ; Losing all his feathers!
         move.l  d1, d3

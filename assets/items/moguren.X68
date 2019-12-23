@@ -7,6 +7,7 @@ mogu_collision_offset       EQU     moguren_height-2
 mogu_bb_offset              EQU     (moguren_height<<16)|moguren_width
 
 mogu_speed                  EQU     $01
+mogu_points                 EQU     200
 
 Moguren_Update:
     move.l  a4, -(SP)
@@ -37,9 +38,7 @@ Moguren_Update:
         subq    #2, d6
         move.b  d6, d3
         andi.b  #6, d3
-        bne.s   mogu_death_skip
-            AddDeathBloodBurst
-        mogu_death_skip:
+        AddPointsAndBloodburst  #mogu_points
         move.b  #moguren_recoil_frames, d7
 
     mogu_damage_received:
