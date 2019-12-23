@@ -1,12 +1,22 @@
 UpdateScoreGfx
     movem.l d0-d7, -(SP)
 
-    lea.l   UINumbers_Tiles, a0
-    moveq   #8, d0
-    moveq   #0, d1
-    move.w  (MEM_score_digits_id), d1
-    subq    #1, d1
-    jsr     LoadTilesOffset
+    ; update the score in RAM
+    lea.l   MEM_score_vram_data, a0
+    moveq   #7, d0
+
+    lea     UINumbers_Tiles, a2
+    score_digit_loop:
+        move.l  (a2)+, (a0)+
+        dbra    d0, score_digit_loop
+
+    ; Prepare DMA
+    move.w  #$50, d1
+    move.l  #MEM_score_vram_data, d2
+    lea.l   MEM_score_vram_address, a0
+    moveq   #0, d3
+    move.w  (a0), d3
+    jsr     TriggerDMADumpToVRAM
 
     movem.l (SP)+, d0-d7
     rts

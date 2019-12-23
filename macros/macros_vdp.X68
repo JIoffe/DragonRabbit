@@ -39,29 +39,29 @@ DMA68KSetSrc    macro
     move.w  d1, d4
     andi.w  #$00FF, d1
     addi.w  #$9300, d1
-    move.w	d1, (a0)          ; Low byte of length
+    move.w	d1, (a0)            ; Low byte of length
 
     andi.w  #$FF00, d4
     lsr.w   #8, d4
     addi.w  #$9400, d4
-	move.w	d4, (a0)          ; High byte of length
+	move.w	d4, (a0)            ; High byte of length
 
-    lsr.l   #1, d2
+    lsr.l   #1, d2              ; Divide address by 2
     moveq   #0, d4
     move.b  d2, d4
-    addi.w  #$9500, d4        ; low byte of src address
-    move.w  d4, (a0)
+    addi.w  #$9500, d4
+    move.w  d4, (a0)            ; low byte of src address
 
     move.w  d2, d4
     andi.w  #$FF00, d4
     lsr.w   #8, d4
-    addi.w  #$9600, d4      ; middle byte of src address
-    move.w  d4, (a0)
+    addi.w  #$9600, d4      
+    move.w  d4, (a0)            ; middle byte of src address
 
     swap    d2
     andi.w  #$7F, d2
-    addi.w  #$9700, d2      ; high byte of src address
-    move.w  d4, (a0)
+    addi.w  #$9700, d2      
+    move.w  d2, (a0)            ; high byte of src address
     endm
 *---------------------------------------------------
 * Triggers 68k -> VRAM DMA with constant values
