@@ -693,17 +693,29 @@ MainLoop_Level:
     move.w  (MEM_player_tiles_start), d5
     bsr.w   PushEmbeddedSpriteFrame
 
-    move.l  #vdp_vram_sprite+$00080000, vdp_control               ; start drawing sprites
-    moveq   #2, d4                              ; d4 will keep track of *linking*
+    move.l  #vdp_vram_sprite+$00080000, vdp_control         ; start drawing sprites
+    moveq   #2, d4                                          ; d4 will keep track of *linking*
 
     ; Render Score
-    move.w  #score_pts_position_y, vdp_data                        ; first is y offset
+    move.w  #score_pts_position_y, vdp_data                 ; first is y offset
     move.w  d4, d3
     addi.w  #$0C00, d3
     addq    #1, d4
-    move.w  d3, vdp_data                        ; second is size and link
+    move.w  d3, vdp_data                                     ; second is size and link
     move.w  (MEM_score_digits_id), vdp_data
-    move.w  #score_pts_position_x, vdp_data                        ; last is x offset
+    move.w  #score_pts_position_x, vdp_data                  ; last is x offset
+
+    move.w  #score_pts_position_y, vdp_data                 ; first is y offset
+    move.w  d4, d3
+    addi.w  #$0C00, d3
+    addq    #1, d4
+    move.w  d3, vdp_data                                    ; second is size and link
+    move.w  (MEM_score_digits_id), d3
+    addq    #4, d3
+    move.w  d3, vdp_data
+    move.w  #(score_pts_position_x+32), vdp_data            ; last is x offset
+
+
 
     move.w  (MEM_player_sprite_index), d7
     bsr.w   DrawSpriteFrame
