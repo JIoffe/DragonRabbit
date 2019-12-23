@@ -137,3 +137,28 @@ DrawSprite:
     add.w   #sprite_view_hmin, d1
     move.w  d1, vdp_data                        ; last is x offset
     rts
+
+* Prepares a single sprite (up to 4x4) for VDP
+* USE:
+* d1: sprite position (in sprite viewport coordinates)
+* d3: temp for writes
+* d4: link
+* d7: keep track of tile offset
+* a0: set to frame sprites
+* d1,d3 - trashed
+DrawSprite_Untransformed:
+    swap    d1
+    move.w  d1, vdp_data                        ; first is y offset
+
+    move.w  (a0)+, d3
+    add.w   d4, d3
+    addq    #1, d4
+    move.w  d3, vdp_data                        ; second is size and link
+
+    move.w  d7, d3
+    add.w   (a0)+, d3
+    move.w  d3, vdp_data                        ; third is tile ID + priority/h flip/v flip
+
+    swap    d1
+    move.w  d1, vdp_data                        ; last is x offset
+    rts

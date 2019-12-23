@@ -24,6 +24,7 @@ RomStart:
 * Flags
 *==================================
 vblank_on_flag                  EQU $0001
+score_changed                   EQU $0002
 
 *==================================
 * Important constants
@@ -71,6 +72,7 @@ player_tile_allocation          EQU $40
     include './macros/macros_sprites.X68'
     include './macros/macros_effects.X68'
     include './macros/macros_enemies.X68'
+    include './macros/macros_score.X68'
 
 Main:
     include './init/init_validatetmss.X68'
@@ -138,6 +140,7 @@ NotHandled:
     include './subroutines/sub_sprites.X68'
     include './subroutines/sub_collision.X68'
     include './subroutines/sub_effects.X68'
+    include './subroutines/sub_score.X68'
 
 *===============================
 * Art/Sound/Text Assets
@@ -167,6 +170,7 @@ NotHandled:
 
     include './assets/levels/core-tiles.X68'
     include './assets/levels/core-sprites.X68'
+    include './assets/levels/numbers-tiles.X68'
     
     ; FOR TEST ROOM
     include './assets/levels/testroom/tiles.X68'

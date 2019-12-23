@@ -26,6 +26,11 @@ sparkle2:
    dc.w $0500
    dc.w $0048
 
+score_label:
+   dc.w $0C00
+   dc.w $004C
+
+
 ; Level Effects
 ChickenFeathers:
    dc.w $0500

@@ -1,24 +1,6 @@
 *------------------------------------
 * TILES SUBROUTINES
 *------------------------------------
-DMAUncompressedTiles:
-	rts
-* Spits uncompressed tiles directly into VRAM
-* DMAUncompressedTiles:
-* 	DMA68KtoVRAM	4080, Tiles_intro_storm, $20
-* 	* move.w	#$9300+((4080>>1)&$FF), vdp_control               ; Lo Byte of length
-* 	* move.w	#$94F0+((4080>>1)&$FF00>>8), vdp_control          ; Hi byte of length
-
-* 	* move.w  #$9300+((Tiles_intro_storm>>1)&$FF), vdp_control               ; Src Address
-* 	* move.w  #$9400+(((Tiles_intro_storm>>1)&$FF00)>>8), vdp_control
-* 	* move.w  #$9500+((Tiles_intro_storm>>1)&$FF), vdp_control
-* 	* move.w  #$9600+(((Tiles_intro_storm>>1)&$FF00)>>8), vdp_control
-* 	* move.w  #$9700+(((Tiles_intro_storm>>1)&$7F0000)>>16), vdp_control
-
-*     * ; Set destination and trigger DMA
-* 	* move.l  #$40000080+(($20&$3FFF)<<16)+(($20&$C000)>>14), vdp_control
-* 	rts
-
 * USE lea of tile definition(s) to a0, set d0 to # of tiles
 LoadTiles:
 	; We *could* use a single loop that goes per each long in a tile

@@ -6,13 +6,15 @@ gem_bb_offset               EQU     (gem_height<<16)|gem_width
 
 gemh_bb_offset              EQU     (gem_height<<16)|(gem_spacing_h<<3)
 
+gem_points                  EQU     $14
+
 GemsH_Update:
     move.l  a4, -(SP)
     move.b  (a4)+, d6
     move.l  (a4)+, d3
 
     tst.b   d6
-    beq.s   gemsh_done
+    beq.w   gemsh_done
 
     CancelOutOfView     gemsh_done, d2, d3, #gemh_bb_offset, d1
 
@@ -34,6 +36,7 @@ GemsH_Update:
 
             tst.b   d7
             beq.s   gemh_uncollected
+                AddPoints   #gem_points
                 AddSparkle
                 bclr    d0, d6
 

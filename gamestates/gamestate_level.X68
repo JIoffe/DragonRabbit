@@ -59,6 +59,10 @@ camera_zone_bb_offset   EQU (camera_zone_height<<16)|camera_zone_width
 
 lvl_fadein_interval     EQU $03
 
+score_label_position    EQU ((sprite_view_vmin+4)<<16)|(sprite_view_hmin+4)
+score_pts_position_x    EQU sprite_view_hmin+4
+score_pts_position_y    EQU sprite_view_vmin+12
+
 ; a1 always pointed to the start of the level we're working with
 Init_Level:
     move.w	#interrupts_disable, sr
@@ -76,13 +80,21 @@ Init_Level:
     move.l  #$20, d3
     jsr     TriggerDMADumpToVRAM
 
-    move.w  #$04C0, d1
+    move.w  #$0500, d1
     move.l  #CoreGameTiles, d2
     moveq   #0, d3
     move.w  (MEM_UI_sprite_start), d3
     addq    #1, d3
     lsl.w   #5, d3
     jsr     TriggerDMADumpToVRAM
+
+    move.l  #score_label_position, d1
+    moveq   #1, d4
+    lea     score_label, a0
+    move.w  (MEM_UI_sprite_start), d7
+    addq    #1, d7
+    move.l  #vdp_vram_sprite, vdp_control
+    bsr.w   DrawSprite_Untransformed
 
     move.l  a3, (MEM_palette)
 
@@ -181,7 +193,9 @@ Init_Level:
         add.l   d3, a0
         swap    d5
         dbra    d1, fill_frame_y
-
+    
+    ; Set "score dirty" flag so it will be redrawn on the first frame
+    bset #score_changed, (frame_state)
     ; We're off to the races!
     move.w	#interrupts_enable, sr
     rts
@@ -212,8 +226,12 @@ Fadein_Level:
 MainLoop_Level:
     move.w	#interrupts_disable, sr                                     ; Disable interrupts
 
-    ; This implies the camera ONLY moves with input, might need
-    ; to refactor or add on to this to support things like moving platforms.
+    ; update GUI elements for next frame
+    btst    #score_changed, (frame_state)
+    beq.s   score_updated
+        jsr     UpdateScoreGfx
+        bclr    #score_changed, (frame_state)
+    score_updated:
 
     ; d1 will hold the player's position for the entire frame
     move.l  (MEM_player_pos),   d1
@@ -623,8 +641,6 @@ MainLoop_Level:
     ; Draw all the sprites - start with the player because players come first!
     ; Every sprite is world position + camera + {sprite_view_hmin,sprite_view_vmin}
 
-    moveq   #1, d4                              ; d4 will keep track of *linking*
-
 
     ; Select animation based on player state
     move.b  (MEM_player_state), d6
@@ -677,7 +693,18 @@ MainLoop_Level:
     move.w  (MEM_player_tiles_start), d5
     bsr.w   PushEmbeddedSpriteFrame
 
-    move.l  #vdp_vram_sprite, vdp_control               ; start drawing sprites
+    move.l  #vdp_vram_sprite+$00080000, vdp_control               ; start drawing sprites
+    moveq   #2, d4                              ; d4 will keep track of *linking*
+
+    ; Render Score
+    move.w  #score_pts_position_y, vdp_data                        ; first is y offset
+    move.w  d4, d3
+    addi.w  #$0C00, d3
+    addq    #1, d4
+    move.w  d3, vdp_data                        ; second is size and link
+    move.w  (MEM_score_digits_id), vdp_data
+    move.w  #score_pts_position_x, vdp_data                        ; last is x offset
+
     move.w  (MEM_player_sprite_index), d7
     bsr.w   DrawSpriteFrame
 

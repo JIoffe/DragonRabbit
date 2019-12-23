@@ -1,4 +1,4 @@
-* MEMORY USAGE: 1678 byte(s)
+* MEMORY USAGE: 1939 byte(s)
 mem_start                       EQU $FFFF0000       ;(alias)
 frame_state                     EQU $FFFF0000       ;WORD
 frame_counter                   EQU $FFFF0002       ;WORD
@@ -32,4 +32,8 @@ MEM_playerattack_ymax           EQU $FFFF0624       ;WORD
 MEM_playerattack_xmax           EQU $FFFF0626       ;WORD
 MEM_effects_count               EQU $FFFF0628       ;WORD
 MEM_effects                     EQU $FFFF062A       ; ARRAY: 16 x 6 Byte(s)
-MEM_palette                     EQU $FFFF068A       ;LONG                               ; Active palette to use for fading in / out
+MEM_score                       EQU $FFFF068A       ;LONG
+MEM_score_vram_address          EQU $FFFF068E       ;WORD
+MEM_score_digits_id             EQU $FFFF0690       ;WORD
+MEM_score_vram_data             EQU $FFFF0692       ; ARRAY: 8 x 32 Byte(s)
+MEM_palette                     EQU $FFFF0792       ;BYTE

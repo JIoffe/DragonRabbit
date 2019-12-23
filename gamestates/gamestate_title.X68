@@ -18,10 +18,7 @@ Init_Title:
     bsr.w   LoadPaletteOffset
 
 
-	lea     Tiles_TitleScreen, a0
-    moveq   #0, d0
-	move.b  #255, d0
-	bsr.w   LoadTiles
+    DMA68KtoVRAM    8160, Tiles_TitleScreen, $20
 
     ; Draw bunny face - mirror half of the face for the full profile
     move.l  #vdp_write_plane_a, a5
