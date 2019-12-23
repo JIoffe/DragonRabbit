@@ -195,7 +195,7 @@ Init_Level:
         dbra    d1, fill_frame_y
     
     ; Set "score dirty" flag so it will be redrawn on the first frame
-    bset #score_changed, (frame_state)
+    bset    #score_changed, (frame_state)
     ; We're off to the races!
     move.w	#interrupts_enable, sr
     rts
