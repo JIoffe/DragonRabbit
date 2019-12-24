@@ -14,12 +14,16 @@ UpdateScoreGfx
 
     ; Will need to find a way to do this that does not involve
     ; divu... this punishes the player with a high score!
-    
-    ; d7 will hold the score because 7 is a lucky number!
-    move.l  (MEM_score), d7
     ; d6 will hold n of digits
     moveq   #0, d6
+    moveq   #0, d1
+    lea.l   MEM_score_vram_data, a0
 
+    ; Fake a score that is 10 times greater
+    move.b  #0, -(SP)
+
+    move.l  (MEM_score), d7
+    beq.s   skip_score_digit_extraction
     score_digit_extraction:
         addq    #1, d6
         divu.w  #10, d7
@@ -29,10 +33,13 @@ UpdateScoreGfx
         andi.l  #$0000FFFF, d7
         bne.s   score_digit_extraction
 
+    move.b  d6, d1
+    lsl.w   #5, d1
+    bra.s   score_digit_advance
 
-    lea.l   MEM_score_vram_data, a0
+    skip_score_digit_extraction:
+    move.b  #32, d1
 
-    subq    #1, d6                      ; reduce for dbra
     score_digit_advance:
         moveq   #0, d0
         move.b  (SP)+, d0
@@ -47,7 +54,6 @@ UpdateScoreGfx
         dbra    d6, score_digit_advance
 
     ; Prepare DMA
-    move.w  #$50, d1
     move.l  #MEM_score_vram_data, d2
     lea.l   MEM_score_vram_address, a0
     moveq   #0, d3

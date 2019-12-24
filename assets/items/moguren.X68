@@ -7,7 +7,7 @@ mogu_collision_offset       EQU     moguren_height-2
 mogu_bb_offset              EQU     (moguren_height<<16)|moguren_width
 
 mogu_speed                  EQU     $01
-mogu_points                 EQU     200
+mogu_points                 EQU     20
 
 Moguren_Update:
     move.l  a4, -(SP)
