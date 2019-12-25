@@ -38,3 +38,35 @@ toggle_b\@
     lea     \3, a0
 toggle_done\@
     endm
+
+*===============================================================================
+* Points a0 to the active sprite in RAM sprite buffer
+* \1 - register with next sprite index
+* \2 - register to trash
+* \3 - register to hold address of next sprite
+*===============================================================================
+PointToNextSprite   macro
+    ; each sprite takes up 8 bytes in the buffer
+    lea.l   MEM_sprite_buffer, \3
+    moveq   #0, \2
+    move.w  \1, \2
+    subq    #1, \2
+    asl.w   #3, \2
+    adda.l  \2, \3
+    endm
+
+DMADumpSpriteBuffer   macro
+    ; cap off the last sprite
+    PointToNextSprite   d4, d3, a2
+    move.w  #0, (a2)+
+    move.w  #0, (a2)+
+    move.w  #0, (a2)+
+    move.w  #0, (a2)
+
+    moveq   #0, d1
+    move.w  #320, d1
+    move.l  #MEM_sprite_buffer, d2
+    moveq   #0, d3
+    move.l  #vram_sprites_address, d3
+    bsr.w   TriggerDMADumpToVRAM
+    endm

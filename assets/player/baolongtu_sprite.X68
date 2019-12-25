@@ -6,7 +6,7 @@ BaoLongTu_sprite:
     dc.w $0000           ; frame count
     dc.l BaoLongTu_sprite_Idle0
     BaoLongTu_sprite_Idle0:
-    dc.w $00FF           ; (total tiles in frame * 8) - 1
+    dc.w $0200           ; (total byte size of tiles / 2)
         dc.l $00000000, $31111000, $31551100, $31445111, $01444511, $03144451, $00311445, $00031145
         dc.l $00003111, $00000311, $00000031, $0000003F, $000003FF, $0000003F, $00000003, $00000000
         dc.l $00000000, $000000DD, $00000DDC, $00000DCB, $0000DDCB, $0000DCBB, $000DDCBB, $00DCCCBB
@@ -39,6 +39,7 @@ BaoLongTu_sprite:
         dc.l $0000000C, $00000CCC, $000CCCCC, $CCCCCCCC, $CCCCCCC0, $CCCC0000, $00000000, $00000000
         dc.l $00000000, $0000000F, $000000FF, $00000FFF, $0000FFF0, $0000FFF0, $000FFF00, $000FFF00
         dc.l $00FFF000, $0FFF0000, $FFFF0000, $FFF00000, $FF000000, $F0000000, $00000000, $00000000
+        TESTADVANCE:
         dc.w $0003
         dc.w $0000           ; Offset Vertical
         dc.w $0F00     ; sprite Size
@@ -60,7 +61,7 @@ BaoLongTu_sprite:
     dc.w $0000           ; frame count
     dc.l BaoLongTu_sprite_Attack10
     BaoLongTu_sprite_Attack10:
-    dc.w $0197           ; (total tiles in frame * 8) - 1
+    dc.w $0330           ; (total byte size of tiles / 2)
         dc.l $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000
         dc.l $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000
         dc.l $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000
@@ -137,7 +138,7 @@ BaoLongTu_sprite:
     dc.w $0000           ; frame count
     dc.l BaoLongTu_sprite_Attack20
     BaoLongTu_sprite_Attack20:
-    dc.w $0177           ; (total tiles in frame * 8) - 1
+    dc.w $02F0           ; (total byte size of tiles / 2)
         dc.l $0000DCCB, $00000DBB, $00000DBC, $00000DCC, $00000DBB, $000333DB, $003111DB, $003111DB
         dc.l $0C3111DB, $CC3111DB, $CC311DBB, $CCC33DBB, $CC000DBB, $00000DBB, $0000AAAD, $000AAAA9
         dc.l $00AAAAA9, $00AAAAA9, $0AAAAAA9, $0AAAAA99, $0AAAAA99, $0AAAAA99, $0AAAAA99, $0AAAAA99
@@ -214,7 +215,7 @@ BaoLongTu_sprite:
     dc.w $0000           ; frame count
     dc.l BaoLongTu_sprite_Attack30
     BaoLongTu_sprite_Attack30:
-    dc.w $01DF           ; (total tiles in frame * 8) - 1
+    dc.w $03C0           ; (total byte size of tiles / 2)
         dc.l $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000
         dc.l $00000000, $00000000, $00000000, $00000000, $00000003, $00000003, $00000033, $000000F3
         dc.l $00000FFF, $00000FFF, $0000FFF4, $0000FF44, $000FFF44, $000FF444, $00FFF444, $0FFF4444
@@ -305,7 +306,7 @@ BaoLongTu_sprite:
     dc.l BaoLongTu_sprite_Walking0
     dc.l BaoLongTu_sprite_Walking1
     BaoLongTu_sprite_Walking0:
-    dc.w $00F7           ; (total tiles in frame * 8) - 1
+    dc.w $01F0           ; (total byte size of tiles / 2)
         dc.l $00000000, $00003111, $00003155, $00003144, $00000144, $00000314, $00000031, $00000003
         dc.l $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000
         dc.l $00000000, $00000000, $00000000, $0000000D, $00000DDB, $0000DBBB, $000DBBBB, $00DCBBBB
@@ -359,7 +360,7 @@ BaoLongTu_sprite:
         dc.w $001C           ; sprite tile ID
         dc.w $19E7           ; Offset Horizontal
     BaoLongTu_sprite_Walking1:
-    dc.w $00E7           ; (total tiles in frame * 8) - 1
+    dc.w $01D0           ; (total byte size of tiles / 2)
         dc.l $00000000, $00033000, $00311100, $00315511, $00314451, $00314445, $00031144, $00003114
         dc.l $00000331, $00000003, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000
         dc.l $00000000, $00000000, $0000000D, $000000DB, $0000DDBB, $000DBBBB, $00DBBBBB, $0DCBBBBB
@@ -410,7 +411,7 @@ BaoLongTu_sprite:
     dc.w $0000           ; frame count
     dc.l BaoLongTu_sprite_Jumping0
     BaoLongTu_sprite_Jumping0:
-    dc.w $013F           ; (total tiles in frame * 8) - 1
+    dc.w $0280           ; (total byte size of tiles / 2)
         dc.l $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000
         dc.l $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000, $00000000
         dc.l $00000003, $00000033, $00000033, $00000333, $00000333, $0000FFF3, $0000FFFF, $000FFFF0

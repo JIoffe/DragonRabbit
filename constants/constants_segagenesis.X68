@@ -115,6 +115,8 @@ sprite_view_hmax        EQU $01BF
 sprite_view_vmin        EQU $0080
 sprite_view_vmax        EQU $016F
 
+vram_sprites_address    EQU $B800
+
 
 
 

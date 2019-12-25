@@ -93,7 +93,6 @@ Init_Level:
     lea     score_label, a0
     move.w  (MEM_UI_sprite_start), d7
     addq    #1, d7
-    move.l  #vdp_vram_sprite, vdp_control
     bsr.w   DrawSprite_Untransformed
 
     move.l  a3, (MEM_palette)
@@ -689,33 +688,37 @@ MainLoop_Level:
         lea     BaoLongTu_sprite_Idle0, a0
     lvl_player_animation_selected:
 
-    moveq   #0,  d5
-    move.w  (MEM_player_tiles_start), d5
+    moveq   #0,  d3
+    move.w  (MEM_player_tiles_start), d3                    ; address of player tile data in VRAM
     bsr.w   PushEmbeddedSpriteFrame
 
-    move.l  #vdp_vram_sprite+$00080000, vdp_control         ; start drawing sprites
-    moveq   #2, d4                                          ; d4 will keep track of *linking*
+    move.l  (MEM_player_pos),   d1                          ; restore player position
+    move.l  (MEM_camera_pos),   d2                          ; restore camera position
 
+
+    ******************************************************
+    * START WORKING ON SPRITES
+    * - populate buffer in RAM and then DMA
+    ******************************************************
+    
     ; Render Score
-    move.w  #score_pts_position_y, vdp_data                 ; first is y offset
-    move.w  d4, d3
-    addi.w  #$0C00, d3
-    addq    #1, d4
-    move.w  d3, vdp_data                                     ; second is size and link
-    move.w  (MEM_score_digits_id), vdp_data
-    move.w  #score_pts_position_x, vdp_data                  ; last is x offset
+    lea.l   MEM_sprite_buffer+8, a2
+    move.w  #score_pts_position_y, (a2)+                 ; first is y offset
+    move.w  #$0C02, d3
+    move.w  d3, (a2)+                                     ; second is size and link
+    move.w  (MEM_score_digits_id), d5
+    move.w  d5, (a2)+
+    move.w  #score_pts_position_x, (a2)+                  ; last is x offset
 
-    move.w  #score_pts_position_y, vdp_data                 ; first is y offset
-    move.w  d4, d3
-    addi.w  #$0C00, d3
-    addq    #1, d4
-    move.w  d3, vdp_data                                    ; second is size and link
-    move.w  (MEM_score_digits_id), d3
+    move.w  #score_pts_position_y, (a2)+                 ; first is y offset
+    move.w  #$0C03, d3
+    move.w  d3, (a2)+                                    ; second is size and link
+    move.w  d5, d3
     addq    #4, d3
-    move.w  d3, vdp_data
-    move.w  #(score_pts_position_x+32), vdp_data            ; last is x offset
+    move.w  d3, (a2)+
+    move.w  #(score_pts_position_x+32), (a2)            ; last is x offset
 
-
+    moveq   #4, d4                                          ; d4 will keep track of *linking*
 
     move.w  (MEM_player_sprite_index), d7
     bsr.w   DrawSpriteFrame
@@ -810,10 +813,7 @@ MainLoop_Level:
     * END DEBUG 
     ******************************************************
 
-
-    ; Cap off with a blank sprite (worst case this limits our sprites to 79 *gasp*)
-    move.l  #0, vdp_data
-    move.l  #0, vdp_data
+    DMADumpSpriteBuffer                     ; copy all the updated sprites to VRAM
 
     move.w	#interrupts_enable, sr                                      ; re-enable interrupts
 
