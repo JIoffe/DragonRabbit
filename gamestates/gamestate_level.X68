@@ -195,12 +195,13 @@ Init_Level:
     
     ; Set "score dirty" flag so it will be redrawn on the first frame
     bset    #score_changed, (frame_state)
+    move.l  #BaoLongTu_sprite_Idle0, (MEM_player_previous_frame)
+
     ; We're off to the races!
     move.w	#interrupts_enable, sr
     rts
 
 Fadein_Level:
-    move.w	#interrupts_disable, sr                                     ; Disable interrupts
     move.w  (frame_counter), d5
     moveq   #0, d1
     move.b  (MEM_fade), d1
@@ -223,7 +224,9 @@ Fadein_Level:
         bsr.w   LoadPalettes                                    ; make sure the palette is actually correct
     lvl_continuefadein:
 MainLoop_Level:
-    move.w	#interrupts_disable, sr                                     ; Disable interrupts
+    ****************************************************
+    * BEGIN DMAs
+    ****************************************************
 
     ; update GUI elements for next frame
     btst    #score_changed, (frame_state)
@@ -231,6 +234,19 @@ MainLoop_Level:
         jsr     UpdateScoreGfx
         bclr    #score_changed, (frame_state)
     score_updated:
+
+    DMADumpSpriteBuffer                     ; copy all the updated sprites to VRAM
+    * ; Dump player tile data to VRAM
+    lea.l   MEM_player_previous_frame, a2
+    move.l  (a2), a0
+    lea.l   MEM_player_tiles_start, a2
+    moveq   #0,  d3
+    move.w  (a2), d3                    ; address of player tile data in VRAM
+    bsr.w   PushEmbeddedSpriteFrame
+
+    ****************************************************
+    * END DMAs
+    ****************************************************
 
     ; d1 will hold the player's position for the entire frame
     move.l  (MEM_player_pos),   d1
@@ -688,12 +704,14 @@ MainLoop_Level:
         lea     BaoLongTu_sprite_Idle0, a0
     lvl_player_animation_selected:
 
-    moveq   #0,  d3
-    move.w  (MEM_player_tiles_start), d3                    ; address of player tile data in VRAM
-    bsr.w   PushEmbeddedSpriteFrame
+    lea.l   MEM_player_previous_frame, a2
+    move.l  a0, (a2)
 
-    move.l  (MEM_player_pos),   d1                          ; restore player position
-    move.l  (MEM_camera_pos),   d2                          ; restore camera position
+
+    moveq   #0, d3              ; skip to sprite data
+    move.w  (a0)+, d3
+    add.w   d3, d3
+    adda.l  d3, a0
 
 
     ******************************************************
@@ -787,34 +805,5 @@ MainLoop_Level:
             dbra    d5, lvl_effects_update
 
     lvl_effects_done:
-
-    **********************************************
-    * DEBUG
-    * SHOW A POSITION
-    **********************************************
-    * move.l  (MEM_playerattack_min), d1
-    * swap    d1
-    * swap    d2
-    * sub.w   d2, d1
-    * add.w   #sprite_view_vmin, d1
-    * move.w  d1, vdp_data
-
-    * move.w  d4, vdp_data
-    * move.w  #3, vdp_data
-    
-    * swap    d1
-    * swap    d2
-    * sub.w   d2, d1
-    * add.w   #sprite_view_hmin, d1
-    * move.w  d1, vdp_data
-
-
-    ******************************************************
-    * END DEBUG 
-    ******************************************************
-
-    DMADumpSpriteBuffer                     ; copy all the updated sprites to VRAM
-
-    move.w	#interrupts_enable, sr                                      ; re-enable interrupts
 
     EndLoop

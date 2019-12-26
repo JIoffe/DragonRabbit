@@ -37,4 +37,5 @@ MEM_score_vram_address          EQU $FFFF068E       ;WORD
 MEM_score_digits_id             EQU $FFFF0690       ;WORD
 MEM_score_vram_data             EQU $FFFF0692       ; ARRAY: 8 x 32 Byte(s)
 MEM_sprite_buffer               EQU $FFFF0792       ; ARRAY: 80 x 8 Byte(s)
-MEM_palette                     EQU $FFFF0A12       ;BYTE
+MEM_player_previous_frame       EQU $FFFF0A12       ;LONG
+MEM_palette                     EQU $FFFF0A16       ;BYTE

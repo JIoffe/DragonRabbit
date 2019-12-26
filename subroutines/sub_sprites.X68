@@ -2,22 +2,13 @@
 * Adds a compound/embedded sprite frame to the VDP.
 * Assumes that sprite tile data is in-line
 * USE:
-
-* d5: Offset in bytes to write to tile vram
 * a0: set to frame start
 * 
 PushEmbeddedSpriteFrame:
     moveq   #0, d1
-    movea.l a0, a2
     move.w  (a0)+, d1
     move.l  a0, d2
-
     bsr.w   TriggerDMADumpToVRAM
-    moveq   #0, d1
-    move.w  (a2)+, d1
-    add.l   d1, d1
-    movea.l a2, a0
-    adda.l  d1, a0
     rts
 
 
