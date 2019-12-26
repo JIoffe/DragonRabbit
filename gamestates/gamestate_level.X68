@@ -77,12 +77,6 @@ Init_Level:
     * - a3 palettes
     moveq   #0, d5
     move.w  d1, d5
-
-    lsl.w   #4, d1
-    move.l  a2, d2
-    move.l  #$20, d3
-    jsr     TriggerDMADumpToVRAM
-
     addq    #1, d5
     move.w  d5, d1
     move.w  d5, (MEM_player_sprite_index)
@@ -96,6 +90,11 @@ Init_Level:
     move.w  d1, (MEM_score_digits_id)
     lsl.w   #5, d1
     move.w  d1, (MEM_score_vram_address)
+    
+    lsl.w   #4, d1
+    move.l  a2, d2
+    move.l  #$20, d3
+    jsr     TriggerDMADumpToVRAM
 
     move.w  #$0500, d1
     move.l  #CoreGameTiles, d2
