@@ -75,10 +75,27 @@ Init_Level:
     * - a1 level
     * - a2 tileset
     * - a3 palettes
+    moveq   #0, d5
+    move.w  d1, d5
+
     lsl.w   #4, d1
     move.l  a2, d2
     move.l  #$20, d3
     jsr     TriggerDMADumpToVRAM
+
+    addq    #1, d5
+    move.w  d5, d1
+    move.w  d5, (MEM_player_sprite_index)
+    lsl.w   #5, d5
+    move.w  d5,  (MEM_player_tiles_start)
+
+    addi.w  #player_tile_allocation, d1
+    move.w  d1, (MEM_UI_sprite_start)
+
+    addi.w  #81, d1
+    move.w  d1, (MEM_score_digits_id)
+    lsl.w   #5, d1
+    move.w  d1, (MEM_score_vram_address)
 
     move.w  #$0500, d1
     move.l  #CoreGameTiles, d2

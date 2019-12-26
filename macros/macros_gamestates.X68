@@ -24,6 +24,7 @@ Goto_Title macro
 * - \4 palettes
 * -----------------------------------------------
 Goto_Level macro
+    lea     NoOpTrap, a6            ; just in case vblank hits while we're getting ready
     lea     \1, a1
     lea     \2, a2
     move.w  \3, d1

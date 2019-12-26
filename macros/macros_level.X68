@@ -2,18 +2,6 @@
 * Macros for loading specific levels
 *===============================================================================
 GotoTestRoom    macro
-    lea     NoOpTrap, a6
-    move.w  #649<<5,  (MEM_player_tiles_start)
-    move.w  #649, (MEM_player_sprite_index)
-
-    move.w  #648+player_tile_allocation, d0
-    move.w  d0, (MEM_UI_sprite_start)
-
-    addi.w  #81, d0
-    move.w  d0, (MEM_score_digits_id)
-    lsl.w   #5, d0
-    move.w  d0, (MEM_score_vram_address)
-
     Goto_Level  TestRoom_level, TESTROOM_tiles, #648, Palettes_TESTROOM
     endm
 
