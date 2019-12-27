@@ -517,6 +517,8 @@ MainLoop_Level:
     *---------------------------------------------------------------------------------
     * And the club is jumpin', jumpin'
     *---------------------------------------------------------------------------------
+    move.b  (MEM_player_state), d6
+    
     move.b  (MEM_player_vulnerability), d0
     btst    #player_hurt_recoil, d0
     bne.w   lvl_player_attack_checked
@@ -524,7 +526,6 @@ MainLoop_Level:
     btst    #player_dead, d0
     bne.w   lvl_player_attack_checked
 
-    move.b  (MEM_player_state), d6
     btst    #sprite_jumping, d6
     beq.s   lvl_notjumping
         move.b	(MEM_buttons_held), d0
