@@ -453,6 +453,32 @@ MainLoop_Level:
 
     cmp.w   d1, d6
     bpl.s   lvl_player_falling
+        ; bump against ceiling tiles
+        move.l  a0, a2
+        move.w  d1, d2
+        lsr.w   #3, d2
+        mulu.w  d4, d2
+
+        moveq   #0, d5
+        swap    d1
+        move.w  d1, d5
+        swap    d1
+        lsr.w   #3, d5
+
+        add.w   d2, d5
+        add.w   d5, d5
+        add.l   d5, a2
+
+        tst.w   (a2)
+        bne.s   lvl_player_landed
+
+        move.w  #player_width_tiles-1, d5
+        add.w   d5, d5
+        add.l   d5, a2
+
+        tst.w   (a2)
+        bne.s   lvl_player_landed
+
         bra.s   lvl_player_y_adjusted
     lvl_player_falling:
         move.w  d1, d2
