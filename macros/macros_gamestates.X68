@@ -24,6 +24,9 @@ Goto_Title macro
 * - \4 palettes
 * -----------------------------------------------
 Goto_Level macro
+    lea     levelstart\@, a0
+    move.l  a0, MEM_level_restart_address
+levelstart\@
     lea     NoOpTrap, a6            ; just in case vblank hits while we're getting ready
     lea     \1, a1
     lea     \2, a2

@@ -41,3 +41,6 @@ MEM_player_previous_frame       EQU $FFFF0A12       ;LONG
 MEM_palette                     EQU $FFFF0A16       ;BYTE
 MEM_player_vulnerability        EQU $FFFF0A17       ;BYTE
 MEM_player_inv_frames           EQU $FFFF0A18       ;WORD
+MEM_player_hp                   EQU $FFFF0A1A       ;BYTE
+MEM_unused                      EQU $FFFF0A1B       ;BYTE
+MEM_level_restart_address       EQU $FFFF0A1C       ;LONG

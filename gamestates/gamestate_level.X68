@@ -39,6 +39,7 @@ player_attack_bboffset  EQU (player_height<<16)|player_attack_width
 player_x_speed          EQU $02
 
 player_jump_strength    EQU -$1A
+player_death_velocity   EQU -$2D
 
 player_jump_duration    EQU $18             ; number of frames the player can hold jump to jump higher
 
@@ -51,6 +52,9 @@ player_dmg_inv_duration EQU $58
 player_vulnerable       EQU $0
 player_hurt_recoil      EQU $1
 player_dmg_invulnerable EQU $2
+player_dead             EQU $4
+
+player_max_hp           EQU $5
 
 
 camera_zone_width       EQU $30
@@ -223,6 +227,7 @@ Init_Level:
 
     ; Naked and vulnerable
     SetPlayerVulnerable
+    move.b  #player_max_hp, MEM_player_hp
 
     ; We're off to the races!
     move.w	#interrupts_enable, sr
@@ -250,6 +255,21 @@ Fadein_Level:
         moveq   #4, d0
         bsr.w   LoadPalettes                                    ; make sure the palette is actually correct
     lvl_continuefadein:
+
+    bra.s   MainLoop_Level
+MainLoop_Level_PlayerDead:
+    ; Restart the level when player is beyond view
+    move.l  (MEM_player_pos),   d1
+    move.l  (MEM_camera_pos),   d2
+
+    swap    d1
+    swap    d2
+    sub.w   d2, d1
+    subi.w  #vdp_screen_height, d1
+    bmi.s   skip_death_restart
+        move.l  MEM_level_restart_address, a0
+        jmp     (a0)
+    skip_death_restart:
 MainLoop_Level:
     ****************************************************
     * BEGIN DMAs
@@ -284,6 +304,9 @@ MainLoop_Level:
     *********************************************************************************************
     move.b  (MEM_player_vulnerability), d0
     btst    #player_hurt_recoil, d0
+    bne.w   skip_input
+
+    btst    #player_dead, d0
     bne.w   skip_input
 
     move.b	(MEM_buttons_held), d0
@@ -394,6 +417,8 @@ MainLoop_Level:
     * ; see if player has dropped beneath tiles
     * ; ray march for every row the player has dropped (The player can fall faster than moving side-to-side)
 
+    SkipWhenPlayerDead  d3, lvl_player_y_adjusted
+
     move.l  a1, a0
     move.w  (a0)+, d3                            ; d3 has level height
     moveq   #0, d4
@@ -476,7 +501,10 @@ MainLoop_Level:
 
     ; Move the camera along with the player - d2 holds the camera for the majority of the frame
     move.l  (MEM_camera_pos),   d2
+
+    SkipWhenPlayerDead  d5, camera_tracking_skip
     ClampCameraToPlayer d2, d1
+    camera_tracking_skip:
     ClampCameraToLevel  d2, d6, d7
 
     move.l  (MEM_camera_pos),  d5       ; keep previous camera position as a reference in d5
@@ -489,6 +517,13 @@ MainLoop_Level:
     *---------------------------------------------------------------------------------
     * And the club is jumpin', jumpin'
     *---------------------------------------------------------------------------------
+    move.b  (MEM_player_vulnerability), d0
+    btst    #player_hurt_recoil, d0
+    bne.w   lvl_player_attack_checked
+
+    btst    #player_dead, d0
+    bne.w   lvl_player_attack_checked
+
     move.b  (MEM_player_state), d6
     btst    #sprite_jumping, d6
     beq.s   lvl_notjumping
