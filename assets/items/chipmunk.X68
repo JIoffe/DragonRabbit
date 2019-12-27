@@ -44,6 +44,8 @@ Chipmunk_Update:
             bra.w   chipmunk_done
     chipmunk_damage_skip:
 
+    HurtPlayerIfTouching
+    
     tst.b   d7
     beq.s   chipmunk_recoil_updated
         subq    #1, d7

@@ -47,6 +47,8 @@ Chicken_Update:
         move.b  #chicken_recoil_frames, d7
     chicken_damage_skip:
 
+    HurtPlayerIfTouching
+    
     tst.b   d7
     beq.s   chicken_walking_anim
         subq    #1, d7

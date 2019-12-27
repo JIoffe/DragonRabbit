@@ -29,13 +29,13 @@ HazardousProjectile_effect:
         ori.w   #vram_hflip_bit, d7
     projectile_flipped:
 
-    lea     NutProjectile, a0
-    jsr     DrawSprite
-
     suba.l  #4, a4
     move.l  (a4), d1
     add.w   d6, d1
     move.l  d1, (a4)+       ; update new position
+
+    lea     NutProjectile, a0
+    jsr     DrawSprite
 
     jmp (a5)
 

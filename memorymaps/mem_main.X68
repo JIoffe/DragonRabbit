@@ -1,4 +1,4 @@
-* MEMORY USAGE: 2579 byte(s)
+* MEMORY USAGE: 2586 byte(s)
 mem_start                       EQU $FFFF0000       ;(alias)
 frame_state                     EQU $FFFF0000       ;WORD
 frame_counter                   EQU $FFFF0002       ;WORD
@@ -39,3 +39,5 @@ MEM_score_vram_data             EQU $FFFF0692       ; ARRAY: 8 x 32 Byte(s)
 MEM_sprite_buffer               EQU $FFFF0792       ; ARRAY: 80 x 8 Byte(s)
 MEM_player_previous_frame       EQU $FFFF0A12       ;LONG
 MEM_palette                     EQU $FFFF0A16       ;BYTE
+MEM_player_vulnerability        EQU $FFFF0A17       ;BYTE
+MEM_player_inv_frames           EQU $FFFF0A18       ;WORD

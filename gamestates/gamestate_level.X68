@@ -44,6 +44,14 @@ player_jump_duration    EQU $18             ; number of frames the player can ho
 
 player_tile_allocation  EQU $40             ; keep 64 tiles free for the player animation at all times
 
+player_hurt_duration    EQU $1C
+player_dmg_inv_duration EQU $58
+
+; Player invulnerability states
+player_vulnerable       EQU $0
+player_hurt_recoil      EQU $1
+player_dmg_invulnerable EQU $2
+
 
 camera_zone_width       EQU $30
 camera_zone_height      EQU $54
@@ -90,7 +98,7 @@ Init_Level:
     move.w  d1, (MEM_score_digits_id)
     lsl.w   #5, d1
     move.w  d1, (MEM_score_vram_address)
-    
+
     lsl.w   #4, d1
     move.l  a2, d2
     move.l  #$20, d3
@@ -213,6 +221,9 @@ Init_Level:
     bset    #score_changed, (frame_state)
     move.l  #BaoLongTu_sprite_Idle0, (MEM_player_previous_frame)
 
+    ; Naked and vulnerable
+    SetPlayerVulnerable
+
     ; We're off to the races!
     move.w	#interrupts_enable, sr
     rts
@@ -271,6 +282,10 @@ MainLoop_Level:
     *********************************************************************************************
     * INPUT... INPUT!!!
     *********************************************************************************************
+    move.b  (MEM_player_vulnerability), d0
+    btst    #player_hurt_recoil, d0
+    bne.w   skip_input
+
     move.b	(MEM_buttons_held), d0
 
     move.b  d0, d7
@@ -300,6 +315,7 @@ MainLoop_Level:
     lvl_walkingflag_set:
     move.b  d5, (MEM_player_state)
 
+    skip_input:
 
     *******************************************************************
     * Player collision against level (horizontal)
@@ -673,51 +689,69 @@ MainLoop_Level:
     ; Every sprite is world position + camera + {sprite_view_hmin,sprite_view_vmin}
 
 
-    ; Select animation based on player state
+    ; Has the great hero been injured?
     move.b  (MEM_player_state), d6
-
-    test_attack_duration:
-    move.b  (MEM_player_attack_frames), d0
-    cmp.b   #player_attack_duration, d0
-    bge.s   lvl_player_notattacking
-        ; choose player attack frame
-        btst    #player_attack_3, d6
-        beq.s   select_attack_2
-            lea     BaoLongTu_sprite_Attack30, a0
-            bra.s   lvl_player_animation_selected
-
-        select_attack_2:
-        btst    #player_attack_2, d6
-        beq.s   select_attack_1
-            lea     BaoLongTu_sprite_Attack20, a0
-            bra.s   lvl_player_animation_selected
-
-        select_attack_1:
-        btst    #player_attack_1, d6
-        beq.s   lvl_player_notattacking
-            lea     BaoLongTu_sprite_Attack10, a0
-            bra.s   lvl_player_animation_selected
-
-    lvl_player_notattacking:
-        btst    #sprite_jumping, d6
-        beq.s   lvl_player_not_jumping
-            lea     BaoLongTu_sprite_Jumping0, a0
-            bra.s   lvl_player_animation_selected
-        lvl_player_not_jumping:
-        btst    #player_walking, d6
-        beq.s   lvl_player_idle
-            ; select walking frame - 2 frames for now
-            move.w  (frame_counter), d5
-            andi.w  #15, d5
-            cmp.w   #8, d5
-            blt.s   player_walk_frame1          
-                lea     BaoLongTu_sprite_Walking0, a0
+    move.b  (MEM_player_vulnerability), d0
+    btst    #player_hurt_recoil, d0
+    beq.s   player_not_recovering
+        lea     BaoLongTu_sprite_Hurt0, a0
+        move.w  (MEM_player_inv_frames), d5
+        bne.s   player_reduce_anguish
+            ; End the anguish eventually
+            bclr    #player_hurt_recoil, d0
+            bset    #player_dmg_invulnerable, d0
+            move.b  d0, (MEM_player_vulnerability)
+            move.w  #player_dmg_inv_duration, d5
+            move.w  d5, (MEM_player_inv_frames)
+            bra.w   lvl_player_animation_selected
+        player_reduce_anguish:
+            subq    #1, d5
+            move.w  d5, (MEM_player_inv_frames)
+            bra.w   lvl_player_animation_selected
+    player_not_recovering:
+        ; Select animation based on player state
+        test_attack_duration:
+        move.b  (MEM_player_attack_frames), d0
+        cmp.b   #player_attack_duration, d0
+        bge.s   lvl_player_notattacking
+            ; choose player attack frame
+            btst    #player_attack_3, d6
+            beq.s   select_attack_2
+                lea     BaoLongTu_sprite_Attack30, a0
                 bra.s   lvl_player_animation_selected
-            player_walk_frame1:
-                lea     BaoLongTu_sprite_Walking1, a0
+
+            select_attack_2:
+            btst    #player_attack_2, d6
+            beq.s   select_attack_1
+                lea     BaoLongTu_sprite_Attack20, a0
                 bra.s   lvl_player_animation_selected
-    lvl_player_idle:
-        lea     BaoLongTu_sprite_Idle0, a0
+
+            select_attack_1:
+            btst    #player_attack_1, d6
+            beq.s   lvl_player_notattacking
+                lea     BaoLongTu_sprite_Attack10, a0
+                bra.s   lvl_player_animation_selected
+
+        lvl_player_notattacking:
+            btst    #sprite_jumping, d6
+            beq.s   lvl_player_not_jumping
+                lea     BaoLongTu_sprite_Jumping0, a0
+                bra.s   lvl_player_animation_selected
+            lvl_player_not_jumping:
+            btst    #player_walking, d6
+            beq.s   lvl_player_idle
+                ; select walking frame - 2 frames for now
+                move.w  (frame_counter), d5
+                andi.w  #15, d5
+                cmp.w   #8, d5
+                blt.s   player_walk_frame1          
+                    lea     BaoLongTu_sprite_Walking0, a0
+                    bra.s   lvl_player_animation_selected
+                player_walk_frame1:
+                    lea     BaoLongTu_sprite_Walking1, a0
+                    bra.s   lvl_player_animation_selected
+        lvl_player_idle:
+            lea     BaoLongTu_sprite_Idle0, a0
     lvl_player_animation_selected:
 
     lea.l   MEM_player_previous_frame, a2
@@ -754,9 +788,25 @@ MainLoop_Level:
 
     moveq   #4, d4                                          ; d4 will keep track of *linking*
 
-    move.w  (MEM_player_sprite_index), d7
-    bsr.w   DrawSpriteFrame
-
+    ; obligatory "GTFO or die" flicker
+    move.b  (MEM_player_vulnerability), d0
+    btst    #player_dmg_invulnerable, d0
+    beq.s   draw_player_sprite
+        move.w  (MEM_player_inv_frames), d5
+        beq.s   return_vulnerability
+            subq    #1, d5
+            move.w  d5, (MEM_player_inv_frames)
+            move.w  (frame_counter), d5
+            andi.w  #7, d5
+            cmp.b   #4, d5
+            blt.s   draw_player_sprite
+            bra.s   skip_player_sprite
+        return_vulnerability:
+            SetPlayerVulnerable
+    draw_player_sprite:
+        move.w  (MEM_player_sprite_index), d7
+        bsr.w   DrawSpriteFrame
+    skip_player_sprite:
 
     ***************************************************
     * ITEMS in level,  like enemies and collectibles

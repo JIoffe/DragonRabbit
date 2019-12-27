@@ -40,8 +40,10 @@ Moguren_Update:
         andi.b  #6, d3
         AddPointsAndBloodburst  #mogu_points
         move.b  #moguren_recoil_frames, d7
-
     mogu_damage_received:
+
+    HurtPlayerIfTouching
+
     tst.b   d7
     beq.s   mogu_walking_anim
         subq    #1, d7
