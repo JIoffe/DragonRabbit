@@ -134,6 +134,7 @@ NotHandled:
 * Subroutines
 *===============================
     include './subroutines/sub_dma.X68'
+    include './subroutines/sub_ram.X68'
     include './subroutines/sub_palettes.X68'
     include './subroutines/sub_loadtiles.X68'
     include './subroutines/sub_stamps.X68'

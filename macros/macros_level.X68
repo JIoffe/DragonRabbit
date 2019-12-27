@@ -112,3 +112,8 @@ loop\@
         dbra    d0, loop\@
 
     endm
+
+RestartLevel    macro
+    move.l  MEM_level_restart_address, a0
+    jmp     (a0)
+    endm

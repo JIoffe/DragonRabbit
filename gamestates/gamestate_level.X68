@@ -81,6 +81,7 @@ Init_Level:
     move.w  #0, (frame_counter)
     ClearVram
     bsr.w   ClearCRAM
+    bsr.w   ClearLevelVars
 
     move.b  #$0E, (MEM_fade)              ; Start at full fade and then fade in
 
@@ -233,6 +234,31 @@ Init_Level:
     move.w	#interrupts_enable, sr
     rts
 
+Fadeout_Level:
+    move.w  (frame_counter), d5
+    moveq   #0, d1
+    move.b  (MEM_fade), d1
+
+    cmp.b   #$0E, d1
+    beq.s   lvl_fadeout_advance
+    andi.w  #lvl_fadein_interval, d5
+    bne.s   lvl_fadeout_advance
+        addi.b  #2, d1
+        move.b  d1, (MEM_fade)
+    lvl_fadeout_advance:
+
+    move.l  MEM_palette, a0
+    moveq   #4, d0
+	bsr.w   FadePalettes
+
+    move.w  (frame_counter), d5
+    cmp.w   #88, d5
+    blt.s   continue_lvl_fadeout
+        RestartLevel
+    continue_lvl_fadeout:
+
+    EndLoop
+
 Fadein_Level:
     move.w  (frame_counter), d5
     moveq   #0, d1
@@ -267,8 +293,9 @@ MainLoop_Level_PlayerDead:
     sub.w   d2, d1
     subi.w  #vdp_screen_height, d1
     bmi.s   skip_death_restart
-        move.l  MEM_level_restart_address, a0
-        jmp     (a0)
+        move.b  #0, MEM_fade
+        move.w  #0, frame_counter 
+        lea     Fadeout_Level, a6
     skip_death_restart:
 MainLoop_Level:
     ****************************************************
@@ -518,7 +545,7 @@ MainLoop_Level:
     * And the club is jumpin', jumpin'
     *---------------------------------------------------------------------------------
     move.b  (MEM_player_state), d6
-    
+
     move.b  (MEM_player_vulnerability), d0
     btst    #player_hurt_recoil, d0
     bne.w   lvl_player_attack_checked
