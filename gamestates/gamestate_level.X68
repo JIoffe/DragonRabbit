@@ -81,6 +81,23 @@ Init_Level:
     addq    #1, d7
     bsr.w   DrawSprite_Untransformed
 
+    ; setup the score sprite(s)
+    lea.l   MEM_sprite_buffer+8, a2
+    move.w  #score_pts_position_y, (a2)+                 ; first is y offset
+    move.w  #$0C02, d3
+    move.w  d3, (a2)+                                     ; second is size and link
+    move.w  (MEM_score_digits_id), d5
+    move.w  d5, (a2)+
+    move.w  #score_pts_position_x, (a2)+                  ; last is x offset
+
+    move.w  #score_pts_position_y, (a2)+                 ; first is y offset
+    move.w  #$0C03, d3
+    move.w  d3, (a2)+                                    ; second is size and link
+    move.w  d5, d3
+    addq    #4, d3
+    move.w  d3, (a2)+
+    move.w  #(score_pts_position_x+32), (a2)            ; last is x offset
+
     move.l  a3, (MEM_palette)
 
     ; Setup background - this will vary by level somehow
@@ -819,24 +836,6 @@ MainLoop_Level:
     * START WORKING ON SPRITES
     * - populate buffer in RAM and then DMA
     ******************************************************
-    
-    ; Render Score
-    lea.l   MEM_sprite_buffer+8, a2
-    move.w  #score_pts_position_y, (a2)+                 ; first is y offset
-    move.w  #$0C02, d3
-    move.w  d3, (a2)+                                     ; second is size and link
-    move.w  (MEM_score_digits_id), d5
-    move.w  d5, (a2)+
-    move.w  #score_pts_position_x, (a2)+                  ; last is x offset
-
-    move.w  #score_pts_position_y, (a2)+                 ; first is y offset
-    move.w  #$0C03, d3
-    move.w  d3, (a2)+                                    ; second is size and link
-    move.w  d5, d3
-    addq    #4, d3
-    move.w  d3, (a2)+
-    move.w  #(score_pts_position_x+32), (a2)            ; last is x offset
-
     moveq   #4, d4                                          ; d4 will keep track of *linking*
 
     ; obligatory "GTFO or die" flicker
