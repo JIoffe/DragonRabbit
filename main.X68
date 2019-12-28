@@ -9,10 +9,10 @@ RomStart:
 *======================
 * Import Constants
 *======================
-    ; These are system constants that will be the same or similar for other ROMS
     include './constants/constants_segagenesis.X68'
     include './constants/constants_ascii.X68'
     include './constants/constants_gamestates.X68'
+    include './constants/constants_player.X68'
     
 *==============================================================
 * Memory Map(s) for this ROM
@@ -25,11 +25,6 @@ RomStart:
 *==================================
 vblank_on_flag                  EQU $0001
 score_changed                   EQU $0002
-
-*==================================
-* Important constants
-*==================================
-player_tile_allocation          EQU $40
 
 *-----------------------------------------------------------
 * CPU VECTORS

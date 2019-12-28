@@ -10,51 +10,8 @@ sprite_flip_h           EQU $00
 sprite_jumping          EQU $01
 sprite_falling          EQU $02
 
-; Player combo moves
-player_attack_1         EQU $03
-player_attack_2         EQU $04
-player_attack_3         EQU $05
-player_attack_4         EQU $06
-
-player_walking          EQU $07
-
-player_attack_duration  EQU $08
-player_combo_time       EQU $20
-
 sprite_airborne         EQU $06             ; bits 2 and 1
 
-
-player_height           EQU $40
-player_height_tiles     EQU (player_height>>3)
-player_width            EQU $18
-player_width_tiles      EQU (player_width>>3)
-player_width_tbytes     EQU (player_width_tiles<<1)
-player_side_scan_height EQU player_height_tiles-1             ; Give some wiggle room when scanning for side-to-side collisions
-player_bb_offset        EQU (player_height<<16)|player_width
-
-player_attack_width     EQU $2A
-player_attack_height    EQU player_height
-player_attack_bboffset  EQU (player_height<<16)|player_attack_width
-
-player_x_speed          EQU $02
-
-player_jump_strength    EQU -$1A
-player_death_velocity   EQU -$2D
-
-player_jump_duration    EQU $18             ; number of frames the player can hold jump to jump higher
-
-player_tile_allocation  EQU $40             ; keep 64 tiles free for the player animation at all times
-
-player_hurt_duration    EQU $1C
-player_dmg_inv_duration EQU $58
-
-; Player invulnerability states
-player_vulnerable       EQU $0
-player_hurt_recoil      EQU $1
-player_dmg_invulnerable EQU $2
-player_dead             EQU $4
-
-player_max_hp           EQU $5
 
 
 camera_zone_width       EQU $30
@@ -781,6 +738,11 @@ MainLoop_Level:
     ; Has the great hero been injured?
     move.b  (MEM_player_state), d6
     move.b  (MEM_player_vulnerability), d0
+    btst    #player_dead, d0
+    beq.s   player_alive
+        lea     BaoLongTu_sprite_Dead0, a0
+        bra.w   lvl_player_animation_selected
+    player_alive:
     btst    #player_hurt_recoil, d0
     beq.s   player_not_recovering
         lea     BaoLongTu_sprite_Hurt0, a0
