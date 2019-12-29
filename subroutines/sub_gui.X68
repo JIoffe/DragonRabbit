@@ -62,3 +62,33 @@ UpdateScoreGfx
 
     movem.l (SP)+, d0-d7
     rts
+
+UpdateHealthGfx:
+    movem.l d0-d7, -(SP)
+    move.w  #$40, d1
+    move.b  MEM_player_hp, d3
+    bne.s   health_test3
+        move.l  #HealthTiles0of3, d2
+        bra.s   health_gfx_chosen
+    health_test3:
+    cmp.b   #3, d3
+    bne.s   health_test2
+        move.l  #HealthTiles3of3, d2
+        bra.s   health_gfx_chosen
+    health_test2:
+        cmp.b   #2, d3
+        bne.s   health_test1
+            move.l  #HealthTiles2of3, d2
+            bra.s   health_gfx_chosen
+    health_test1:
+        move.l  #HealthTiles1of3, d2
+    health_gfx_chosen:
+
+    moveq   #0, d3
+    move.w  (MEM_UI_sprite_start), d3
+    addi.w  #81, d3
+    lsl.w   #5, d3
+    jsr     TriggerDMADumpToVRAM
+
+    movem.l (SP)+, d0-d7
+    rts

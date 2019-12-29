@@ -32,6 +32,9 @@ score_label_position    EQU ((sprite_view_vmin+4)<<16)|(sprite_view_hmin+4)
 score_pts_position_x    EQU sprite_view_hmin+4
 score_pts_position_y    EQU sprite_view_vmin+12
 
+health_sprite_x         EQU (447-36)
+health_sprite_y         EQU (sprite_view_vmin+4)
+
 ; a1 always pointed to the start of the level we're working with
 Init_Level:
     move.w	#interrupts_disable, sr
@@ -56,7 +59,7 @@ Init_Level:
     addi.w  #player_tile_allocation, d1
     move.w  d1, (MEM_UI_sprite_start)
 
-    addi.w  #81, d1
+    addi.w  #85, d1
     move.w  d1, (MEM_score_digits_id)
     lsl.w   #5, d1
     move.w  d1, (MEM_score_vram_address)
@@ -66,7 +69,7 @@ Init_Level:
     move.l  #$20, d3
     jsr     TriggerDMADumpToVRAM
 
-    move.w  #$0500, d1
+    move.w  #$0540, d1
     move.l  #CoreGameTiles, d2
     moveq   #0, d3
     move.w  (MEM_UI_sprite_start), d3
@@ -83,21 +86,29 @@ Init_Level:
 
     ; setup the score sprite(s)
     lea.l   MEM_sprite_buffer+8, a2
-    move.w  #score_pts_position_y, (a2)+                 ; first is y offset
+    move.w  #score_pts_position_y, (a2)+                ; first is y offset
     move.w  #$0C02, d3
-    move.w  d3, (a2)+                                     ; second is size and link
+    move.w  d3, (a2)+                                   ; second is size and link
     move.w  (MEM_score_digits_id), d5
     move.w  d5, (a2)+
-    move.w  #score_pts_position_x, (a2)+                  ; last is x offset
+    move.w  #score_pts_position_x, (a2)+                ; last is x offset
 
-    move.w  #score_pts_position_y, (a2)+                 ; first is y offset
+    move.w  #score_pts_position_y, (a2)+                ; first is y offset
     move.w  #$0C03, d3
-    move.w  d3, (a2)+                                    ; second is size and link
+    move.w  d3, (a2)+                                   ; second is size and link
     move.w  d5, d3
     addq    #4, d3
     move.w  d3, (a2)+
-    move.w  #(score_pts_position_x+32), (a2)            ; last is x offset
+    move.w  #(score_pts_position_x+32), (a2)+           ; last is x offset
 
+    ; health sprite
+    move.w  #health_sprite_y, (a2)+                     ; first is y offset
+    move.w  #$0C04, d3
+    move.w  d3, (a2)+                                   ; second is size and link
+    move.w  (MEM_UI_sprite_start), d3
+    addi.w  #81, d3
+    move.w  d3, (a2)+
+    move.w  #health_sprite_x, (a2)+                     ; last is x offset
     move.l  a3, (MEM_palette)
 
     ; Setup background - this will vary by level somehow
@@ -836,7 +847,7 @@ MainLoop_Level:
     * START WORKING ON SPRITES
     * - populate buffer in RAM and then DMA
     ******************************************************
-    moveq   #4, d4                                          ; d4 will keep track of *linking*
+    moveq   #5, d4                                          ; d4 will keep track of *linking*
 
     ; obligatory "GTFO or die" flicker
     move.b  (MEM_player_vulnerability), d0

@@ -137,7 +137,7 @@ NotHandled:
     include './subroutines/sub_sprites.X68'
     include './subroutines/sub_collision.X68'
     include './subroutines/sub_effects.X68'
-    include './subroutines/sub_score.X68'
+    include './subroutines/sub_gui.X68'
 
 *===============================
 * Art/Sound/Text Assets
