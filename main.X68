@@ -80,8 +80,9 @@ Main:
     include './init/init_inputs.X68' 
     include './init/init_clearmem.X68'
 
-    ; Start the game off at the introduction
-    Goto_IntroClouds
+    ; Begin the game at the licensing screen
+    lea     NoOpTrap, a6
+    Goto_Licensing
 
 MainLoop:
     bsr.w   WaitVBlank
@@ -91,6 +92,7 @@ MainLoop:
 *---------------------------------
 * Game States and frame handlers
 *---------------------------------
+    include './gamestates/gamestate_licensing.X68'
     include './gamestates/gamestate_introclouds.X68'
     include './gamestates/gamestate_title.X68'
     include './gamestates/gamestate_level.X68'
@@ -138,12 +140,15 @@ NotHandled:
     include './subroutines/sub_collision.X68'
     include './subroutines/sub_effects.X68'
     include './subroutines/sub_gui.X68'
+    include './subroutines/sub_text.X68'
 
 *===============================
 * Art/Sound/Text Assets
 * ===============================
     palette_empty:
     dc.w    $0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0
+
+    include './assets/palettes/palettes_system.X68'
 
     include './assets/player/baolongtu_sprite.X68'
     include './assets/cutscenes/intro_storm/palette.X68'
@@ -168,6 +173,8 @@ NotHandled:
     include './assets/levels/core-tiles.X68'
     include './assets/levels/core-sprites.X68'
     include './assets/levels/numbers-tiles.X68'
+
+    include './assets/fonts/font_a.X68'
     
     ; FOR TEST ROOM
     include './assets/levels/testroom/tiles.X68'
@@ -184,6 +191,11 @@ NotHandled:
 
     NoOpTrap:
         jmp     MainLoop
+*=====================================================
+* It don't mean a thing if you ain't got the strings
+* Included last in case of any alignment issues...
+*=====================================================
+    include './assets/strings/strings_sys.X68'
 RomEnd:
 
 

@@ -43,3 +43,4 @@ MEM_player_hp                   EQU $FFFF0A17       ;BYTE
 MEM_player_inv_frames           EQU $FFFF0A18       ;WORD
 MEM_level_restart_address       EQU $FFFF0A1A       ;LONG
 MEM_palette                     EQU $FFFF0A1E       ;LONG
+MEM_plane_buffer                EQU $FFFF0A22       ; Array: 64 * 32 * 2 bytes

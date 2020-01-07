@@ -1,6 +1,15 @@
 * -----------------------------------------------
 * Go to the intro scene with the stormy clouds
 * -----------------------------------------------
+Goto_Licensing macro
+    jsr     Init_Licensing
+    lea     Loop_Licensing, a6
+    move.b  #gamestate_licensing, (MEM_gamestate)
+    endm
+
+* -----------------------------------------------
+* Go to the intro scene with the stormy clouds
+* -----------------------------------------------
 Goto_IntroClouds macro
     jsr     Init_IntroClouds
     lea     MainLoop_Clouds, a6
