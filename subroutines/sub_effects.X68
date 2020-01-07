@@ -10,15 +10,15 @@ AddEffect:
     move.w  (MEM_effects_count), d0
     lea     MEM_effects, a0
     cmp.w   #max_effects, d0
-    bge.s   add_effect_offset
+    bge.s   effect_added
         mulu.w  #6, d0
         adda.l  d0, a0
-    add_effect_offset:
+        addq    #1, (MEM_effects_count)
+    effect_added:
 
     move.w  d7, (a0)+
     move.l  d1, (a0)
 
-    addq    #1, (MEM_effects_count)
     move.l  (SP)+, d0
     rts
 
