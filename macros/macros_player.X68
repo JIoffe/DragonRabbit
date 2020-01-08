@@ -39,3 +39,14 @@ HurtPlayerIfTouching    macro
     jmp     CollideHazardAgainstPlayer
 return\@
     endm
+
+*********************************************
+* Everyone dies, but not everyone truly lives
+*********************************************
+KillPlayer  macro
+    move.b  #0, MEM_player_hp
+    move.b  #$10, MEM_player_vulnerability
+    move.w  #player_death_velocity, MEM_player_velocity_y       ; jump for... death?
+    lea     MainLoop_Level_PlayerDead, a6                       ; Go to update loop for player death
+    jsr     UpdateHealthGfx
+    endm

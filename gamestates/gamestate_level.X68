@@ -423,6 +423,14 @@ MainLoop_Level:
     asr.w   #3, d4
     add.w   d4, d6
 
+    * *****************************************************************
+    * * Kill player when falling past level bounds
+    * *****************************************************************
+    
+    * bne.s   player_did_not_fall_to_doom
+    *     KillPlayer
+    * player_did_not_fall_to_doom:
+
     *****************************************************************
     * COLLIDE PLAYER AGAINST LEVEL TILES
     *****************************************************************
@@ -455,17 +463,26 @@ MainLoop_Level:
         add.l   d5, a2
 
         tst.w   (a2)
-        bne.s   lvl_player_landed
+        bne.w   lvl_player_landed
 
         move.w  #player_width_tiles-1, d5
         add.w   d5, d5
         add.l   d5, a2
 
         tst.w   (a2)
-        bne.s   lvl_player_landed
+        bne.w   lvl_player_landed
 
-        bra.s   lvl_player_y_adjusted
+        bra.w   lvl_player_y_adjusted
     lvl_player_falling:
+        asl.w   #3, d3
+        subi.w  #player_height, d3
+        cmp.w   d3, d6
+        blt.s   lvl_continue_fall_scan
+            KillPlayer
+            move.w  d3, d6
+            bra.w   lvl_player_landed
+        lvl_continue_fall_scan:
+
         move.w  d1, d2
         add.w   #player_height, d2
         lsr.w   #3, d2
@@ -512,12 +529,7 @@ MainLoop_Level:
             swap    d7
             cmp.w   d7, d2
             ble.s   lvl_player_falling_scan
-
-        asl.w   #3, d3
-        subi.w  #player_height, d3
-        cmp.w   d3, d6
-        blt.s   lvl_player_y_adjusted
-            move.w  d3, d6
+            bra.s   lvl_player_y_adjusted
         lvl_player_landed:
             move.b  #0, (MEM_player_jump_frames)
             move.b  (MEM_player_state), d7
