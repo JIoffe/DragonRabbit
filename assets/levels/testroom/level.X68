@@ -5563,6 +5563,77 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $2044   
+   dc.w $2047   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -5748,148 +5819,77 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2045   
+   dc.w $2048   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -6075,77 +6075,77 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $2049   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -6331,6 +6331,77 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $2046   
+   dc.w $204A   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -6516,6 +6587,77 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $2044   
+   dc.w $204B   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -6701,6 +6843,77 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $2044   
+   dc.w $2047   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -6909,6 +7122,54 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $2045   
+   dc.w $2048   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -7117,6 +7378,54 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $2044   
+   dc.w $2049   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -7325,6 +7634,54 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $2046   
+   dc.w $204A   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -7533,6 +7890,54 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $2044   
+   dc.w $204B   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -7741,1526 +8146,54 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $200A   
-   dc.w $200F   
-   dc.w $200A   
-   dc.w $200F   
-   dc.w $200A   
-   dc.w $200F   
-   dc.w $200A   
-   dc.w $200F   
-   dc.w $200A   
-   dc.w $200F   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $200B   
-   dc.w $2010   
-   dc.w $200B   
-   dc.w $2010   
-   dc.w $200B   
-   dc.w $2010   
-   dc.w $200B   
-   dc.w $2010   
-   dc.w $200B   
-   dc.w $2010   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $2044   
+   dc.w $2047   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $203B   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -9489,6 +8422,1073 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $2045   
+   dc.w $2048   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $200B   
+   dc.w $2010   
+   dc.w $200B   
+   dc.w $2010   
+   dc.w $200B   
+   dc.w $2010   
+   dc.w $200B   
+   dc.w $2010   
+   dc.w $200B   
+   dc.w $2010   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $2044   
+   dc.w $2049   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $2046   
+   dc.w $204A   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $2044   
+   dc.w $204B   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2042   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $200A   
+   dc.w $200F   
+   dc.w $200A   
+   dc.w $200F   
+   dc.w $200A   
+   dc.w $200F   
+   dc.w $200A   
+   dc.w $200F   
+   dc.w $200A   
+   dc.w $200F   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $2044   
+   dc.w $2047   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2034   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -9702,34 +9702,34 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2045   
+   dc.w $2048   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2035   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -9958,34 +9958,34 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $2049   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2036   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -10214,34 +10214,34 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2046   
+   dc.w $204A   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2037   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -10470,34 +10470,34 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $204B   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2033   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -10726,34 +10726,34 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $2047   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -10982,34 +10982,34 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2045   
+   dc.w $2048   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2035   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -11238,34 +11238,34 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $2049   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2036   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -11494,34 +11494,34 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2046   
+   dc.w $204A   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2025   
+   dc.w $203B   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2037   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2025   
+   dc.w $203B   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -11750,34 +11750,34 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $204B   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $202A   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -12000,40 +12000,40 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2044   
+   dc.w $2047   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
+   dc.w $2036   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $202B   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
+   dc.w $203F   
+   dc.w $2043   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2026   
+   dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -12256,40 +12256,40 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $2045   
+   dc.w $2048   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
+   dc.w $2037   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $202C   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
+   dc.w $2040   
+   dc.w $2036   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -12444,7 +12444,7 @@ TestRoom_level:
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
-   dc.w $202A   
+   dc.w $203B   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -12518,34 +12518,34 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $2049   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2042   
+   dc.w $2033   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $202D   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
+   dc.w $2041   
+   dc.w $2037   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $2032   
+   dc.w $2037   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -12699,10 +12699,10 @@ TestRoom_level:
    dc.w $202B   
    dc.w $2030   
    dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
    dc.w $204D   
@@ -12774,34 +12774,34 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2046   
+   dc.w $204A   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $202E   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
+   dc.w $2042   
+   dc.w $2033   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2033   
+   dc.w $2033   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -12955,9 +12955,9 @@ TestRoom_level:
    dc.w $202C   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
@@ -13030,34 +13030,34 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -13211,9 +13211,9 @@ TestRoom_level:
    dc.w $202D   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
@@ -13310,10 +13310,10 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $2047   
+   dc.w $202F   
+   dc.w $2034   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -13469,7 +13469,7 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
@@ -13566,10 +13566,10 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2045   
+   dc.w $2048   
+   dc.w $2030   
+   dc.w $2035   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -13708,7 +13708,7 @@ TestRoom_level:
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
-   dc.w $202A   
+   dc.w $203B   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -13720,7 +13720,7 @@ TestRoom_level:
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
-   dc.w $202A   
+   dc.w $203B   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -13822,10 +13822,10 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $2049   
+   dc.w $2031   
+   dc.w $2036   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -13963,6 +13963,10 @@ TestRoom_level:
    dc.w $2048   
    dc.w $2030   
    dc.w $2035   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
    dc.w $2030   
@@ -13971,14 +13975,10 @@ TestRoom_level:
    dc.w $202B   
    dc.w $2030   
    dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
    dc.w $2030   
@@ -14078,10 +14078,10 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2046   
+   dc.w $204A   
+   dc.w $2032   
+   dc.w $2037   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -14219,9 +14219,9 @@ TestRoom_level:
    dc.w $2049   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
@@ -14231,9 +14231,9 @@ TestRoom_level:
    dc.w $202C   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
@@ -14334,10 +14334,10 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $204B   
+   dc.w $2033   
+   dc.w $2033   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -14475,9 +14475,9 @@ TestRoom_level:
    dc.w $204A   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
@@ -14487,9 +14487,9 @@ TestRoom_level:
    dc.w $202D   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
@@ -14545,6 +14545,10 @@ TestRoom_level:
    dc.w $2006   
    dc.w $200C   
    dc.w $2011   
+   dc.w $200A   
+   dc.w $200F   
+   dc.w $200A   
+   dc.w $200F   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -14586,14 +14590,10 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $2047   
+   dc.w $202F   
+   dc.w $2034   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -14733,11 +14733,7 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
-   dc.w $2033   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
@@ -14746,6 +14742,10 @@ TestRoom_level:
    dc.w $2029   
    dc.w $202E   
    dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
@@ -14801,6 +14801,10 @@ TestRoom_level:
    dc.w $2007   
    dc.w $200D   
    dc.w $2012   
+   dc.w $200B   
+   dc.w $2010   
+   dc.w $200B   
+   dc.w $2010   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -14842,14 +14846,10 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2045   
+   dc.w $2048   
+   dc.w $2030   
+   dc.w $2035   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -15057,6 +15057,8 @@ TestRoom_level:
    dc.w $2008   
    dc.w $200E   
    dc.w $2013   
+   dc.w $200A   
+   dc.w $200F   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -15100,12 +15102,10 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $2049   
+   dc.w $2031   
+   dc.w $2036   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -15313,6 +15313,8 @@ TestRoom_level:
    dc.w $2009   
    dc.w $2005   
    dc.w $2009   
+   dc.w $200B   
+   dc.w $2010   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -15356,12 +15358,10 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2046   
+   dc.w $204A   
+   dc.w $2032   
+   dc.w $2037   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -15614,10 +15614,10 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2044   
+   dc.w $204B   
+   dc.w $2033   
+   dc.w $2033   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -15840,40 +15840,40 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $2025   
-   dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -16107,7 +16107,7 @@ TestRoom_level:
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
-   dc.w $202A   
+   dc.w $203B   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -16268,7 +16268,7 @@ TestRoom_level:
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
-   dc.w $202A   
+   dc.w $203B   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -16276,7 +16276,7 @@ TestRoom_level:
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
-   dc.w $202A   
+   dc.w $203B   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -16284,7 +16284,7 @@ TestRoom_level:
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
-   dc.w $202A   
+   dc.w $203B   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -16362,10 +16362,10 @@ TestRoom_level:
    dc.w $202B   
    dc.w $2030   
    dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
    dc.w $2030   
@@ -16523,26 +16523,26 @@ TestRoom_level:
    dc.w $2048   
    dc.w $2030   
    dc.w $2035   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
    dc.w $2030   
    dc.w $2035   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
    dc.w $2030   
    dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
    dc.w $204D   
@@ -16618,9 +16618,9 @@ TestRoom_level:
    dc.w $202C   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
@@ -16779,25 +16779,25 @@ TestRoom_level:
    dc.w $2049   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
@@ -16874,9 +16874,9 @@ TestRoom_level:
    dc.w $202D   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
@@ -17035,25 +17035,25 @@ TestRoom_level:
    dc.w $204A   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
@@ -17132,7 +17132,7 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $2054   
@@ -17293,11 +17293,7 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
-   dc.w $2033   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
@@ -17305,11 +17301,15 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
    dc.w $2033   
+   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
@@ -17381,7 +17381,7 @@ TestRoom_level:
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
-   dc.w $202A   
+   dc.w $203B   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -17405,7 +17405,7 @@ TestRoom_level:
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
-   dc.w $202A   
+   dc.w $203B   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -17548,15 +17548,15 @@ TestRoom_level:
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
-   dc.w $202A   
+   dc.w $203B   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
    dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
    dc.w $2025   
    dc.w $202A   
+   dc.w $204C   
+   dc.w $2051   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -17636,10 +17636,10 @@ TestRoom_level:
    dc.w $2048   
    dc.w $2030   
    dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
    dc.w $2030   
@@ -17660,10 +17660,10 @@ TestRoom_level:
    dc.w $2035   
    dc.w $2030   
    dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
    dc.w $0000   
@@ -17803,30 +17803,30 @@ TestRoom_level:
    dc.w $2048   
    dc.w $2030   
    dc.w $2035   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
    dc.w $2026   
    dc.w $202B   
    dc.w $204D   
    dc.w $2052   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -17892,9 +17892,9 @@ TestRoom_level:
    dc.w $2049   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
@@ -17916,9 +17916,9 @@ TestRoom_level:
    dc.w $2036   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
@@ -18059,30 +18059,30 @@ TestRoom_level:
    dc.w $2049   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
    dc.w $2027   
    dc.w $202C   
    dc.w $204E   
    dc.w $2052   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -18148,9 +18148,9 @@ TestRoom_level:
    dc.w $204A   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
@@ -18172,9 +18172,9 @@ TestRoom_level:
    dc.w $2037   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
@@ -18315,26 +18315,12 @@ TestRoom_level:
    dc.w $204A   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
    dc.w $2028   
    dc.w $202D   
    dc.w $204F   
@@ -18365,6 +18351,20 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
    dc.w $2016   
    dc.w $201B   
    dc.w $2005   
@@ -18406,7 +18406,7 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
@@ -18430,7 +18430,7 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
@@ -18553,10 +18553,10 @@ TestRoom_level:
    dc.w $202E   
    dc.w $2033   
    dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
+   dc.w $2025   
+   dc.w $203B   
+   dc.w $202F   
+   dc.w $2034   
    dc.w $2029   
    dc.w $202E   
    dc.w $2050   
@@ -18573,28 +18573,28 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
-   dc.w $2033   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
    dc.w $2029   
    dc.w $202E   
    dc.w $2050   
    dc.w $2052   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -18809,10 +18809,10 @@ TestRoom_level:
    dc.w $202A   
    dc.w $202F   
    dc.w $2034   
-   dc.w $2025   
-   dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2025   
    dc.w $202A   
    dc.w $204C   
@@ -18828,29 +18828,29 @@ TestRoom_level:
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
-   dc.w $202A   
+   dc.w $203B   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
    dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
    dc.w $2025   
    dc.w $202A   
    dc.w $204C   
    dc.w $2051   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -18897,10 +18897,10 @@ TestRoom_level:
    dc.w $2018   
    dc.w $201F   
    dc.w $2023   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $200A   
+   dc.w $200F   
+   dc.w $200A   
+   dc.w $200F   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -19065,10 +19065,10 @@ TestRoom_level:
    dc.w $202B   
    dc.w $2030   
    dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
+   dc.w $2036   
    dc.w $2026   
    dc.w $202B   
    dc.w $204D   
@@ -19083,30 +19083,30 @@ TestRoom_level:
    dc.w $2048   
    dc.w $2030   
    dc.w $2035   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
    dc.w $2026   
    dc.w $202B   
    dc.w $204D   
    dc.w $2052   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -19153,10 +19153,10 @@ TestRoom_level:
    dc.w $2019   
    dc.w $2004   
    dc.w $2024   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $200B   
+   dc.w $2010   
+   dc.w $200B   
+   dc.w $2010   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -19321,10 +19321,10 @@ TestRoom_level:
    dc.w $202C   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
+   dc.w $2037   
    dc.w $2027   
    dc.w $202C   
    dc.w $204E   
@@ -19339,26 +19339,12 @@ TestRoom_level:
    dc.w $2049   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
    dc.w $2027   
    dc.w $202C   
    dc.w $204E   
@@ -19389,28 +19375,42 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $2005   
-   dc.w $2009   
-   dc.w $2005   
-   dc.w $2009   
-   dc.w $2016   
-   dc.w $201B   
-   dc.w $2005   
-   dc.w $2009   
-   dc.w $2016   
-   dc.w $201B   
-   dc.w $2005   
-   dc.w $2009   
-   dc.w $2016   
-   dc.w $201B   
-   dc.w $2005   
-   dc.w $2009   
-   dc.w $2016   
-   dc.w $201B   
-   dc.w $2005   
-   dc.w $2009   
    dc.w $0000   
    dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $2005   
+   dc.w $2009   
+   dc.w $2005   
+   dc.w $2009   
+   dc.w $2016   
+   dc.w $201B   
+   dc.w $2005   
+   dc.w $2009   
+   dc.w $2016   
+   dc.w $201B   
+   dc.w $2005   
+   dc.w $2009   
+   dc.w $2016   
+   dc.w $201B   
+   dc.w $2005   
+   dc.w $2009   
+   dc.w $2016   
+   dc.w $201B   
+   dc.w $2005   
+   dc.w $2009   
+   dc.w $200A   
+   dc.w $200F   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -19577,10 +19577,10 @@ TestRoom_level:
    dc.w $202D   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2042   
+   dc.w $2033   
    dc.w $2028   
    dc.w $202D   
    dc.w $204F   
@@ -19595,26 +19595,12 @@ TestRoom_level:
    dc.w $204A   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
    dc.w $2028   
    dc.w $202D   
    dc.w $204F   
@@ -19645,28 +19631,42 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $2002   
-   dc.w $201A   
-   dc.w $201E   
-   dc.w $2011   
-   dc.w $2002   
-   dc.w $201A   
-   dc.w $201E   
-   dc.w $2011   
-   dc.w $2002   
-   dc.w $201A   
-   dc.w $201E   
-   dc.w $2011   
-   dc.w $2002   
-   dc.w $201A   
-   dc.w $201E   
-   dc.w $2011   
-   dc.w $2002   
-   dc.w $201A   
-   dc.w $201E   
-   dc.w $2011   
    dc.w $0000   
    dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $2002   
+   dc.w $201A   
+   dc.w $201E   
+   dc.w $2011   
+   dc.w $2002   
+   dc.w $201A   
+   dc.w $201E   
+   dc.w $2011   
+   dc.w $2002   
+   dc.w $201A   
+   dc.w $201E   
+   dc.w $2011   
+   dc.w $2002   
+   dc.w $201A   
+   dc.w $201E   
+   dc.w $2011   
+   dc.w $2002   
+   dc.w $201A   
+   dc.w $201E   
+   dc.w $2011   
+   dc.w $200B   
+   dc.w $2010   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -19853,28 +19853,28 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
-   dc.w $2033   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
    dc.w $2029   
    dc.w $202E   
    dc.w $2050   
    dc.w $2052   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -20113,20 +20113,6 @@ TestRoom_level:
    dc.w $2034   
    dc.w $2025   
    dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
    dc.w $2025   
    dc.w $202A   
    dc.w $204C   
@@ -20157,6 +20143,20 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
    dc.w $2004   
    dc.w $2019   
    dc.w $2004   
@@ -20369,24 +20369,24 @@ TestRoom_level:
    dc.w $2035   
    dc.w $2026   
    dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
    dc.w $2026   
    dc.w $202B   
    dc.w $204D   
    dc.w $2052   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -20625,29 +20625,29 @@ TestRoom_level:
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
    dc.w $2027   
    dc.w $202C   
    dc.w $204E   
    dc.w $2052   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2054   
+   dc.w $2055   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -20881,29 +20881,29 @@ TestRoom_level:
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
-   dc.w $2032   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $204F   
+   dc.w $2053   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
    dc.w $204F   
    dc.w $2053   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3055   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -21137,7 +21137,11 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2050   
+   dc.w $2052   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
@@ -21145,11 +21149,7 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
-   dc.w $2033   
+   dc.w $2042   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
@@ -21393,10 +21393,10 @@ TestRoom_level:
    dc.w $2034   
    dc.w $2025   
    dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
    dc.w $2025   
    dc.w $202A   
+   dc.w $204C   
+   dc.w $2051   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -21467,27 +21467,27 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $2054   
-   dc.w $2055   
-   dc.w $2054   
-   dc.w $2055   
-   dc.w $2054   
-   dc.w $2055   
-   dc.w $2054   
-   dc.w $2055   
-   dc.w $2054   
-   dc.w $2055   
-   dc.w $2054   
-   dc.w $2055   
-   dc.w $2054   
-   dc.w $2055   
-   dc.w $2054   
-   dc.w $2055   
-   dc.w $2054   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
    dc.w $2055   
    dc.w $2054   
    dc.w $2055   
@@ -21649,10 +21649,10 @@ TestRoom_level:
    dc.w $2035   
    dc.w $2026   
    dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
    dc.w $2026   
    dc.w $202B   
+   dc.w $204D   
+   dc.w $2052   
    dc.w $2030   
    dc.w $2035   
    dc.w $2026   
@@ -21723,31 +21723,31 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
+   dc.w $2044   
+   dc.w $202A   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $202F   
+   dc.w $2034   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $2025   
+   dc.w $202A   
+   dc.w $204C   
+   dc.w $2051   
    dc.w $0000   
    dc.w $0000   
-   dc.w $2054   
-   dc.w $2055   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $2044   
+   dc.w $2047   
    dc.w $202F   
    dc.w $2034   
-   dc.w $2025   
-   dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $203B   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $202A   
-   dc.w $202F   
    dc.w $2034   
    dc.w $2025   
    dc.w $203B   
@@ -21905,10 +21905,10 @@ TestRoom_level:
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
    dc.w $2027   
    dc.w $202C   
+   dc.w $204E   
+   dc.w $2052   
    dc.w $2031   
    dc.w $2036   
    dc.w $2027   
@@ -21979,31 +21979,31 @@ TestRoom_level:
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
-   dc.w $2054   
-   dc.w $2055   
-   dc.w $2026   
+   dc.w $2045   
    dc.w $202B   
+   dc.w $2030   
+   dc.w $2035   
    dc.w $2030   
    dc.w $2035   
    dc.w $2026   
    dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2038   
-   dc.w $203C   
-   dc.w $203F   
-   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
+   dc.w $204D   
+   dc.w $2052   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $2045   
+   dc.w $2048   
    dc.w $2030   
    dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
-   dc.w $2030   
    dc.w $2035   
    dc.w $2038   
    dc.w $203C   
@@ -22086,12 +22086,12 @@ TestRoom_level:
    dc.w $202A   
    dc.w $204C   
    dc.w $2051   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
-   dc.w $0000   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
+   dc.w $3054   
+   dc.w $3055   
    dc.w $0000   
    dc.w $0000   
    dc.w $0000   
@@ -22161,10 +22161,10 @@ TestRoom_level:
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
    dc.w $2028   
    dc.w $202D   
+   dc.w $204F   
+   dc.w $2053   
    dc.w $2032   
    dc.w $2037   
    dc.w $2028   
@@ -22235,31 +22235,31 @@ TestRoom_level:
    dc.w $0000   
    dc.w $2054   
    dc.w $2055   
+   dc.w $2044   
+   dc.w $202C   
+   dc.w $2031   
+   dc.w $2036   
    dc.w $2031   
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
    dc.w $2027   
    dc.w $202C   
+   dc.w $204E   
+   dc.w $2052   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $2044   
+   dc.w $2049   
    dc.w $2031   
    dc.w $2036   
-   dc.w $2039   
-   dc.w $203D   
-   dc.w $2040   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
-   dc.w $2031   
    dc.w $2036   
    dc.w $2039   
    dc.w $203D   
@@ -22417,10 +22417,10 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
    dc.w $2029   
    dc.w $202E   
+   dc.w $2050   
+   dc.w $2052   
    dc.w $2033   
    dc.w $2033   
    dc.w $2029   
@@ -22491,31 +22491,31 @@ TestRoom_level:
    dc.w $2055   
    dc.w $2028   
    dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
    dc.w $2028   
    dc.w $202D   
    dc.w $2032   
    dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
-   dc.w $203A   
-   dc.w $203E   
-   dc.w $2041   
-   dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
    dc.w $2032   
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
    dc.w $2028   
    dc.w $202D   
+   dc.w $204F   
+   dc.w $2053   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $2046   
+   dc.w $204A   
    dc.w $2032   
+   dc.w $2037   
    dc.w $2037   
    dc.w $203A   
    dc.w $203E   
@@ -22673,10 +22673,10 @@ TestRoom_level:
    dc.w $2034   
    dc.w $2025   
    dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
    dc.w $2025   
    dc.w $202A   
+   dc.w $204C   
+   dc.w $2051   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -22747,30 +22747,30 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
    dc.w $2029   
    dc.w $202E   
    dc.w $2033   
    dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
    dc.w $2033   
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2042   
-   dc.w $2033   
    dc.w $2029   
    dc.w $202E   
+   dc.w $2050   
+   dc.w $2052   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $2044   
+   dc.w $204B   
    dc.w $2033   
-   dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
    dc.w $2033   
    dc.w $2033   
    dc.w $2029   
@@ -22923,16 +22923,16 @@ TestRoom_level:
    dc.w $2048   
    dc.w $2030   
    dc.w $2035   
+   dc.w $2025   
+   dc.w $203B   
+   dc.w $202F   
+   dc.w $2034   
    dc.w $2026   
    dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
    dc.w $2026   
    dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2026   
-   dc.w $202B   
+   dc.w $204D   
+   dc.w $2052   
    dc.w $2030   
    dc.w $2035   
    dc.w $2026   
@@ -23011,20 +23011,20 @@ TestRoom_level:
    dc.w $2034   
    dc.w $2025   
    dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $203B   
-   dc.w $202F   
-   dc.w $2034   
    dc.w $2025   
    dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $203B   
-   dc.w $202F   
-   dc.w $2034   
+   dc.w $204C   
+   dc.w $2051   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $0000   
+   dc.w $2045   
    dc.w $2025   
    dc.w $202A   
    dc.w $202F   
@@ -23179,16 +23179,16 @@ TestRoom_level:
    dc.w $2049   
    dc.w $2031   
    dc.w $2036   
+   dc.w $2038   
+   dc.w $203C   
+   dc.w $203F   
+   dc.w $2043   
    dc.w $2027   
    dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
    dc.w $2027   
    dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2027   
-   dc.w $202C   
+   dc.w $204E   
+   dc.w $2052   
    dc.w $2031   
    dc.w $2036   
    dc.w $2027   
@@ -23267,20 +23267,20 @@ TestRoom_level:
    dc.w $2043   
    dc.w $2026   
    dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2038   
-   dc.w $203C   
-   dc.w $203F   
-   dc.w $2043   
    dc.w $2026   
    dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
-   dc.w $2038   
-   dc.w $203C   
-   dc.w $203F   
-   dc.w $2043   
+   dc.w $204D   
+   dc.w $2052   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
+   dc.w $2054   
+   dc.w $2055   
    dc.w $2026   
    dc.w $202B   
    dc.w $2030   
@@ -23435,16 +23435,16 @@ TestRoom_level:
    dc.w $204A   
    dc.w $2032   
    dc.w $2037   
+   dc.w $2039   
+   dc.w $203D   
+   dc.w $2040   
+   dc.w $2036   
    dc.w $2028   
    dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
    dc.w $2028   
    dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
-   dc.w $2028   
-   dc.w $202D   
+   dc.w $204F   
+   dc.w $2053   
    dc.w $2032   
    dc.w $2037   
    dc.w $2028   
@@ -23523,10 +23523,10 @@ TestRoom_level:
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
-   dc.w $2039   
-   dc.w $203D   
+   dc.w $2027   
+   dc.w $202C   
+   dc.w $204E   
+   dc.w $2052   
    dc.w $2040   
    dc.w $2036   
    dc.w $2027   
@@ -23691,16 +23691,16 @@ TestRoom_level:
    dc.w $204B   
    dc.w $2033   
    dc.w $2033   
+   dc.w $203A   
+   dc.w $203E   
+   dc.w $2041   
+   dc.w $2037   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
-   dc.w $2029   
-   dc.w $202E   
+   dc.w $2050   
+   dc.w $2052   
    dc.w $2033   
    dc.w $2033   
    dc.w $2029   
@@ -23779,10 +23779,10 @@ TestRoom_level:
    dc.w $2037   
    dc.w $2028   
    dc.w $202D   
-   dc.w $2032   
-   dc.w $2037   
-   dc.w $203A   
-   dc.w $203E   
+   dc.w $2028   
+   dc.w $202D   
+   dc.w $204F   
+   dc.w $2053   
    dc.w $2041   
    dc.w $2037   
    dc.w $2028   
@@ -23947,16 +23947,16 @@ TestRoom_level:
    dc.w $2047   
    dc.w $202F   
    dc.w $2034   
+   dc.w $2029   
+   dc.w $202E   
+   dc.w $2042   
+   dc.w $2033   
    dc.w $2025   
    dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
    dc.w $2025   
    dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
-   dc.w $2025   
-   dc.w $202A   
+   dc.w $204C   
+   dc.w $2051   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -24035,10 +24035,10 @@ TestRoom_level:
    dc.w $2033   
    dc.w $2029   
    dc.w $202E   
-   dc.w $2033   
-   dc.w $2033   
    dc.w $2029   
    dc.w $202E   
+   dc.w $2050   
+   dc.w $2052   
    dc.w $2042   
    dc.w $2033   
    dc.w $2029   
@@ -24209,10 +24209,10 @@ TestRoom_level:
    dc.w $2035   
    dc.w $2026   
    dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
    dc.w $2026   
    dc.w $202B   
+   dc.w $204D   
+   dc.w $2052   
    dc.w $2030   
    dc.w $2035   
    dc.w $2026   
@@ -24291,10 +24291,10 @@ TestRoom_level:
    dc.w $2034   
    dc.w $2025   
    dc.w $202A   
-   dc.w $202F   
-   dc.w $2034   
    dc.w $2025   
    dc.w $202A   
+   dc.w $204C   
+   dc.w $2051   
    dc.w $202F   
    dc.w $2034   
    dc.w $2025   
@@ -24465,10 +24465,10 @@ TestRoom_level:
    dc.w $2036   
    dc.w $2027   
    dc.w $202C   
-   dc.w $2031   
-   dc.w $2036   
    dc.w $2027   
    dc.w $202C   
+   dc.w $204E   
+   dc.w $2052   
    dc.w $2031   
    dc.w $2036   
    dc.w $2027   
@@ -24547,10 +24547,10 @@ TestRoom_level:
    dc.w $2035   
    dc.w $2026   
    dc.w $202B   
-   dc.w $2030   
-   dc.w $2035   
    dc.w $2026   
    dc.w $202B   
+   dc.w $204D   
+   dc.w $2052   
    dc.w $2030   
    dc.w $2035   
    dc.w $2026   
@@ -24581,7 +24581,7 @@ TestRoom_level:
 TestRoom_level_playerstart:
    dc.l $02480088   
 TestRoom_level_items:
-   dc.w $001A   
+   dc.w $0020   
 * Item: MogurenEnemy
    dc.w $0206               ; type/state TTSS
    dc.l $02A0010A           ; position YYXX
@@ -24663,3 +24663,21 @@ TestRoom_level_items:
 * Item: GemVertical
    dc.w $01C0               ; type/state TTSS
    dc.l $022A0780           ; position YYXX
+* Item: GemHorizontal
+   dc.w $00FF               ; type/state TTSS
+   dc.l $01AA0734           ; position YYXX
+* Item: GemHorizontal
+   dc.w $00FF               ; type/state TTSS
+   dc.l $01C20734           ; position YYXX
+* Item: GemVertical
+   dc.w $01F0               ; type/state TTSS
+   dc.l $01220700           ; position YYXX
+* Item: GemHorizontal
+   dc.w $00C0               ; type/state TTSS
+   dc.l $027A0016           ; position YYXX
+* Item: MogurenEnemy
+   dc.w $0206               ; type/state TTSS
+   dc.l $025904E5           ; position YYXX
+* Item: GemVertical
+   dc.w $01C0               ; type/state TTSS
+   dc.l $024104A8           ; position YYXX

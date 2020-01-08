@@ -6,6 +6,22 @@ lightning_bg            EQU $0A60
 lightning_flicker       EQU $0ECA
 nolightning_bg          EQU $0000
 
+
+TriggerIntroFade      macro
+    cmp.w   \1, d4
+    bne.s   fade\@
+        move.b  #2, MEM_fade
+fade\@
+    endm
+
+UnfadeIntro     macro
+    move.b  #0, MEM_FADE
+    lea     Palettes_intro_storm, a0
+    moveq   #4, d0
+    bsr.w   LoadPalettes
+    endm
+
+
 Init_IntroClouds:
     move.w	#interrupts_disable, sr
     move.w  #0, (frame_counter)
@@ -61,6 +77,9 @@ Init_IntroClouds:
     ; For the rest of this state we can just draw patterns to plane A
     move.l  #vdp_write_plane_a, a5
 
+    moveq   #0, d0
+    move.b  d0, MEM_fade
+
     move.w	#interrupts_enable, sr
     rts
 
@@ -70,6 +89,18 @@ MainLoop_Clouds:
         EndLoop
 
     Clouds_NotSkipped:
+
+    move.b  MEM_fade, d1
+    beq.s   skip_intro_fade
+        move.w  frame_counter, d0
+        andi.w  #7, d0
+        bne.s   skip_intro_fade
+            lea     Palettes_intro_storm, a0
+            moveq   #4, d0
+            bsr.w   FadePalettes
+            addq    #2, d1
+            move.b  d1, MEM_fade
+    skip_intro_fade:
 
     ; Skip to the top of the cloudes
     VDPcmdScrollTilesH #intro_cloud_fill
@@ -102,9 +133,12 @@ MainLoop_Clouds:
         bra.w  ClearPlaneA_Clouds 
     ic_f2:
 
+    TriggerIntroFade #120
+
     ; Maybe lightning strikes twice
     cmp.w   #180, d4
     bne.s   ic_f3
+        UnfadeIntro
         move.l  #$080C00B1, d5
         bra.w   Bolt_Clouds
     ic_f3:
@@ -114,8 +148,11 @@ MainLoop_Clouds:
         bra.w  ClearPlaneA_Clouds 
     ic_f4:
 
+    TriggerIntroFade #220
+
     cmp.w   #270, d4
     bne.s   ic_f5
+        UnfadeIntro
         SetBG   #lightning_bg
         move.l  #$031800B1, d5
         lea     intro_lightningA, a0

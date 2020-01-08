@@ -623,8 +623,11 @@ MainLoop_Level:
         ; adjust the hitbox for player attack
         move.l  d1, d3
         btst    #sprite_flip_h, d6
-        beq.s   lvl_player_att_hitbox_adjusted
+        beq.s   lvl_player_attack_right
             subi.w  #player_attack_width, d3
+            bra.s   lvl_player_att_hitbox_adjusted
+            lvl_player_attack_right:
+            addi.w  #player_width, d3
         lvl_player_att_hitbox_adjusted:
         move.l  d3, (MEM_playerattack_min)
         addi.l  #player_attack_bboffset, d3
