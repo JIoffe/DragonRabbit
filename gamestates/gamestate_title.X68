@@ -55,6 +55,10 @@ Init_Title:
     move.b  #$0000, (MEM_fade)
     ; From here, draw to plane b
     move.l  #vdp_write_plane_b, a5
+
+    ; clear DMA flags
+    move.b  #0, MEM_vblank_mode
+    
     move.w	#interrupts_enable, sr
     rts
 

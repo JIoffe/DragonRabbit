@@ -10,6 +10,7 @@ RomStart:
 * Import Constants
 *======================
     include './constants/constants_segagenesis.X68'
+    include './constants/constants_gfx.X68'
     include './constants/constants_ascii.X68'
     include './constants/constants_gamestates.X68'
     include './constants/constants_player.X68'
@@ -112,7 +113,27 @@ HBlank:
 VBlank:
 	bset	#vblank_on_flag, (frame_state)
 	add.w   #1, (frame_counter)
+
     bsr.s   ReadInput
+
+    ; Best to do DMA on VBlank - VDP has the most bandwidth
+    move.b  MEM_vblank_mode, d0
+    btst    #vsync_dump_sprites, d0
+    beq.s   skip_sprites
+        DMADumpSpriteBuffer                     ; copy all the updated sprites to VRAM
+    skip_sprites:
+
+    btst    #vsync_dump_player, d0
+    beq.s   skip_player_gfx
+        * Dump player tile data to VRAM
+        lea.l   MEM_player_previous_frame, a2
+        move.l  (a2), a0
+        lea.l   MEM_player_tiles_start, a2
+        moveq   #0,  d3
+        move.w  (a2), d3                    ; address of player tile data in VRAM
+        bsr.w   PushEmbeddedSpriteFrame
+    skip_player_gfx:
+
 	rte
     
 HandleException:

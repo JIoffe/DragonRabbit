@@ -80,6 +80,9 @@ Init_IntroClouds:
     moveq   #0, d0
     move.b  d0, MEM_fade
 
+    ; clear DMA flags
+    move.b  #0, MEM_vblank_mode
+
     move.w	#interrupts_enable, sr
     rts
 

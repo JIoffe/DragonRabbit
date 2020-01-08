@@ -27,20 +27,18 @@ Init_Licensing:
     bsr.w   PrintStringNoDMA
 
     move.l  #BaoLongTu_sprite_Walking0, MEM_player_previous_frame
+
+    move.w  #2912, MEM_player_tiles_start
     
+    * ; copy sprites and player sprite
+    move.b  #3, MEM_vblank_mode
+
     move.w	#interrupts_enable, sr
     rts
 Loop_Licensing:
     CheckABCStart Licensing_NotSkipped
         bra.w   LeaveLicensingScreen
     Licensing_NotSkipped:
-
-    DMADumpSpriteBuffer
-    lea.l   MEM_player_previous_frame, a2
-    move.l  (a2), a0
-    moveq   #0,  d3
-    move.w  #2912, d3                    ; address of player tile data in VRAM
-    bsr.w   PushEmbeddedSpriteFrame
 
     move.w  frame_counter, d0
     cmp.w   #300, d0

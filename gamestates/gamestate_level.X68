@@ -215,6 +215,9 @@ Init_Level:
     SetPlayerVulnerable
     move.b  #player_max_hp, MEM_player_hp
 
+    ; Set up vblank to DMA what we need
+    move.b  #3, MEM_vblank_mode
+
     ; We're off to the races!
     move.w	#interrupts_enable, sr
     rts
@@ -293,15 +296,6 @@ MainLoop_Level:
         jsr     UpdateScoreGfx
         bclr    #score_changed, (frame_state)
     score_updated:
-
-    DMADumpSpriteBuffer                     ; copy all the updated sprites to VRAM
-    * ; Dump player tile data to VRAM
-    lea.l   MEM_player_previous_frame, a2
-    move.l  (a2), a0
-    lea.l   MEM_player_tiles_start, a2
-    moveq   #0,  d3
-    move.w  (a2), d3                    ; address of player tile data in VRAM
-    bsr.w   PushEmbeddedSpriteFrame
 
     ****************************************************
     * END DMAs
