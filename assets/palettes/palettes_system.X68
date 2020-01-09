@@ -19,6 +19,7 @@ Palette_Licensing:
    dc.w $0444
    dc.w $0CCC
    
+Palette_FontA:
    dc.w $0000
    dc.w $0000
    dc.w $0EEE

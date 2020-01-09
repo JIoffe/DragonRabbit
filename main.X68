@@ -116,6 +116,9 @@ VBlank:
 
     bsr.s   ReadInput
 
+    *------------------------------------------------------
+    * DMA - 68K to VDP
+    *------------------------------------------------------
     ; Best to do DMA on VBlank - VDP has the most bandwidth
     move.b  MEM_vblank_mode, d0
     btst    #vsync_dump_sprites, d0
@@ -218,6 +221,7 @@ NotHandled:
 *=====================================================
     include './assets/strings/strings_sys.X68'
 RomEnd:
+
 
 
 

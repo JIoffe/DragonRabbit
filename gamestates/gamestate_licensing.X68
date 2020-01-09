@@ -8,18 +8,8 @@ Init_Licensing:
     moveq   #3, d0
     bsr.w   LoadPalettes
 
-    moveq   #0, d1
-    move.w  #1440, d1
-    move.l  #Tiles_FontA, d2
-    move.l  #$00000020, d3
-    jsr     TriggerDMADumpToVRAM
-
-    ; Nobody here but us chickens
-    move.w  #560, d1
-    move.l  #TESTROOM_tiles+12224, d2
-    move.l  #12256, d3
-    jsr     TriggerDMADumpToVRAM
-
+    DMA68KtoVRAM    2880, Tiles_FontA, $20
+    DMA68KtoVRAM    1120, TESTROOM_tiles+12224, 12256
 
     lea     LicensingCaption, a0
     move.w  #cram_palette_1_bits, d6

@@ -9,13 +9,12 @@
 *******************************************************************
 PrintStringNoDMA:
     lea.l   vdp_control, a1
-    lea.l   vdp_data, a2
-
-    moveq   #0, d0
+    lea.l   vdp_data, a2   
 
     print_startline:
         move.l  d7, (a1)
     print_loop:
+        moveq   #0, d0
         move.b  (a0)+, d0
         beq.s   print_string_end
 
@@ -23,7 +22,9 @@ PrintStringNoDMA:
         beq.s   print_endl
 
         subi.b  #32, d0
-        or.w    d6, d0
+        beq.s   print_adjust_skip
+            add.w   d6, d0
+        print_adjust_skip:
         move.w  d0, (a2)
         bra.s   print_loop
     print_endl:

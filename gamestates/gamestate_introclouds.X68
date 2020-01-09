@@ -26,11 +26,14 @@ Init_IntroClouds:
     move.w	#interrupts_disable, sr
     move.w  #0, (frame_counter)
     ClearVram
-
-	lea     Palettes_intro_storm, a0
-	moveq   #4, d0
-	bsr.w   LoadPalettes
+    bsr.w   ClearCRAM
 	
+    moveq   #0, d0
+    move.b  #15, d0
+    moveq   #1, d1
+    lea     Palette_FontA, a0
+    bsr.w   LoadPaletteOffset
+
     DMA68KtoVRAM    5664, Tiles_intro_storm, $20
 
     ; Fill sky with dark cloud color
@@ -74,6 +77,15 @@ Init_IntroClouds:
     DMA68KtoVRAM    3936, tiles_lightningA, 5696
     DMA68KtoVRAM    8224, tiles_intro_fight, 9632
 
+    ; load font
+    DMA68KtoVRAM    2880, Tiles_FontA, 17856
+
+    ; start off with logo/presented by caption
+    lea     PresentedByCaption, a0
+    move.w  #cram_palette_1_bits+$022D, d6
+    move.l  #vdp_write_plane_a|$081C0000, d7
+    bsr.w   PrintStringNoDMA
+
     ; For the rest of this state we can just draw patterns to plane A
     move.l  #vdp_write_plane_a, a5
 
@@ -111,7 +123,7 @@ MainLoop_Clouds:
     move.w  (frame_counter), d1
     move.w  d1, d4
     
-    cmp.w   #404, d4
+    cmp.w   #454, d4
     bge.s   intro_clouds_finished
     moveq   #0, d2
     move.b  (a0)+, d2
@@ -124,36 +136,44 @@ MainLoop_Clouds:
 
     intro_clouds_finished:
 
+    cmp.w   #120, d4
+    bne.s   ic_clearcaption
+        bra.w  ClearPlaneA_Clouds
+    ic_clearcaption:
+
     ; Flash once...
-    cmp.w   #80, d4
+    cmp.w   #130, d4
     bne.s   ic_f1
+        lea     Palettes_intro_storm, a0
+        moveq   #4, d0
+        bsr.w   LoadPalettes
         move.l  #$090400B1, d5
         bra.w   Bolt_Clouds
     ic_f1:
 
-    cmp.w   #110, d4
+    cmp.w   #160, d4
     bne.s   ic_f2
         bra.w  ClearPlaneA_Clouds 
     ic_f2:
 
-    TriggerIntroFade #120
+    TriggerIntroFade #170
 
     ; Maybe lightning strikes twice
-    cmp.w   #180, d4
+    cmp.w   #230, d4
     bne.s   ic_f3
         UnfadeIntro
         move.l  #$080C00B1, d5
         bra.w   Bolt_Clouds
     ic_f3:
 
-    cmp.w   #210, d4
+    cmp.w   #260, d4
     bne.s   ic_f4
         bra.w  ClearPlaneA_Clouds 
     ic_f4:
 
-    TriggerIntroFade #220
+    TriggerIntroFade #270
 
-    cmp.w   #270, d4
+    cmp.w   #320, d4
     bne.s   ic_f5
         UnfadeIntro
         SetBG   #lightning_bg
@@ -174,9 +194,9 @@ MainLoop_Clouds:
     ic_f5:
 
     ; Flicker a few times...
-    cmp.w   #275, d4
+    cmp.w   #325, d4
     blt.s   ic_f6
-    cmp.w   #403, d4
+    cmp.w   #453, d4
     bgt.s   ic_f6
         move.w  d4, d0
         andi.w  #15, d0
@@ -197,7 +217,7 @@ MainLoop_Clouds:
     ic_f6:
 
     ; SLASHY
-    cmp.w   #404, d4                            ; 404, FACE NOT FOUND DUE TO SLASHING
+    cmp.w   #454, d4                            ; 404, FACE NOT FOUND DUE TO SLASHING
     bne.s   ic_f7
         move.w	#interrupts_disable, sr
         SetBG   #nolightning_bg
@@ -212,7 +232,7 @@ MainLoop_Clouds:
         EndLoop
     ic_f7:
 
-    cmp.w   #420, d4
+    cmp.w   #470, d4
     bne.s   ic_f8
         moveq   #0, d5
         lea     intro_slash, a0
@@ -220,14 +240,14 @@ MainLoop_Clouds:
         EndLoop
     ic_f8:
 
-    cmp.w   #450, d4
+    cmp.w   #500, d4
     bne.s   ic_f9
         move.l  #vdp_write_plane_a, a0
         bsr.w   ClearPlane
         EndLoop
     ic_f9:
 
-    cmp.w   #470, d4
+    cmp.w   #520, d4
     bne.s   ic_fA
         moveq   #0, d5
         lea     intro_slash, a0
@@ -235,14 +255,14 @@ MainLoop_Clouds:
         EndLoop
     ic_fA:
 
-    cmp.w   #490, d4
+    cmp.w   #540, d4
     bne.s   ic_fB
         move.l  #vdp_write_plane_a, a0
         bsr.w   ClearPlane
         EndLoop
     ic_fB:
 
-    cmp.w   #500, d4
+    cmp.w   #550, d4
     bne.s   ic_fC
         Goto_Title
     ic_fC:
