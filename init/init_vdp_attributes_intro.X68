@@ -10,7 +10,7 @@ VDPSetupArray:
  dc.w  $8700       ;Backdrop Palette=0, Color=0
  dc.w  $8800       ;(unused)
  dc.w  $8900       ;(unused)
- dc.w  $8AFF       ;H Interrupt Every 255 lines
+ dc.w  $8AFF       ;H Interrupt Every 255 lines (Never happens!)
  dc.w  $8B03       ;VSCROLL=full, HSCROLL=line, EXT. INT=disabled
  dc.w  $8C81       ;H Cells=h40, SHADOW/HIGHLIGHT=disabled, Interlace=disabled
  dc.w  $8D2F       ;H Scroll Table Address=BC00

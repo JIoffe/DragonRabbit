@@ -28,19 +28,14 @@ camera_zone_bb_offset   EQU (camera_zone_height<<16)|camera_zone_width
 
 lvl_fadein_interval     EQU $03
 
-score_label_position    EQU ((sprite_view_vmin+4)<<16)|(sprite_view_hmin+4)
-score_pts_position_x    EQU sprite_view_hmin+4
-score_pts_position_y    EQU sprite_view_vmin+12
-
 health_sprite_x         EQU (447-36)
 health_sprite_y         EQU (sprite_view_vmin+4)
 
 ; a1 always pointed to the start of the level we're working with
 Init_Level:
     move.w	#interrupts_disable, sr
-    move.w  #0, (frame_counter)
-    ClearVram
-    bsr.w   ClearCRAM
+    DisableHBlank
+    jsr     ResetState
     bsr.w   ClearLevelVars
 
     move.b  #$0E, (MEM_fade)              ; Start at full fade and then fade in
@@ -69,37 +64,9 @@ Init_Level:
     move.l  #$20, d3
     jsr     TriggerDMADumpToVRAM
 
-    move.w  #$0540, d1
-    move.l  #CoreGameTiles, d2
-    moveq   #0, d3
-    move.w  (MEM_UI_sprite_start), d3
-    addq    #1, d3
-    lsl.w   #5, d3
-    jsr     TriggerDMADumpToVRAM
-
-    move.l  #score_label_position, d1
-    moveq   #1, d4
-    lea     score_label, a0
-    move.w  (MEM_UI_sprite_start), d7
-    addq    #1, d7
-    bsr.w   DrawSprite_Untransformed
-
-    ; setup the score sprite(s)
-    lea.l   MEM_sprite_buffer+8, a2
-    move.w  #score_pts_position_y, (a2)+                ; first is y offset
-    move.w  #$0C02, d3
-    move.w  d3, (a2)+                                   ; second is size and link
-    move.w  (MEM_score_digits_id), d5
-    move.w  d5, (a2)+
-    move.w  #score_pts_position_x, (a2)+                ; last is x offset
-
-    move.w  #score_pts_position_y, (a2)+                ; first is y offset
-    move.w  #$0C03, d3
-    move.w  d3, (a2)+                                   ; second is size and link
-    move.w  d5, d3
-    addq    #4, d3
-    move.w  d3, (a2)+
-    move.w  #(score_pts_position_x+32), (a2)+           ; last is x offset
+    bsr.w   LoadCoreGfx
+    moveq   #0, d7
+    bsr.w   CacheScoreSprites
 
     ; health sprite
     move.w  #health_sprite_y, (a2)+                     ; first is y offset
@@ -111,8 +78,12 @@ Init_Level:
     move.w  #health_sprite_x, (a2)+                     ; last is x offset
     move.l  a3, (MEM_palette)
 
-    ; Setup background - this will vary by level somehow
+    jsr     UpdateScoreGfx
+
+    ; advance d4 so sprite buffer is at the correct spot
     moveq   #3, d4
+
+    ; Setup background - this will vary by level somehow
     testroombg_loop:
         move.l  #vdp_write_plane_b, a5
         moveq   #0, d5
@@ -208,7 +179,6 @@ Init_Level:
         dbra    d1, fill_frame_y
     
     ; Set "score dirty" flag so it will be redrawn on the first frame
-    bset    #score_changed, (frame_state)
     move.l  #BaoLongTu_sprite_Idle0, (MEM_player_previous_frame)
 
     ; Naked and vulnerable
@@ -288,14 +258,8 @@ MainLoop_Level_PlayerDead:
 MainLoop_Level:
     ****************************************************
     * BEGIN DMAs
-    ****************************************************
-
-    ; update GUI elements for next frame
-    btst    #score_changed, (frame_state)
-    beq.s   score_updated
-        jsr     UpdateScoreGfx
-        bclr    #score_changed, (frame_state)
-    score_updated:
+    ***************************************************8
+    bsr.w   UpdateScoreGfxIfDirty
 
     ****************************************************
     * END DMAs

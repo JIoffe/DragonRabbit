@@ -594,3 +594,44 @@ BaoLongTu_sprite:
         dc.w $0900     ; sprite Size
         dc.w $0014           ; sprite tile ID
         dc.w $FF00           ; Offset Horizontal
+    BaoLongTu_sprite_FlyingRear:
+    dc.w $0000           ; frame count
+    dc.l BaoLongTu_sprite_FlyingRear0
+    BaoLongTu_sprite_FlyingRear0:
+    dc.w $0170           ; (total byte size of tiles / 2)
+        dc.l $00666660, $00611116, $006F1111, $006FF111, $0006FF11, $00006FF1, $000006FF, $0000006F
+        dc.l $00000006, $00000006, $00000063, $0000063F, $000006FF, $00006FF1, $00006FF1, $000063FF
+        dc.l $0000063F, $00000063, $000000DB, $00000DBB, $000DDBBB, $00DCCBBB, $0DCCCBBB, $0DCCCCBB
+        dc.l $00000000, $00000000, $60000006, $16000061, $11600611, $11600611, $11166111, $F111111F
+        dc.l $FF1111FF, $3F111113, $FF111111, $F1111111, $11111111, $11111111, $11111111, $11111111
+        dc.l $FFFFFFFF, $33333333, $BBBBBBBB, $BBBBBBBB, $BBBCBBBB, $BBBBCCBB, $BBBBBBBB, $BBBBBBBB
+        dc.l $06666600, $61111600, $11111600, $111FF600, $11FF3600, $1FF36000, $FF360000, $F3600000
+        dc.l $36000000, $60000000, $60000000, $16000000, $11600000, $11160000, $11160000, $11360000
+        dc.l $F3600000, $36000000, $BD000000, $BBD00000, $BBBDD000, $BBBBBD00, $BBBBBBD0, $BBBBBBD0
+        dc.l $00DCCCCB, $00DCCDCC, $00DCDCCC, $0DCCDCCC, $0DCCCDCC, $0DCCCDCC, $0DCCCDCC, $0DCCCDCC
+        dc.l $0DCCCDCC, $00DCCCDC, $00DDDDDC, $003111DC, $000311DC, $000033DD, $00000AAA, $0000AAAA
+        dc.l $BBBBBBBC, $BBBBBBBC, $BBBBBBBB, $CBCBBBBB, $CBBCBBBB, $CBBBCBBB, $CCBBBCBB, $CCCBCBCB
+        dc.l $CCCBBCBB, $CCCCBBCB, $CCCCBBCB, $CCC3333B, $CC31F113, $DD3F1113, $A93FF113, $A9933339
+        dc.l $BBBBBBBD, $CBBBBBBB, $CBBBBBBB, $BCBBBBBB, $BCBBDCBB, $BBBBDCBB, $BBBBDCBB, $BBBBDCCB
+        dc.l $BBBBDCCB, $BBBDDCCD, $BBBD0DD1, $BBBD0E31, $BBBD0CE3, $DDDDCCCE, $999CCCCC, $99CCCCC0
+        dc.l $00000000, $D0000000, $D0000000, $BD000000, $BD000000, $BBD00000, $BBD00000, $BBD0E000
+        dc.l $DD3EEE00, $1113E000, $11130000, $11130000, $11300000, $33000000, $E0000000, $00000000
+        dc.l $000AAAAA, $00AAAAAA, $00AAAAAA, $00AAAA33, $00AAA311, $00AA3114, $00AA314C, $0000CCCC
+        dc.l $0CCCCCCC, $000CCCCC, $00000311, $00000033, $00000000, $00000000, $00000000, $00000000
+        dc.l $99999999, $999A999C, $999AA9CC, $399ACCCC, $13ACCCCC, $1CCCCCCC, $CCCCCCC4, $CCCCCC14
+        dc.l $CCC00311, $C1300314, $13000031, $30000003, $00000000, $00000000, $00000000, $00000000
+        dc.l $CCCCC000, $CCCC9900, $CCC99900, $CC999900, $C1399900, $41139900, $44139900, $44130000
+        dc.l $11130000, $14130000, $11300000, $33000000, $00000000, $00000000, $00000000, $00000000
+        dc.w $0002
+        dc.w $0000           ; Offset Vertical
+        dc.w $0A00     ; sprite Size
+        dc.w $0000           ; sprite tile ID
+        dc.w $FE00           ; Offset Horizontal
+        dc.w $0018           ; Offset Vertical
+        dc.w $0D00     ; sprite Size
+        dc.w $0009           ; sprite tile ID
+        dc.w $F7FF           ; Offset Horizontal
+        dc.w $0028           ; Offset Vertical
+        dc.w $0900     ; sprite Size
+        dc.w $0011           ; sprite tile ID
+        dc.w $FE00           ; Offset Horizontal

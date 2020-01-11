@@ -33,6 +33,7 @@ joypad_start            EQU $80
 *=====================================
 * Note on VDP: Color is X B G R
 * VDP port addresses
+vdp_hv_counter          EQU $00C00008
 vdp_control             EQU $00C00004
 vdp_data                EQU $00C00000
 vdp_register_count      EQU $17

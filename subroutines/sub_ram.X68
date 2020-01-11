@@ -14,3 +14,9 @@ ClearLevelVars:
     move.l  (SP)+, MEM_score
     movem.l (SP)+, d0-d1
     rts
+
+ResetState:
+    move.w  #0, (frame_counter)
+    ClearVram
+    bsr.w   ClearCRAM
+    rts

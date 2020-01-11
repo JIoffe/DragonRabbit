@@ -83,7 +83,8 @@ Main:
 
     ; Begin the game at the licensing screen
     lea     NoOpTrap, a6
-    Goto_Licensing
+    Goto_BonusClouds
+    ;Goto_Licensing
 
 MainLoop:
     bsr.w   WaitVBlank
@@ -97,6 +98,7 @@ MainLoop:
     include './gamestates/gamestate_introclouds.X68'
     include './gamestates/gamestate_title.X68'
     include './gamestates/gamestate_level.X68'
+    include './gamestates/gamestate_bonus_clouds.X68'
 
 *-----------------------------
 * Utility Subroutines
@@ -108,7 +110,8 @@ MainLoop:
 * Traps
 *-----------------------------
 HBlank:
-    rte
+    movea.l (MEM_hblank_handler), a0
+    jmp (a0)
 
 VBlank:
 	bset	#vblank_on_flag, (frame_state)
@@ -206,6 +209,9 @@ NotHandled:
     include './assets/levels/testroom/bg.X68'
     include './assets/levels/testroom/level.X68'
     include './assets/levels/testroom/enemies.X68'
+
+    ; BONUS!!!!
+    include './assets/bonus-stages/clouds/include.X68'
 
 *=====================================
 * Items / Enemies / Thingamabobs

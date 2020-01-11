@@ -1,8 +1,7 @@
 Init_Licensing:
     move.w	#interrupts_disable, sr
-    move.w  #0, (frame_counter)
-    ClearVram
-    bsr.w   ClearCRAM
+    DisableHBlank
+    jsr     ResetState
 
     lea     Palette_Licensing, a0
     moveq   #3, d0

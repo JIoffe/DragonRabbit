@@ -3,8 +3,8 @@ title_scrolloffset            EQU $80
 
 Init_Title:
     move.w	#interrupts_disable, sr
-    move.w  #0, (frame_counter)
-    ClearVram
+    DisableHBlank
+    jsr     ResetState
 
     lea     Palettes_TitleScreen, a0
 	moveq   #2, d0

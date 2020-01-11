@@ -1,3 +1,47 @@
+UpdateScoreGfxIfDirty:
+    btst    #score_changed, frame_state
+    beq.s   score_updated
+        jsr     UpdateScoreGfx
+        bclr    #score_changed, frame_state
+    score_updated:
+    rts
+
+LoadCoreGfx:
+    move.w  #$0540, d1
+    move.l  #CoreGameTiles, d2
+    moveq   #0, d3
+    move.w  (MEM_UI_sprite_start), d3
+    addq    #1, d3
+    lsl.w   #5, d3
+    jsr     TriggerDMADumpToVRAM
+    rts
+
+* D7 has palette information
+CacheScoreSprites:
+    move.w  d7, d5
+    move.l  #score_label_position, d1
+    moveq   #1, d4
+    lea     score_label, a0
+    add.w  (MEM_UI_sprite_start), d7
+    addq    #1, d7
+    bsr.w   DrawSprite_Untransformed
+
+    ; setup the score sprite(s)
+    lea.l   MEM_sprite_buffer+8, a2
+    move.w  #score_pts_position_y, (a2)+                ; first is y offset
+    move.w  #$0C02, (a2)+                               ; second is size and link
+    add.w  (MEM_score_digits_id), d5
+    move.w  d5, (a2)+
+    move.w  #score_pts_position_x, (a2)+                ; last is x offset
+
+    move.w  #score_pts_position_y, (a2)+                ; first is y offset
+    move.w  #$0C03, (a2)+                               ; second is size and link
+    move.w  d5, d3
+    addq    #4, d3
+    move.w  d3, (a2)+
+    move.w  #(score_pts_position_x+32), (a2)+           ; last is x offset
+    rts
+
 UpdateScoreGfx
     movem.l d0-d7, -(SP)
 

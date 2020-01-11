@@ -44,4 +44,6 @@ MEM_player_inv_frames           EQU $FFFF0A18       ;WORD
 MEM_level_restart_address       EQU $FFFF0A1A       ;LONG
 MEM_palette                     EQU $FFFF0A1E       ;LONG
 MEM_plane_buffer                EQU $FFFF0A22       ; Array: 64 * 32 * 2 bytes
-MEM_vblank_mode                 EQU $FFFF1A22       ;byte
+MEM_hblank_handler              EQU $FFFF1A22       ;long (address)
+MEM_vblank_mode                 EQU $FFFF1A26       ;byte
+mem_hblank_counter              EQU $FFFF1A27       ;byte   - reset every vblank

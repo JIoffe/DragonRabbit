@@ -136,3 +136,18 @@ WriteVramTilesByTiles macro
     lsl.w	#5, \1          ; multiply by 32 bytes to get the offset
     WriteVramTilesByBytes \1, \2
     endm
+
+*---------------------------------
+* - Enables HBlank, H/V Counter, and Registers a callback
+* - \1 address of HBlank handler
+* - \2 scanlines between H Interrupts
+EnableHBlank    macro
+    move.l  \1, MEM_hblank_handler
+    move.w  #$8014, vdp_control
+    move.w  #$8A00+\2, vdp_control
+    endm
+
+DisableHBlank   macro
+    move.w  #$8004, vdp_control     ; explicitly disable H Int
+    move.w  #$8AFF, vdp_control     ; set H Int to every 255 lines ( never happens )
+    endm

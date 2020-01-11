@@ -24,9 +24,8 @@ UnfadeIntro     macro
 
 Init_IntroClouds:
     move.w	#interrupts_disable, sr
-    move.w  #0, (frame_counter)
-    ClearVram
-    bsr.w   ClearCRAM
+    DisableHBlank
+    jsr     ResetState
 	
     moveq   #0, d0
     move.b  #15, d0
