@@ -16,22 +16,24 @@ Palette_BonusClouds:
    dc.w $0ECC
    dc.w $0EC4
 
-   dc.w $0000
+BCP_Wispy_Start:
    dc.w $0E44
-   dc.w $0E66
-   dc.w $0E88
-   dc.w $0ECA
+   dc.w $0E44
+   dc.w $0E86
    dc.w $0ECC
    dc.w $0EEE
    dc.w $0EEC
-   dc.w $08EE
-   dc.w $02AE
-   dc.w $0448
-   dc.w $0666
-   dc.w $0888
-   dc.w $0AAA
-   dc.w $0CCC
-   dc.w $0EEE
+   dc.w $0E86
+   dc.w $0E44
+   dc.w $0E44
+   dc.w $0E44
+   dc.w $0E44
+   dc.w $0E44
+   dc.w $0E44
+   dc.w $0E44
+   dc.w $0E44
+   dc.w $0E44
+BCP_Wispy_End:
 
    dc.w $0E44
    dc.w $0EEE
@@ -61,8 +63,8 @@ Palette_BonusClouds:
    dc.w $0EE0
    dc.w $0222
    dc.w $0444
-   dc.w $0666
-   dc.w $0888
-   dc.w $0AAA
-   dc.w $0CCC
    dc.w $0EEE
+   dc.w $0ECC
+   dc.w $0EAA
+   dc.w $0E88
+   dc.w $0E44

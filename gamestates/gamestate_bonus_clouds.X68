@@ -1,4 +1,4 @@
-BONUS_CLOUD_TILES_COUNT         EQU     301
+BONUS_CLOUD_TILES_COUNT         EQU     371
 BONUS_CLOUD_TILES_BYTE_SIZE     EQU     BONUS_CLOUD_TILES_COUNT<<5
 
 BONUS_PLAYER_SPEED              EQU     3
@@ -30,39 +30,42 @@ Init_BonusClouds:
 
     ; Draw the little horizon line
     move.l  #vdp_write_plane_a+$07000000, vdp_control
-    move.w  #293|cram_palette_1_bits, d1
+    move.w  #371|cram_palette_3_bits|vram_priority_bit, d1
     moveq   #0, d0
     move.w  #39, d0
     bclouds_horizon:
         move.w  d1, (a1)
         dbra    d0, bclouds_horizon
 
-    ; Draw blue sky to plane B
-    move.l  #vdp_write_plane_b, vdp_control
+    ; fill blue sky in plane A
+    move.l  #vdp_write_plane_a, vdp_control
     moveq   #0, d0
-    move.w  #2048, d0
-    move.w  #261|cram_palette_1_bits, d1
+    move.w  #895, d0
+    move.w  #356|cram_palette_3_bits, d1
     bonusclouds_blue_fill:
         move.w  d1, (a1)
         dbra    d0, bonusclouds_blue_fill
 
     ; add some bitchin' clouds.
     move.l  #vdp_write_plane_b, a5
-    move.l  #$041D0000, d5
-    lea     BonusCloudBG1, a0
+    move.l  #$00140000, d5
+    lea     BonusWispyClouds, a0
     bsr.w   Plane_DrawPattern
 
-    move.l  #$14220000, d5
-    lea     BonusCloudBG2, a0
-    bsr.w   Plane_DrawPattern
-
-    move.l  #$18020000, d5
-    lea     BonusCloudBG1, a0
+    move.l  #$00000000, d5
+    lea     BonusWispyClouds, a0
     bsr.w   Plane_DrawPatternFlipH
+    * move.l  #$14220000, d5
+    * lea     BonusCloudBG2, a0
+    * bsr.w   Plane_DrawPattern
 
-    move.l  #$01040000, d5
-    lea     BonusCloudBG2, a0
-    bsr.w   Plane_DrawPatternFlipH
+    * move.l  #$18020000, d5
+    * lea     BonusCloudBG1, a0
+    * bsr.w   Plane_DrawPatternFlipH
+
+    * move.l  #$01040000, d5
+    * lea     BonusCloudBG2, a0
+    * bsr.w   Plane_DrawPatternFlipH
 
     ; Load in Core Sprites to display things like the score and setup the player buffer
     move.w  #BONUS_CLOUD_TILES_COUNT+1, d1
@@ -79,7 +82,7 @@ Init_BonusClouds:
     move.w  d1, (MEM_score_vram_address)
     
     bsr.w   LoadCoreGfx
-    move.w  #cram_palette_2_bits, d7
+    move.w  #cram_palette_2_bits|vram_priority_bit, d7
     bsr.w   CacheScoreSprites
     jsr     UpdateScoreGfx
 
@@ -101,10 +104,32 @@ Init_BonusClouds:
 MainLoop_BonusClouds:
     bsr.w   UpdateScoreGfxIfDirty
 
+    moveq   #0, d1
     move.w  frame_counter, d1
-    move.l  #vdp_vram_vscroll, vdp_control
-    move.w  #0, (a1)
-    move.w  d1, (a1)
+    move.w  d1, d3
+    add.w   d3, d3
+    * move.l  #vdp_vram_vscroll, vdp_control
+    * move.w  #0, (a1)
+    * move.w  d3, (a1)
+
+    ; Cycle palette to make the clouds go whoooshhh
+    moveq   #0, d0
+    move.b  #15, d0
+    move.l  #(vdp_cram_write+$00200000), vdp_control
+    lsr.w   #3, d1
+    neg.w   d1
+    wispy_cycle:
+        lea     BCP_Wispy_Start, a0
+        addq    #1, d1
+        move.w  d1, d3
+        andi.w  #15, d3
+        add.b   d3, d3
+        adda.l  d3, a0
+        move.w  (a0), (a1)
+        dbra    d0, wispy_cycle
+
+
+    
 
     *****************************************************************
     * PLAYER CONTROLS 
@@ -183,15 +208,19 @@ MainLoop_BonusClouds:
     adda.l  d3, a0
 
     move.w  (MEM_player_sprite_index), d7
-    ori.w   #cram_palette_2_bits, d7
+    ori.w   #cram_palette_2_bits|vram_priority_bit, d7
     bsr.w   DrawSpriteFrame
 
+    ; draw the cloud below the player
+    move.w  frame_counter, d6
+    andi.w  #1, d6
 
-    * lea     BonusNimbus, a0
-    * move.l  #$00C8008C, d1
-    * moveq   #1, d7
-    * ori.w  #cram_palette_1_bits, d7
-    * bsr.w   DrawSprite_Untransformed
+    lea     BonusNimbus, a0
+    move.l  MEM_player_pos, d1
+    addi.l  #((44<<16)|$FFFB), d1
+    moveq   #1, d7
+    ori.w   #cram_palette_1_bits, d7
+    bsr.w   DrawSprite
 
 
 
