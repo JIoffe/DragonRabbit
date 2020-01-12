@@ -55,17 +55,6 @@ Init_BonusClouds:
     move.l  #$00000000, d5
     lea     BonusWispyClouds, a0
     bsr.w   Plane_DrawPatternFlipH
-    * move.l  #$14220000, d5
-    * lea     BonusCloudBG2, a0
-    * bsr.w   Plane_DrawPattern
-
-    * move.l  #$18020000, d5
-    * lea     BonusCloudBG1, a0
-    * bsr.w   Plane_DrawPatternFlipH
-
-    * move.l  #$01040000, d5
-    * lea     BonusCloudBG2, a0
-    * bsr.w   Plane_DrawPatternFlipH
 
     ; Load in Core Sprites to display things like the score and setup the player buffer
     move.w  #BONUS_CLOUD_TILES_COUNT+1, d1
@@ -106,8 +95,10 @@ MainLoop_BonusClouds:
 
     moveq   #0, d1
     move.w  frame_counter, d1
-    move.w  d1, d3
-    add.w   d3, d3
+
+    ; Not sure if scrolling helps or hinders the magic
+    * move.w  d1, d3
+    * add.w   d3, d3
     * move.l  #vdp_vram_vscroll, vdp_control
     * move.w  #0, (a1)
     * move.w  d3, (a1)
@@ -217,31 +208,6 @@ MainLoop_BonusClouds:
 
 
     move.b  (SP)+, d7
-    ; Cycle the cloud pattern
-    * moveq   #0, d0
-    * move.b  #14, d0
-    * moveq   #0, d1
-
-    * neg     d1
-    * andi.w  #15, d1
-    * add.w   d1, d1
-    * lea     Palette_BonusCloudPlaneStart, a0
-    * lea     Palette_BonusCloudPlaneEnd, a1
-    * movea.l a0, a2
-
-    * adda.l  d1, a0
-
-    * move.l  #vdp_cram_write|$00020000, vdp_control
-    * lea.l   vdp_data, a5
-    * cloud_plane_loop:
-    *     cmpa.l  a1, a0
-    *     blt.s   cpl_adjusted
-    *         suba.l  a1, a0
-    *         adda.l  a2, a0
-    *     cpl_adjusted:
-    *     move.w  (a0)+, (a5)
-    *     dbra    d0, cloud_plane_loop
-
     EndLoop
 
 
