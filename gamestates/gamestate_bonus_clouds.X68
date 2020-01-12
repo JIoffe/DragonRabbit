@@ -1,4 +1,4 @@
-BONUS_CLOUD_TILES_COUNT         EQU     371
+BONUS_CLOUD_TILES_COUNT         EQU     379
 BONUS_CLOUD_TILES_BYTE_SIZE     EQU     BONUS_CLOUD_TILES_COUNT<<5
 
 BONUS_PLAYER_SPEED              EQU     3
@@ -176,14 +176,6 @@ MainLoop_BonusClouds:
             bra.s   bc_wobbled
         bc_wobbledown:
         addq    #1, d1
-
-    * andi.w  #7, d3
-    * cmp.w   #4, d3
-    * blt.s   bc_wobbledown
-    *     moveq       #1, d1
-    *     bra.s   bc_wobbled
-    * bc_wobbledown:
-    *     addq    #1, d1
     bc_wobbled:
     move.w  d1, MEM_player_pos_y
     swap    d1
@@ -219,7 +211,7 @@ MainLoop_BonusClouds:
     move.l  MEM_player_pos, d1
     addi.l  #((44<<16)|$FFFB), d1
     moveq   #1, d7
-    ori.w   #cram_palette_1_bits, d7
+    ori.w   #cram_palette_3_bits|vram_priority_bit, d7
     bsr.w   DrawSprite
 
 

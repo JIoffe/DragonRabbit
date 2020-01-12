@@ -53,9 +53,9 @@ BCP_Wispy_End:
    dc.w $0CCC
 
    dc.w $0000
-   dc.w $0000
-   dc.w $0EEE
-   dc.w $0E00
+   dc.w $0222
+   dc.w $02AE
+   dc.w $08EE
    dc.w $00E0
    dc.w $000E
    dc.w $00EE

@@ -1,3 +1,3 @@
 BonusNimbus:
    dc.w $0D00
-   dc.w $0125
+   dc.w $0173
