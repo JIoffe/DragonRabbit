@@ -42,6 +42,18 @@ CacheScoreSprites:
     move.w  #(score_pts_position_x+32), (a2)+           ; last is x offset
     rts
 
+CacheHealthSprite:
+    lea.l   MEM_sprite_buffer+24, a2
+    move.w  #health_sprite_y, (a2)+                     ; first is y offset
+    move.w  #$0C04, d3
+    move.w  d3, (a2)+                                   ; second is size and link
+    move.w  d7, d3
+    add.w  (MEM_UI_sprite_start), d3
+    addi.w  #81, d3
+    move.w  d3, (a2)+
+    move.w  #health_sprite_x, (a2)+                     ; last is x offset
+    rts
+
 UpdateScoreGfx
     movem.l d0-d7, -(SP)
 

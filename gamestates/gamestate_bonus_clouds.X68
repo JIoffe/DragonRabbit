@@ -1,8 +1,11 @@
-BONUS_CLOUD_TILES_COUNT         EQU     379
+BONUS_CLOUD_TILES_COUNT         EQU     440
 BONUS_CLOUD_TILES_BYTE_SIZE     EQU     BONUS_CLOUD_TILES_COUNT<<5
 
 BONUS_PLAYER_SPEED              EQU     3
 BONUS_PLAYER_WIDTH              EQU     29
+
+CB_ITEMS_HORIZON                EQU     sprite_view_vmin+80
+CB_ITEMS_VANISH                 EQU     vdp_screen_height-80
 
 Init_BonusClouds:
     move.w	#interrupts_disable, sr
@@ -73,9 +76,11 @@ Init_BonusClouds:
     bsr.w   LoadCoreGfx
     move.w  #cram_palette_2_bits|vram_priority_bit, d7
     bsr.w   CacheScoreSprites
-    jsr     UpdateScoreGfx
+    bsr.w   UpdateScoreGfx
+    move.w  #cram_palette_2_bits|vram_priority_bit, d7
+    bsr.w   CacheHealthSprite
 
-    moveq   #4, d4          ; advance d4 so sprite buffer is capped correctly
+    moveq   #5, d4          ; advance d4 so sprite buffer is capped correctly
 
     moveq   #0, d7          ; d7 will be the line counter
     lea.l   vdp_data, a1    ; a1 permanently points to data port for this state
@@ -84,6 +89,16 @@ Init_BonusClouds:
     ; set initial player graphics and position
     move.l  #BaoLongTu_sprite_FlyingRear0, (MEM_player_previous_frame)
     move.l  #$00900040, (MEM_player_pos)
+
+    SetPlayerVulnerable
+    move.b  #player_max_hp, MEM_player_hp
+
+    ; Addddd a bomb!!!
+    move.w  #1, MEM_LEVELITEM_COUNT
+    lea     MEM_LEVELITEMS, a0
+    move.l  #$00900090, (a0)+
+
+
 
     ; DMA - Sprite buffer and player tiles on each frame
     move.b  #3, MEM_vblank_mode
@@ -176,7 +191,7 @@ MainLoop_BonusClouds:
     ********************************************************************
     * SPRITE DUMP
     ********************************************************************
-    moveq   #4, d4
+    moveq   #5, d4
 
     move.b  d7, -(SP)
 
@@ -194,7 +209,7 @@ MainLoop_BonusClouds:
     ori.w   #cram_palette_2_bits|vram_priority_bit, d7
     bsr.w   DrawSpriteFrame
 
-    ; draw the cloud below the player
+    ; draw the cloud and shadow below the player
     move.w  frame_counter, d6
     andi.w  #1, d6
 
@@ -204,6 +219,92 @@ MainLoop_BonusClouds:
     moveq   #1, d7
     ori.w   #cram_palette_3_bits|vram_priority_bit, d7
     bsr.w   DrawSprite
+
+    lea     BCDropShadow, a0
+    move.w  #cram_palette_3_bits|vram_priority_bit, d7
+    move.w  #210, d1
+    swap    d1
+    move.w  MEM_player_pos_x, d1
+    addq    #6, d1
+    bsr.w   DrawSprite
+
+    ; Incoming items! They set us up the bomb
+    ; Only advance bombs every other frame
+    moveq   #0, d6
+    move.w  frame_counter, d6
+    andi.w  #1, d6
+
+    moveq   #0, d0
+    move.w  MEM_LEVELITEM_COUNT, d0
+    beq.w   bc_items_skipped
+    subq    #1, d0
+    lea     MEM_LEVELITEMS, a2
+    movea.l a2, a3                          ; Rebuild list with surviving bombs
+    moveq   #0, d6                          ; d6 will hold new count
+    bc_items_loop:
+        move.l  (a2), d1
+
+        ; pick the right bomb for the job!
+        move.l  d1, d2 
+        swap    d1
+        moveq   #0, d3
+        move.w  d1, d3
+        swap    d1
+        sub.w   #CB_ITEMS_HORIZON, d3
+        bmi.s   bc_bomb_skipped
+        cmp.w   #CB_ITEMS_VANISH, d3
+        blt.s   bc_bomb_draw
+            ; bombs away!
+            bra.s   bc_bomb_end
+        bc_bomb_draw:
+            lea     BonusBombScaling, a0
+            lea     BonusBombOffsets, a5
+            lsr.w   #3, d3
+            add.w   d3, d3
+            add.w   d3, d3
+            cmp.b   #24, d3
+            blt.s   cb_bomb_frame_limited
+                move.b  #24, d3
+            cb_bomb_frame_limited:
+            adda.l  d3, a0
+            adda.l  d3, a5
+            add.l   (a5), d1
+
+        move.w  #cram_palette_2_bits|vram_priority_bit, d7
+        bsr.w   DrawSprite_Untransformed
+
+        lea     BCDropShadow, a0
+        move.w  #cram_palette_3_bits|vram_priority_bit, d7
+        move.l  d2, d1
+        addi.l  #$0024000A, d1
+        bsr.w   DrawSprite_Untransformed
+        bc_bomb_skipped:
+
+        tst.w   d6
+        bne.s   bc_bomb_adjusted
+            add.l   #$00010000, d2
+            move.l  d2, (a2)
+        bc_bomb_adjusted:
+        addq    #1, d6                  ; retain for next frame
+        move.l  (a2)+, (a3)+
+        move.w  (a2)+, (a3)+
+        bc_bomb_end:
+        dbra    d0, bc_items_loop
+    
+    move.w  d6, MEM_LEVELITEM_COUNT
+    bc_items_skipped:
+    * move.l  #$00900090, d1
+    * lea     BCBomb100, a0
+    * move.w  #cram_palette_2_bits|vram_priority_bit, d7
+    * bsr.w   DrawSprite_Untransformed
+    * lea     gem, a0
+    * moveq   #0, d7
+    * move.w  (MEM_UI_sprite_start), d7
+    * addq    #1, d7
+    * move.l  MEM_player_pos, d1
+    * subi.l  #$00200000, d1
+    * ori.w   #cram_palette_2_bits|vram_priority_bit, d7
+    * bsr.w   DrawSprite
 
 
 

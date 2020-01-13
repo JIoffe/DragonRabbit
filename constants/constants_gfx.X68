@@ -5,3 +5,6 @@ vsync_dump_player     EQU   1
 score_label_position    EQU ((sprite_view_vmin+4)<<16)|(sprite_view_hmin+4)
 score_pts_position_x    EQU sprite_view_hmin+4
 score_pts_position_y    EQU sprite_view_vmin+12
+
+health_sprite_x         EQU (447-36)
+health_sprite_y         EQU (sprite_view_vmin+4)

@@ -28,9 +28,6 @@ camera_zone_bb_offset   EQU (camera_zone_height<<16)|camera_zone_width
 
 lvl_fadein_interval     EQU $03
 
-health_sprite_x         EQU (447-36)
-health_sprite_y         EQU (sprite_view_vmin+4)
-
 ; a1 always pointed to the start of the level we're working with
 Init_Level:
     move.w	#interrupts_disable, sr
@@ -67,22 +64,13 @@ Init_Level:
     bsr.w   LoadCoreGfx
     moveq   #0, d7
     bsr.w   CacheScoreSprites
+    bsr.w   CacheHealthSprite
 
-    ; health sprite
-    move.w  #health_sprite_y, (a2)+                     ; first is y offset
-    move.w  #$0C04, d3
-    move.w  d3, (a2)+                                   ; second is size and link
-    move.w  (MEM_UI_sprite_start), d3
-    addi.w  #81, d3
-    move.w  d3, (a2)+
-    move.w  #health_sprite_x, (a2)+                     ; last is x offset
     move.l  a3, (MEM_palette)
-
     jsr     UpdateScoreGfx
 
-    ; advance d4 so sprite buffer is at the correct spot
-    moveq   #3, d4
 
+    moveq   #3, d4
     ; Setup background - this will vary by level somehow
     testroombg_loop:
         move.l  #vdp_write_plane_b, a5
