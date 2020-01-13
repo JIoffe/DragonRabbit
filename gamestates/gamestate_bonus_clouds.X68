@@ -198,6 +198,24 @@ MainLoop_BonusClouds:
     moveq   #0, d2          ; static camera for subroutines that need it
     moveq   #0, d6
     moveq   #0, d0
+
+    ; see if the player sprite is flickering out
+    move.b  (MEM_player_vulnerability), d0
+    btst    #player_hurt_recoil, d0
+    beq.s   bc_draw_player_sprite
+    move.w  (MEM_player_inv_frames), d5
+    beq.s   bc_return_vulnerability
+        subq    #1, d5
+        move.w  d5, (MEM_player_inv_frames)
+        move.w  (frame_counter), d5
+        andi.w  #7, d5
+        cmp.b   #4, d5
+        blt.s   bc_draw_player_sprite
+        bra.s   bc_player_skipped
+    bc_return_vulnerability:
+        SetPlayerVulnerable
+
+    bc_draw_player_sprite:
     lea.l   MEM_player_previous_frame, a2
     move.l  (a2), a0
     moveq   #0, d3              ; skip to sprite data
@@ -208,6 +226,7 @@ MainLoop_BonusClouds:
     move.w  (MEM_player_sprite_index), d7
     ori.w   #cram_palette_2_bits|vram_priority_bit, d7
     bsr.w   DrawSpriteFrame
+    bc_player_skipped:
 
     ; draw the cloud and shadow below the player
     move.w  frame_counter, d6
@@ -251,12 +270,26 @@ MainLoop_BonusClouds:
         move.w  d1, d3
         swap    d1
         sub.w   #CB_ITEMS_HORIZON, d3
-        bmi.s   bc_bomb_skipped
+        bmi.w   bc_bomb_skipped
         cmp.w   #CB_ITEMS_VANISH, d3
         blt.s   bc_bomb_draw
             ; bombs away!
-            bra.s   bc_bomb_end
+            bra.w   bc_bomb_end
         bc_bomb_draw:
+            ; see if bomb is hitting player
+            cmp.w   #95, d3
+            blt.s   bc_bomb_alive
+                move.w  d1, d7
+                sub.w   #sprite_view_hmin, d7
+                sub.w   MEM_player_pos_x, d7            ; absolute value - is distance less than player width?
+                bpl.s   cb_collision_adjust
+                    neg d7
+                cb_collision_adjust:
+                cmp.w   #BONUS_PLAYER_WIDTH, d7
+                bgt.s   bc_bomb_alive
+                    DamagePlayer    d3
+                    bra.s   bc_bomb_end
+            bc_bomb_alive:
             lea     BonusBombScaling, a0
             lea     BonusBombOffsets, a5
             lsr.w   #3, d3
