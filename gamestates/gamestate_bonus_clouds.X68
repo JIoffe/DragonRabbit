@@ -1,4 +1,4 @@
-BONUS_CLOUD_TILES_COUNT         EQU     440
+BONUS_CLOUD_TILES_COUNT         EQU     499
 BONUS_CLOUD_TILES_BYTE_SIZE     EQU     BONUS_CLOUD_TILES_COUNT<<5
 
 BONUS_PLAYER_SPEED              EQU     3
@@ -6,6 +6,23 @@ BONUS_PLAYER_WIDTH              EQU     29
 
 CB_ITEMS_HORIZON                EQU     sprite_view_vmin+80
 CB_ITEMS_VANISH                 EQU     vdp_screen_height-80
+CB_PLAYER_COLLISION_HEIGHT      EQU     90                      ; offset from horizon
+
+CB_GEM_POINTS                   EQU     25
+
+
+***************************************************************
+* Bonus Level Prototype
+* -------------------------------------------------------------
+* Player can move left and right while flying through the clouds
+* and avoiding bombs until time runs out or the player dies.
+* The player can gather green orb things for points
+*
+* The MEM_LEVELITEMS buffer will be populated with bombs or point balls
+* via a timeline-based list. 
+* 1st Byte - Type: 0=Bomb, 1=Orb
+* 2nd Byte - 0xYX Velocity per update (updated every 2nd frame)
+* Last 4 bytes - 0xYYYYXXXX position onscreen
 
 Init_BonusClouds:
     move.w	#interrupts_disable, sr
@@ -96,6 +113,7 @@ Init_BonusClouds:
     ; Addddd a bomb!!!
     move.w  #1, MEM_LEVELITEM_COUNT
     lea     MEM_LEVELITEMS, a0
+    move.w  #$0110, (a0)+
     move.l  #$00900090, (a0)+
 
 
@@ -255,73 +273,23 @@ MainLoop_BonusClouds:
 
     moveq   #0, d0
     move.w  MEM_LEVELITEM_COUNT, d0
-    beq.w   bc_items_skipped
+    beq.s   bc_items_skipped
     subq    #1, d0
     lea     MEM_LEVELITEMS, a2
     movea.l a2, a3                          ; Rebuild list with surviving bombs
     moveq   #0, d6                          ; d6 will hold new count
     bc_items_loop:
-        move.l  (a2), d1
-
-        ; pick the right bomb for the job!
-        move.l  d1, d2 
-        swap    d1
-        moveq   #0, d3
-        move.w  d1, d3
-        swap    d1
-        sub.w   #CB_ITEMS_HORIZON, d3
-        bmi.w   bc_bomb_skipped
-        cmp.w   #CB_ITEMS_VANISH, d3
-        blt.s   bc_bomb_draw
-            ; bombs away!
-            bra.w   bc_bomb_end
-        bc_bomb_draw:
-            ; see if bomb is hitting player
-            cmp.w   #95, d3
-            blt.s   bc_bomb_alive
-                move.w  d1, d7
-                sub.w   #sprite_view_hmin, d7
-                sub.w   MEM_player_pos_x, d7            ; absolute value - is distance less than player width?
-                bpl.s   cb_collision_adjust
-                    neg d7
-                cb_collision_adjust:
-                cmp.w   #BONUS_PLAYER_WIDTH, d7
-                bgt.s   bc_bomb_alive
-                    DamagePlayer    d3
-                    bra.s   bc_bomb_end
-            bc_bomb_alive:
+        lea     BonusBombOffsets, a5
+        move.b  (a2)+, d3
+        bne.s   bc_item_pointball
             lea     BonusBombScaling, a0
-            lea     BonusBombOffsets, a5
-            lsr.w   #3, d3
-            add.w   d3, d3
-            add.w   d3, d3
-            cmp.b   #24, d3
-            blt.s   cb_bomb_frame_limited
-                move.b  #24, d3
-            cb_bomb_frame_limited:
-            adda.l  d3, a0
-            adda.l  d3, a5
-            add.l   (a5), d1
-
-        move.w  #cram_palette_2_bits|vram_priority_bit, d7
-        bsr.w   DrawSprite_Untransformed
-
-        lea     BCDropShadow, a0
-        move.w  #cram_palette_3_bits|vram_priority_bit, d7
-        move.l  d2, d1
-        addi.l  #$0024000A, d1
-        bsr.w   DrawSprite_Untransformed
-        bc_bomb_skipped:
-
-        tst.w   d6
-        bne.s   bc_bomb_adjusted
-            add.l   #$00010000, d2
-            move.l  d2, (a2)
-        bc_bomb_adjusted:
-        addq    #1, d6                  ; retain for next frame
-        move.l  (a2)+, (a3)+
-        move.w  (a2)+, (a3)+
-        bc_bomb_end:
+            lea     BC_BombHitPlayer, a4
+            bra.s   bc_item_selected
+        bc_item_pointball:
+            lea     BonusGemScaling, a0
+            lea     BC_PlayerGotGem, a4
+        bc_item_selected:
+        bsr.w   BC_ItemUpdate
         dbra    d0, bc_items_loop
     
     move.w  d6, MEM_LEVELITEM_COUNT
@@ -379,3 +347,76 @@ HBlank_BonusClouds:
     move.w  (a0)+, (a1)
     move.w  (a0), (a1)
     rte
+
+; Item update Subroutines - keep these close
+BC_ItemUpdate:
+    move.b  (a2)+, d1           ; right now the velocity is a "no-op" - testing with everything going straight down
+    move.l  (a2), d1
+
+    ; pick the right bomb for the job!
+    move.l  d1, d2 
+    swap    d1
+    moveq   #0, d3
+    move.w  d1, d3
+    swap    d1
+    sub.w   #CB_ITEMS_HORIZON, d3
+    bmi.w   bc_item_skipped
+    cmp.w   #CB_ITEMS_VANISH, d3
+    blt.s   bc_item_draw
+        ; bombs away!
+        bra.w   bc_item_end
+    bc_item_draw:
+        ; see if bomb is hitting player (an approximation)
+        cmp.w   #CB_PLAYER_COLLISION_HEIGHT, d3
+        blt.s   bc_item_alive
+            move.w  d1, d7
+            sub.w   #sprite_view_hmin, d7
+            sub.w   MEM_player_pos_x, d7            ; absolute value - is distance less than player width?
+            bpl.s   cb_collision_adjust
+                neg d7
+            cb_collision_adjust:
+            cmp.w   #BONUS_PLAYER_WIDTH, d7
+            bgt.s   bc_item_alive
+                jmp (a4)
+        bc_item_alive:
+        lsr.w   #3, d3
+        add.w   d3, d3
+        add.w   d3, d3
+        cmp.b   #24, d3
+        blt.s   cb_item_frame_limited
+            move.b  #24, d3
+        cb_item_frame_limited:
+        adda.l  d3, a0
+        adda.l  d3, a5
+        add.l   (a5), d1
+
+    move.w  #cram_palette_2_bits|vram_priority_bit, d7
+    bsr.w   DrawSprite_Untransformed
+
+    lea     BCDropShadow, a0
+    move.w  #cram_palette_3_bits|vram_priority_bit, d7
+    move.l  d2, d1
+    addi.l  #$0024000A, d1
+    bsr.w   DrawSprite_Untransformed
+    bc_item_skipped:
+
+    tst.w   d6
+    bne.s   bc_item_adjusted
+        move.l  #$00010000, d5      ; testing without any perspective distortion for now
+        add.l   d5, d2
+        move.l  d2, (a2)
+    bc_item_adjusted:
+    addq    #1, d6                  ; retain for next frame
+    subq    #2, a2
+    move.w  (a2)+, (a3)+
+    move.l  (a2)+, (a3)+
+    bc_item_end:
+    rts
+
+BC_BombHitPlayer:
+    DamagePlayer    d3
+    bra.s   bc_item_end
+
+BC_PlayerGotGem:
+    AddPoints   #CB_GEM_POINTS
+    bra.s   bc_item_end

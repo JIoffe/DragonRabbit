@@ -40,6 +40,35 @@ BonusBombOffsets:
    dc.l  $00030003
    dc.l  $00000000
 
+BonusGemScaling:
+BCGem15:
+   dc.w $0000
+   dc.w $01B9
+
+BCGem28:
+   dc.w $0500
+   dc.w $01BA
+
+BCGem40:
+   dc.w $0500
+   dc.w $01BE
+
+BCGem55:
+   dc.w $0A00
+   dc.w $01C2
+
+BCGem70:
+   dc.w $0A00
+   dc.w $01CB
+
+BCGem85:
+   dc.w $0F00
+   dc.w $01D4
+
+BCGem100:
+   dc.w $0F00
+   dc.w $01E4
+
 BCDropShadow:
    dc.w $0400
    dc.w $01B7
