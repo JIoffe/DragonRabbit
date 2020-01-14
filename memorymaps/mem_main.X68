@@ -47,3 +47,4 @@ MEM_plane_buffer                EQU $FFFF0A22       ; Array: 64 * 32 * 2 bytes
 MEM_hblank_handler              EQU $FFFF1A22       ;long (address)
 MEM_vblank_mode                 EQU $FFFF1A26       ;byte
 mem_hblank_counter              EQU $FFFF1A27       ;byte   - reset every vblank
+mem_events_ptr                  EQU $FFFF1A28       ;LONG
