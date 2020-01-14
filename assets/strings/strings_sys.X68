@@ -8,3 +8,13 @@ LicensingCaption:
 PresentedByCaption:
     dc.b    'Presented by', CR
     dc.b    'Jason Ioffe', 0
+
+BonusCloudsCaption:
+    dc.b    '    IT',39,'S BONUS TIME!', CR, CR
+    dc.b    'Get gems and avoid bombs!', 0
+
+BonusClouds_Fail:
+    dc.b    'YOU LOSE', 0
+
+BonusClouds_Fail2:
+    dc.b    'HOMEBOY', 0

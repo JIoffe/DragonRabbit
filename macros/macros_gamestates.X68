@@ -51,9 +51,9 @@ levelstart\@
 * Go to the bonus level flying through clouds
 * -----------------------------------------------
 Goto_BonusClouds macro
-    jsr     Init_BonusClouds
-    lea     MainLoop_BonusClouds, a6
-    move.b  #gamestate_bonus_clouds, (MEM_gamestate)
+    jsr     Init_BonusCloudsCard
+    lea     MainLoop_BonusCloudsCard, a6
+    move.b  #gamestate_bonus_cloud_card, (MEM_gamestate)
     endm
 
 ; Just in case anything needs to be renamed or added

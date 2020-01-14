@@ -1,6 +1,8 @@
 BONUS_CLOUD_TILES_COUNT         EQU     499
 BONUS_CLOUD_TILES_BYTE_SIZE     EQU     BONUS_CLOUD_TILES_COUNT<<5
 
+BONUS_PLAYER_VRAM_ADDR          EQU     (BONUS_CLOUD_TILES_COUNT+1)<<5
+
 BONUS_PLAYER_SPEED              EQU     3
 BONUS_PLAYER_WIDTH              EQU     29
 
@@ -10,6 +12,100 @@ CB_ITEMS_VANISH                 EQU     vdp_screen_height-80
 CB_PLAYER_COLLISION_Y           EQU     292
 CB_GEM_POINTS                   EQU     25
 
+CB_LAST_SPRITE_INDEX            EQU     MEM_fade        ; Use this to add more sprites after player dies; not using fade then
+
+
+; Wobble macro for card and level
+BonusPlayerWobble       macro
+    swap    d1
+    move.w  frame_counter, d3
+    move.w  d3, d5
+    andi.w  #3, d3
+    bne.s   wobbled\@
+        andi.w  #63, d5
+        cmp.w   #32, d5
+        blt.s   wobbledown\@
+            subq    #1, d1
+            bra.s   wobbled\@
+wobbledown\@
+        addq    #1, d1
+wobbled\@
+    move.w  d1, MEM_player_pos_y
+    swap    d1
+    endm
+
+**************************************************************
+* The "card" that comes just before the bonus stage
+**************************************************************
+Init_BonusCloudsCard:
+    move.w	#interrupts_disable, sr
+    DisableHBlank
+    jsr     ResetState
+
+    lea     Palette_BonusClouds, a0
+    moveq   #4, d0
+    bsr.w   LoadPalettes
+
+    DMA68KtoVRAM    2880, Tiles_FontA, $20
+    DMA68KtoVRAM    384, BonusCloudsTiles+11840, 11872
+
+    lea     BonusCloudsCaption, a0
+    move.w  #cram_palette_3_bits, d6
+    move.l  #vdp_write_plane_a|$040E0000, d7
+    bsr.w   PrintStringNoDMA
+    
+    move.l  #BaoLongTu_sprite_Walking0, MEM_player_previous_frame
+    move.w  #2912, MEM_player_tiles_start
+
+    move.l  #$00700092, MEM_player_pos
+    
+    ; copy sprites and player sprite
+    move.b  #3, MEM_vblank_mode
+
+    move.w	#interrupts_enable, sr
+    rts
+
+MainLoop_BonusCloudsCard:
+    cmp.w   #140, frame_counter
+    bne.s   bcc_continue
+        jsr     Init_BonusClouds
+        lea     MainLoop_BonusClouds, a6
+        move.b  #gamestate_bonus_clouds, (MEM_gamestate)
+        EndLoop
+    bcc_continue:
+
+    move.l  MEM_player_pos, d1
+    BonusPlayerWobble
+
+    moveq   #1, d4
+
+    lea.l   MEM_player_previous_frame, a2
+    movea.l (a2), a0
+    moveq   #0, d3              ; skip to sprite data
+    move.w  (a0)+, d3
+    add.w   d3, d3
+    adda.l  d3, a0
+
+    moveq   #0, d2
+    move.w  #91|cram_palette_2_bits|vram_priority_bit, d7
+    bsr.w   DrawSpriteFrame
+
+    ; draw 2 clouds since the player has a wide stance...
+    lea     BonusNimbus, a0
+    move.l  MEM_player_pos, d1
+    addi.l  #((54<<16)|$FFED), d1
+    moveq   #1, d7
+    ori.w   #cram_palette_3_bits, d7
+    bsr.w   DrawSprite
+
+    lea     BonusNimbus, a0
+    move.l  MEM_player_pos, d1
+    addi.l  #((54<<16)|$0002), d1
+    moveq   #1, d7
+    ori.w   #cram_palette_3_bits, d7
+    bsr.w   DrawSprite
+
+    EndLoop
 
 ***************************************************************
 * Bonus Level Prototype
@@ -23,6 +119,8 @@ CB_GEM_POINTS                   EQU     25
 * 1st Byte - Type: 0=Bomb, 1=Orb
 * 2nd Byte - 0xYX Velocity per update (updated every 2nd frame)
 * Last 4 bytes - 0xYYYYXXXX position onscreen
+
+
 
 Init_BonusClouds:
     move.w	#interrupts_disable, sr
@@ -106,7 +204,7 @@ Init_BonusClouds:
 
     ; set initial player graphics and position
     move.l  #BaoLongTu_sprite_FlyingRear0, (MEM_player_previous_frame)
-    move.l  #$00900040, (MEM_player_pos)
+    move.l  #$00900092, (MEM_player_pos)
 
     SetPlayerVulnerable
     move.b  #player_max_hp, MEM_player_hp
@@ -116,9 +214,53 @@ Init_BonusClouds:
 
     ; DMA - Sprite buffer and player tiles on each frame
     move.b  #3, MEM_vblank_mode
-    EnableHBlank    #HBlank_BonusClouds, 1
+    EnableHBlank    #HBlank_BonusCloudsScroll, 1
     move.w	#interrupts_enable, sr
     rts
+
+PlayerLostShame_BonusClouds:
+    ;Shame on you!
+    move.b  #5, d4
+    PointToNextSprite   d4, d3, a2
+
+    lea     BonusClouds_Fail, a0
+    move.l  #$00A80000|sprite_view_hmin+119, d1
+    move.l  #$FFFB0008, d2
+    move.w  #(BONUS_CLOUD_TILES_COUNT)|cram_palette_3_bits|vram_priority_bit, d5
+    move.w  frame_counter, d6
+    bsr.w   PrintFallingTextAsSprites
+
+    move.w  frame_counter, d6
+    cmp.w   #100, d6
+    blt.s   skip_shame
+        lea     BonusClouds_Fail2, a0
+        move.l  #$00B80000|sprite_view_hmin+123, d1
+        bsr.w   PrintTextAsSprites
+    skip_shame:
+
+    EndLoop
+PlayerDead_BonusClouds:
+    ; It's a long way down, homie
+    move.w  MEM_player_pos_y, d1
+    move.w  MEM_player_velocity_y, d0
+    addi.w  #world_gravity, d0
+    move.w  d0, MEM_player_velocity_y
+    asr.w   #3, d0
+    add.w   d0, d1
+    move.w  d1, MEM_player_pos_y
+
+    cmp.w   #vdp_screen_height, d1
+    blt.s   bc_continue_playerdead
+        lea     PlayerLostShame_BonusClouds, a6
+        move.l  #HBlank_BonusCloudsNoScroll, MEM_hblank_handler
+
+        ; Player is gone, DMA font in his place!
+        move.w  #((BONUS_CLOUD_TILES_COUNT+1)<<5), d0
+        DMA68KtoVRAM    2048, Tiles_FontA, BONUS_PLAYER_VRAM_ADDR
+        move.w  #0, frame_counter       ; reset frame counter
+        move.b  d4, CB_LAST_SPRITE_INDEX
+        EndLoop
+    bc_continue_playerdead:
 
 MainLoop_BonusClouds:
     bsr.w   UpdateScoreGfxIfDirty
@@ -186,50 +328,39 @@ MainLoop_BonusClouds:
     * PLAYER CONTROLS 
     *****************************************************************
     move.l  MEM_player_pos, d1
-    move.b	(MEM_buttons_held), d0
+    btst    #player_dead, MEM_player_vulnerability
+    bne.s   bc_player_dead0
+        move.b	(MEM_buttons_held), d0
 
-    move.b  d0, d3
-    andi.b  #joypad_right, d3
-    beq.s   bc_check_left              ; Not pressing right; see if pressing left
-        ; Moving RIGHT
-        addi.w  #BONUS_PLAYER_SPEED, d1
-        bra.s   bc_lr_checked
-    bc_check_left:
-        move.b	d0, d3
-        andi.b  #joypad_left, d3
-        beq.s   bc_lr_checked
-            ; Moving LEFT
-            subi.w  #BONUS_PLAYER_SPEED, d1
-    bc_lr_checked:
+        move.b  d0, d3
+        andi.b  #joypad_right, d3
+        beq.s   bc_check_left              ; Not pressing right; see if pressing left
+            ; Moving RIGHT
+            addi.w  #BONUS_PLAYER_SPEED, d1
+            bra.s   bc_lr_checked
+        bc_check_left:
+            move.b	d0, d3
+            andi.b  #joypad_left, d3
+            beq.s   bc_lr_checked
+                ; Moving LEFT
+                subi.w  #BONUS_PLAYER_SPEED, d1
+        bc_lr_checked:
 
-    tst.w   d1
-    bpl.s   bc_clip_left
-        move.w  #0, d1
-        bra.s   bc_clipped
-    bc_clip_left:
-    cmp.w   #vdp_screen_width-BONUS_PLAYER_WIDTH, d1
-    ble.s   bc_clipped
-        move.w   #vdp_screen_width-BONUS_PLAYER_WIDTH, d1
-    bc_clipped:
+        tst.w   d1
+        bpl.s   bc_clip_left
+            move.w  #0, d1
+            bra.s   bc_clipped
+        bc_clip_left:
+        cmp.w   #vdp_screen_width-BONUS_PLAYER_WIDTH, d1
+        ble.s   bc_clipped
+            move.w   #vdp_screen_width-BONUS_PLAYER_WIDTH, d1
+        bc_clipped:
 
-    move.w  d1, MEM_player_pos_x
-
-    ; wobble a bit in the air to look like we're floating...
-    swap    d1
-    move.w  frame_counter, d3
-    move.w  d3, d5
-    andi.w  #3, d3
-    bne.s   bc_wobbled
-        andi.w  #63, d5
-        cmp.w   #32, d5
-        blt.s   bc_wobbledown
-            subq    #1, d1
-            bra.s   bc_wobbled
-        bc_wobbledown:
-        addq    #1, d1
-    bc_wobbled:
-    move.w  d1, MEM_player_pos_y
-    swap    d1
+        move.w  d1, MEM_player_pos_x
+        
+        ; wobble a bit in the air to look like we're floating...
+        BonusPlayerWobble
+    bc_player_dead0:
     
 
 
@@ -245,8 +376,7 @@ MainLoop_BonusClouds:
     moveq   #0, d0
 
     ; see if the player sprite is flickering out
-    move.b  (MEM_player_vulnerability), d0
-    btst    #player_hurt_recoil, d0
+    btst    #player_dmg_invulnerable, MEM_player_vulnerability
     beq.s   bc_draw_player_sprite
     move.w  (MEM_player_inv_frames), d5
     beq.s   bc_return_vulnerability
@@ -273,10 +403,10 @@ MainLoop_BonusClouds:
     bsr.w   DrawSpriteFrame
     bc_player_skipped:
 
-    ; draw the cloud and shadow below the player
-    move.w  frame_counter, d6
-    andi.w  #1, d6
 
+    ; draw the cloud and shadow below the player
+    btst    #player_dead, MEM_player_vulnerability
+    bne.s   bc_player_cloud_skipped
     lea     BonusNimbus, a0
     move.l  MEM_player_pos, d1
     addi.l  #((44<<16)|$FFFB), d1
@@ -291,6 +421,7 @@ MainLoop_BonusClouds:
     move.w  MEM_player_pos_x, d1
     addq    #6, d1
     bsr.w   DrawSprite
+    bc_player_cloud_skipped:
 
     ; Incoming items! They set us up the bomb
     ; Only advance bombs every other frame
@@ -322,15 +453,19 @@ MainLoop_BonusClouds:
     EndLoop
 
 
-HBlank_BonusClouds:
-    * move.w	#interrupts_disable, sr
+HBlank_BonusCloudsNoScroll
     moveq   #0, d0
     move.b  d7, d0
-    addi.b  #1, d7
+    bra.s   HBlank_BonusCloudsTexture
+HBlank_BonusCloudsScroll:
+    moveq   #0, d0
+    move.b  d7, d0
     move.w  frame_counter, d1
     lsr.w   #1, d1
     sub.w   d1, d0
-
+HBlank_BonusCloudsTexture:
+    * move.w	#interrupts_disable, sr
+    addi.b  #1, d7
     andi.w  #15, d0
     asl.w   #5, d0
 
@@ -414,20 +549,42 @@ BC_ItemUpdate:
     subq    #6, a2
     move.w  (a2)+, (a3)+
 
-    btst    #0, frame_counter+1     ; move down every other frame
-    beq.s   bc_item_advance_skip
+    ; Uncomment for EASY MODE (wuss)
+    * btst    #0, frame_counter+1     ; move down every other frame
+    * beq.s   bc_item_advance_skip
         add.l   #$00010000, d2
         move.l  d2, (a2)
-    bc_item_advance_skip:
+    * bc_item_advance_skip:
 
     move.l  (a2)+, (a3)+
     bc_item_end:
     rts
 
 BC_BombHitPlayer:
-    DamagePlayer    d3
+    bsr.s   BC_HurtPlayer
     bra.s   bc_item_end
 
 BC_PlayerGotGem:
     AddPoints   #CB_GEM_POINTS
     bra.s   bc_item_end
+
+BC_HurtPlayer:
+    btst    #player_vulnerable, MEM_player_vulnerability
+    beq.s   bc_skiphurtplayer
+
+    move.b  MEM_player_hp, d3
+    subq    #1, d3
+    move.b  d3, MEM_player_hp
+    bne.s   bc_player_alive
+        move.b  #$10, MEM_player_vulnerability           ; dead as a doorknob
+        move.l  #BaoLongTu_sprite_Dead0, MEM_player_previous_frame
+        lea     PlayerDead_BonusClouds, a6
+        move.w  #player_death_velocity, MEM_player_velocity_y        
+        bra.s   bc_hurtplayer_end
+    bc_player_alive:
+        move.b  #4, MEM_player_vulnerability
+        move.w  #player_hurt_duration<<1, MEM_player_inv_frames         ; double the invincibility time in the bonus stage
+    bc_hurtplayer_end:
+        jsr UpdateHealthGfx 
+    bc_skiphurtplayer:
+    rts

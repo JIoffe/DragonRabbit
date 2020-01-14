@@ -34,3 +34,72 @@ PrintStringNoDMA:
         bra.s   print_startline
     print_string_end:
     rts
+
+*************************************************************
+* Long name but... prints letters falling to a target height
+* Given a frame count and letter offset
+* a0 - null terminated string
+* d1 - target position
+* d2 - offset between letters
+* d5 - tile offset/flags
+* d6 - amount to advance from top
+PrintFallingTextAsSprites:
+    swap    d1
+    move.w  d1, a5
+    move.w  d6, d1
+    addi.w  #sprite_view_vmin, d1
+    swap    d1
+    printfalling_text_sprite_loop:
+        add.l   d2, d1
+        moveq   #0, d3
+        move.b  (a0)+, d3
+        beq.s   printfalling_sprite_end
+
+        sub.b   #32, d3
+        beq.s   printfalling_text_sprite_loop
+
+        swap    d1
+        move.w  d1, d6
+        swap    d1
+        cmp.w   a5, d6
+        ble.s   printfalling_limited
+            move.w  a5, d6
+        printfalling_limited:
+        move.w  d6, (a2)+                                                   ; y offset
+
+        move.w  d4, (a2)+                                                   ; size and link
+        addq    #1, d4
+        add.w   d5, d3
+        move.w  d3, (a2)+         ; tile id / flags
+        move.w  d1, (a2)+                                                 ; x offset
+        bra.s   printfalling_text_sprite_loop
+        printfalling_sprite_end:
+    rts
+
+*************************************************************
+* Long name but... prints letters falling to a target height
+* Given a frame count and letter offset
+* a0 - null terminated string
+* d1 - target position
+* d5 - tile offset/flags
+PrintTextAsSprites:
+    print_text_sprite_loop:
+        addq    #8, d1
+        moveq   #0, d3
+        move.b  (a0)+, d3
+        beq.s   print_sprite_end
+
+        sub.b   #32, d3
+        beq.s   print_text_sprite_loop
+
+        swap    d1
+        move.w  d1, (a2)+                                                   ; y offset
+        swap    d1
+        move.w  d4, (a2)+                                                   ; size and link
+        addq    #1, d4
+        add.w   d5, d3
+        move.w  d3, (a2)+         ; tile id / flags
+        move.w  d1, (a2)+                                                 ; x offset
+        bra.s   print_text_sprite_loop
+        print_sprite_end:
+    rts

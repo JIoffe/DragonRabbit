@@ -16,14 +16,26 @@ BonusEvents1:
             dc.w    $0158       ; Gem     
     dc.w    $0050
         dc.w    $0000
-            dc.w    $0168       ; Gem   
+            dc.w    $0068       ; Bomb   
 
     dc.w    $0060
         dc.w    $0000
-            dc.w    $0178       ; Gem   
+            dc.w    $0078       ; Bomb   
 
     dc.w    $0070
         dc.w    $0000
-            dc.w    $0188       ; Gem  
+            dc.w    $0088       ; Bomb  
+
+    dc.w    $00A0
+        dc.w    $0000
+            dc.w    $0068       ; Bomb   
+
+    dc.w    $00C0
+        dc.w    $0000
+            dc.w    $0078       ; Bomb   
+
+    dc.w    $00E0
+        dc.w    $0000
+            dc.w    $0088       ; Bomb  
     ; END
     dc.w    $FFFF
