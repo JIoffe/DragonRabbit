@@ -12,9 +12,6 @@ CB_ITEMS_VANISH                 EQU     vdp_screen_height-80
 CB_PLAYER_COLLISION_Y           EQU     292
 CB_GEM_POINTS                   EQU     25
 
-CB_LAST_SPRITE_INDEX            EQU     MEM_fade        ; Use this to add more sprites after player dies; not using fade then
-
-
 ; Wobble macro for card and level
 BonusPlayerWobble       macro
     swap    d1
@@ -220,7 +217,7 @@ Init_BonusClouds:
 
 PlayerLostShame_BonusClouds:
     ;Shame on you!
-    move.b  #5, d4
+    move.b  mem_sprite_link, d4
     PointToNextSprite   d4, d3, a2
 
     lea     BonusClouds_Fail, a0
@@ -231,7 +228,7 @@ PlayerLostShame_BonusClouds:
     bsr.w   PrintFallingTextAsSprites
 
     move.w  frame_counter, d6
-    cmp.w   #100, d6
+    cmp.w   #90, d6
     blt.s   skip_shame
         lea     BonusClouds_Fail2, a0
         move.l  #$00B80000|sprite_view_hmin+123, d1
@@ -257,8 +254,7 @@ PlayerDead_BonusClouds:
         ; Player is gone, DMA font in his place!
         move.w  #((BONUS_CLOUD_TILES_COUNT+1)<<5), d0
         DMA68KtoVRAM    2048, Tiles_FontA, BONUS_PLAYER_VRAM_ADDR
-        move.w  #0, frame_counter       ; reset frame counter
-        move.b  d4, CB_LAST_SPRITE_INDEX
+        move.w  #0, frame_counter       ; reset frame counter\
         EndLoop
     bc_continue_playerdead:
 
@@ -449,6 +445,8 @@ MainLoop_BonusClouds:
     move.w  d6, MEM_LEVELITEM_COUNT
     bc_items_skipped:
 
+    move.b  d4, mem_sprite_link
+
     move.b  (SP)+, d7
     EndLoop
 
@@ -543,7 +541,6 @@ BC_ItemUpdate:
     move.l  d2, d1
     addi.l  #$0024000A, d1
     bsr.w   DrawSprite_Untransformed
-
 
     addq    #1, d6                  ; retain for next frame - gets added to item count
     subq    #6, a2

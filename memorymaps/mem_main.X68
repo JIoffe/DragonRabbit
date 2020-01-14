@@ -48,3 +48,4 @@ MEM_hblank_handler              EQU $FFFF1A22       ;long (address)
 MEM_vblank_mode                 EQU $FFFF1A26       ;byte
 mem_hblank_counter              EQU $FFFF1A27       ;byte   - reset every vblank
 mem_events_ptr                  EQU $FFFF1A28       ;LONG
+mem_sprite_link                 EQU $FFFF1A2C       ; BYTE
