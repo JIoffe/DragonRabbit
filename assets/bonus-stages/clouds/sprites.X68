@@ -72,3 +72,7 @@ BCGem100:
 BCDropShadow:
    dc.w $0400
    dc.w $01B7
+
+BC_GemSparkle:
+   dc.w $0F00
+   dc.w $0245

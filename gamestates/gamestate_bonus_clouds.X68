@@ -1,4 +1,4 @@
-BONUS_CLOUD_TILES_COUNT         EQU     580
+BONUS_CLOUD_TILES_COUNT         EQU     596
 BONUS_CLOUD_TILES_BYTE_SIZE     EQU     BONUS_CLOUD_TILES_COUNT<<5
 
 BONUS_PLAYER_VRAM_ADDR          EQU     (BONUS_CLOUD_TILES_COUNT+1)<<5
@@ -15,7 +15,11 @@ CB_GEM_POINTS                   EQU     25
 CB_EFFECT_EXPLOSION             EQU     0
 CB_EFFECT_EXPLOSION_DURATION    EQU     32
 CB_EFFECT_EXPLOSION_STARTVALUE  EQU     (CB_EFFECT_EXPLOSION<<8)|CB_EFFECT_EXPLOSION_DURATION
-CB_EFFECT_EXPLOSION_FRAMES      EQU     4  
+CB_EFFECT_EXPLOSION_FRAMES      EQU     4
+
+CB_EFFECT_SPARKLE               EQU     1
+CB_EFFECT_SPARKLE_DURATION      EQU     32
+CB_EFFECT_SPARKLE_STARTVALUE    EQU     (CB_EFFECT_SPARKLE<<8)|CB_EFFECT_SPARKLE_DURATION
 
 ; Wobble macro for card and level
 BonusPlayerWobble       macro
@@ -390,7 +394,13 @@ MainLoop_BonusClouds:
         movea.l a2, a3
         bc_effects_loop:
             move.b  (a2)+, d3
-            bsr.w   BC_DrawExplosion
+            bne.s   bc_choose_sparkle
+                bsr.w   BC_DrawExplosion
+                bra.s   bc_effect_chosen
+            bc_choose_sparkle:
+                bsr.w   BC_DrawSparkle
+            bc_effect_chosen:
+            
             beq.s   bc_effect_dropped
                 ; retain for next frame
                 subq    #2, a2
@@ -608,6 +618,11 @@ BC_BombHitPlayer:
 
 BC_PlayerGotGem:
     AddPoints   #CB_GEM_POINTS
+    ; d2 should still have the actual position of this object
+    subi.l  #sprite_viewport_offset, d2
+    move.l  d2, d1
+    move.w  #CB_EFFECT_SPARKLE_STARTVALUE, d7
+    bsr.w   AddEffect
     bra.s   bc_item_end
 
 BC_HurtPlayer:
@@ -649,4 +664,23 @@ BC_DrawExplosion:
         bsr.w   DrawSpriteFrame
         moveq   #1, d3
     bc_explosion_end:
+    rts
+
+BC_DrawSparkle:
+    move.b  (a2), d3
+    subq    #1, d3
+    move.b  d3, (a2)+
+    move.l  (a2), d1
+    tst.b   d3
+    beq.s   bc_sparkle_end
+        lea     BC_GemSparkle, a0
+        move.w  #cram_palette_2_bits|vram_priority_bit, d7
+        andi.b  #7, d3
+        cmp.b   #4, d3
+        blt.s   bc_sparkle_noflip
+            ori.w   #vram_hflip_bit, d7
+        bc_sparkle_noflip:
+        bsr.w   DrawSprite  
+        moveq   #1, d3
+    bc_sparkle_end:
     rts
