@@ -116,6 +116,8 @@ sprite_view_hmax        EQU $01BF
 sprite_view_vmin        EQU $0080
 sprite_view_vmax        EQU $015F
 
+sprite_viewport_offset  EQU (sprite_view_vmin<<16)|sprite_view_hmin
+
 vram_sprites_address    EQU $B800
 
 

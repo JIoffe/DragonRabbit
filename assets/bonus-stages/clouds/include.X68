@@ -7,3 +7,6 @@
 
     ; Events (what comes when) for bonus stage
     include './assets/bonus-stages/clouds/cloud-bonus1_events.X68'
+
+    ; Particle effects
+    include './assets/bonus-stages/clouds/explosion.X68'

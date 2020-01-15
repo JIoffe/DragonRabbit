@@ -1,4 +1,4 @@
-BONUS_CLOUD_TILES_COUNT         EQU     499
+BONUS_CLOUD_TILES_COUNT         EQU     580
 BONUS_CLOUD_TILES_BYTE_SIZE     EQU     BONUS_CLOUD_TILES_COUNT<<5
 
 BONUS_PLAYER_VRAM_ADDR          EQU     (BONUS_CLOUD_TILES_COUNT+1)<<5
@@ -11,6 +11,11 @@ CB_ITEMS_VANISH                 EQU     vdp_screen_height-80
 
 CB_PLAYER_COLLISION_Y           EQU     292
 CB_GEM_POINTS                   EQU     25
+
+CB_EFFECT_EXPLOSION             EQU     0
+CB_EFFECT_EXPLOSION_DURATION    EQU     32
+CB_EFFECT_EXPLOSION_STARTVALUE  EQU     (CB_EFFECT_EXPLOSION<<8)|CB_EFFECT_EXPLOSION_DURATION
+CB_EFFECT_EXPLOSION_FRAMES      EQU     4  
 
 ; Wobble macro for card and level
 BonusPlayerWobble       macro
@@ -58,6 +63,8 @@ Init_BonusCloudsCard:
     
     ; copy sprites and player sprite
     move.b  #3, MEM_vblank_mode
+
+    lea.l   vdp_data, a1
 
     move.w	#interrupts_enable, sr
     rts
@@ -369,7 +376,33 @@ MainLoop_BonusClouds:
 
     moveq   #0, d2          ; static camera for subroutines that need it
     moveq   #0, d6
+
+    *************************
+    * EFFECTS like boom booms
+    *************************
     moveq   #0, d0
+    moveq   #0, d5
+    move.w  MEM_effects_count, d5
+    beq.s   bc_effects_skip
+        subq    #1, d5
+        move.w  #0, MEM_effects_count
+        lea     MEM_effects, a2
+        movea.l a2, a3
+        bc_effects_loop:
+            move.b  (a2)+, d3
+            bsr.w   BC_DrawExplosion
+            beq.s   bc_effect_dropped
+                ; retain for next frame
+                subq    #2, a2
+                move.w  (a2)+, (a3)+
+                move.l  (a2)+, (a3)+
+                addi.w  #1, MEM_effects_count
+                bra.s   bc_effects_continue
+            bc_effect_dropped:
+                addq    #4, a2
+            bc_effects_continue:
+            dbra    d5, bc_effects_loop
+    bc_effects_skip:
 
     ; see if the player sprite is flickering out
     btst    #player_dmg_invulnerable, MEM_player_vulnerability
@@ -394,6 +427,7 @@ MainLoop_BonusClouds:
     add.w   d3, d3
     adda.l  d3, a0
 
+        move.l  MEM_player_pos, d1
     move.w  (MEM_player_sprite_index), d7
     ori.w   #cram_palette_2_bits|vram_priority_bit, d7
     bsr.w   DrawSpriteFrame
@@ -401,11 +435,18 @@ MainLoop_BonusClouds:
 
 
     ; draw the cloud and shadow below the player
-    btst    #player_dead, MEM_player_vulnerability
-    bne.s   bc_player_cloud_skipped
     lea     BonusNimbus, a0
-    move.l  MEM_player_pos, d1
-    addi.l  #((44<<16)|$FFFB), d1
+    btst    #player_dead, MEM_player_vulnerability
+    beq.s   bc_cloud_follow_player
+        move.w  #190, d1
+        swap    d1
+        move.w  MEM_player_pos_x, d1
+        subq    #5, d1
+        bra.s   bc_cloud_height_adjusted
+    bc_cloud_follow_player:
+        move.l  MEM_player_pos, d1
+        addi.l  #((44<<16)|$FFFB), d1
+    bc_cloud_height_adjusted:
     moveq   #1, d7
     ori.w   #cram_palette_3_bits|vram_priority_bit, d7
     bsr.w   DrawSprite
@@ -417,7 +458,6 @@ MainLoop_BonusClouds:
     move.w  MEM_player_pos_x, d1
     addq    #6, d1
     bsr.w   DrawSprite
-    bc_player_cloud_skipped:
 
     ; Incoming items! They set us up the bomb
     ; Only advance bombs every other frame
@@ -559,6 +599,11 @@ BC_ItemUpdate:
 
 BC_BombHitPlayer:
     bsr.s   BC_HurtPlayer
+    ; d2 should still have the actual position of this object
+    subi.l  #sprite_viewport_offset, d2
+    move.l  d2, d1
+    moveq   #CB_EFFECT_EXPLOSION_STARTVALUE, d7
+    bsr.w   AddEffect
     bra.s   bc_item_end
 
 BC_PlayerGotGem:
@@ -584,4 +629,24 @@ BC_HurtPlayer:
     bc_hurtplayer_end:
         jsr UpdateHealthGfx 
     bc_skiphurtplayer:
+    rts
+
+BC_DrawExplosion:
+    move.b  (a2), d3
+    subq    #1, d3
+    move.b  d3, (a2)+
+    move.l  (a2), d1
+    tst.b   d3
+    beq.s   bc_explosion_end
+        move.w  #vram_priority_bit|cram_palette_3_bits, d7
+        ; pick frame based on where we are in the animation
+        lea     Explosion_Explode+2, a0
+        lsr.w   #3, d3
+        add.w   d3, d3
+        add.w   d3, d3
+        movea.l	(a0,d3.w), a0 
+
+        bsr.w   DrawSpriteFrame
+        moveq   #1, d3
+    bc_explosion_end:
     rts
