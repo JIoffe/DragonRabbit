@@ -66,7 +66,6 @@ DMADumpSpriteBuffer   macro
     moveq   #0, d1
     move.w  #320, d1
     move.l  #MEM_sprite_buffer, d2
-    moveq   #0, d3
     move.l  #vram_sprites_address, d3
     bsr.w   TriggerDMADumpToVRAM
     endm

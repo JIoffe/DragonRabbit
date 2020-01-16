@@ -162,7 +162,7 @@ DrawSprite_Untransformed:
     move.w  d3, (a2)+                        ; second is size and link
 
     move.w  d7, d3
-    add.w   (a0)+, d3
+    add.w   (a0), d3
     move.w  d3, (a2)+                        ; third is tile ID + priority/h flip/v flip
 
     swap    d1

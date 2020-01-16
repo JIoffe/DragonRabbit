@@ -3,9 +3,8 @@
 * (assumes frame_state and vblank_on_flag are memory constants)
 *-----------------------------------------------------------
 WaitVBlank:
-	btst	#vblank_on_flag, (frame_state)
+	bclr	#vblank_on_flag, frame_state
 	beq.s	WaitVBlank
-	bclr	#vblank_on_flag, (frame_state)
 	rts
 *~Font name~Courier New~
 *~Font size~10~

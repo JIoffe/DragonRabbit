@@ -5,7 +5,7 @@ max_effects         EQU     $10
 * d7 - effect type and state
 * d1 - effect position
 AddEffect:
-    move.l  d0, -(SP)
+    movem.l d0/a0, -(SP)
     moveq   #0, d0
     move.w  (MEM_effects_count), d0
     lea     MEM_effects, a0
@@ -19,7 +19,7 @@ AddEffect:
     move.w  d7, (a0)+
     move.l  d1, (a0)
 
-    move.l  (SP)+, d0
+    movem.l (SP)+, d0/a0
     rts
 
 AddBloodBurstTriangle:

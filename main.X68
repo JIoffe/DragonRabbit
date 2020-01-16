@@ -132,13 +132,16 @@ VBlank:
     btst    #vsync_dump_player, d0
     beq.s   skip_player_gfx
         * Dump player tile data to VRAM
-        lea.l   MEM_player_previous_frame, a2
-        move.l  (a2), a0
-        lea.l   MEM_player_tiles_start, a2
-        moveq   #0,  d3
-        move.w  (a2), d3                    ; address of player tile data in VRAM
+        move.l  MEM_player_previous_frame, a0
+        moveq   #0, d3
+        move.w  MEM_player_tiles_start, d3                    ; address of player tile data in VRAM
         bsr.w   PushEmbeddedSpriteFrame
     skip_player_gfx:
+
+    btst    #vsync_dump_score, d0
+    beq.s   skip_score
+        bsr.w   UpdateScoreGfxIfDirty
+    skip_score:
 
 	rte
     
@@ -172,8 +175,19 @@ NotHandled:
 *===============================
 * Art/Sound/Text Assets
 * ===============================
+    ; Some system variables
     palette_empty:
     dc.w    $0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0
+
+    ; The score is 8 digits long.... 1000000
+    ; 5 steps for score
+    SCORE_number:
+    number_100000:  dc.l    100000
+    number_10000:   dc.l    10000
+    number_1000:    dc.l    1000
+    number_100:     dc.l    100
+    number_10:      dc.l    10
+    number_1:       dc.l    1
 
     include './assets/palettes/palettes_system.X68'
 
@@ -227,6 +241,7 @@ NotHandled:
 *=====================================================
     include './assets/strings/strings_sys.X68'
 RomEnd:
+
 
 
 

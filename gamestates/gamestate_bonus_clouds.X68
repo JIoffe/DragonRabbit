@@ -6,10 +6,11 @@ BONUS_PLAYER_VRAM_ADDR          EQU     (BONUS_CLOUD_TILES_COUNT+1)<<5
 BONUS_PLAYER_SPEED              EQU     3
 BONUS_PLAYER_WIDTH              EQU     29
 
-CB_ITEMS_HORIZON                EQU     sprite_view_vmin+80
-CB_ITEMS_VANISH                 EQU     vdp_screen_height-80
+CB_ITEMS_HORIZON                EQU     sprite_view_vmin+70
+CB_ITEMS_VANISH                 EQU     vdp_screen_height-70
 
 CB_PLAYER_COLLISION_Y           EQU     292
+CB_PLAYER_COLLISION_HEIGHT      EQU     32
 CB_GEM_POINTS                   EQU     25
 
 CB_EFFECT_EXPLOSION             EQU     0
@@ -213,6 +214,7 @@ Init_BonusClouds:
     ; set initial player graphics and position
     move.l  #BaoLongTu_sprite_FlyingRear0, (MEM_player_previous_frame)
     move.l  #$00900092, (MEM_player_pos)
+    bset    #score_changed, frame_state
 
     SetPlayerVulnerable
     move.b  #player_max_hp, MEM_player_hp
@@ -220,8 +222,8 @@ Init_BonusClouds:
     ;Set us up some bombs
     move.l  #BonusEvents1, mem_events_ptr
 
-    ; DMA - Sprite buffer and player tiles on each frame
-    move.b  #3, MEM_vblank_mode
+    ; DMA - Sprite buffer, player tiles, and score
+    move.b  #7, MEM_vblank_mode
     EnableHBlank    #HBlank_BonusCloudsScroll, 1
     move.w	#interrupts_enable, sr
     rts
@@ -270,56 +272,25 @@ PlayerDead_BonusClouds:
     bc_continue_playerdead:
 
 MainLoop_BonusClouds:
-    bsr.w   UpdateScoreGfxIfDirty
-
     moveq   #0, d1
-    move.w  frame_counter, d4
-    move.w  d4, d1
+    move.w  frame_counter, d5
+    move.w  d5, d1
 
     ; Cycle palette to make the clouds go whoooshhh
     moveq   #0, d0
     move.b  #15, d0
     move.l  #(vdp_cram_write+$00200000), vdp_control
-    lsr.w   #3, d4
-    neg.w   d4
+    lsr.w   #3, d5
+    neg.w   d5
     wispy_cycle:
         lea     BCP_Wispy_Start, a0
-        addq    #1, d4
-        move.w  d4, d3
+        addq    #1, d5
+        move.w  d5, d3
         andi.w  #15, d3
         add.b   d3, d3
         adda.l  d3, a0
         move.w  (a0), (a1)
         dbra    d0, wispy_cycle
-
-    BC_LoadIncomingEvents:
-        movea.l mem_events_ptr, a0
-        move.w  (a0)+, d0
-
-        cmp.w   #$FFFF, d0
-        beq.s   BC_EventsSkipped
-
-        cmp.w   d1, d0
-        bne.s   BC_EventsSkipped
-
-        move.w  MEM_LEVELITEM_COUNT, d6
-        adda.l  d0, a2
-
-        moveq   #0, d0
-        move.w  (a0)+, d0
-        BC_EventLoop:
-            addq    #1, d6
-            move.b  (a0)+, (a3)+
-            move.b  #0, (a3)+
-            move.w  #CB_ITEMS_HORIZON, d3
-            swap    d3
-            move.b  (a0)+, d3
-            add.w   d3, d3
-            move.l  d3, (a3)+
-            dbra    d0, BC_EventLoop
-        move.w  d6, MEM_LEVELITEM_COUNT
-        move.l  a0, mem_events_ptr
-        BC_EventsSkipped:
 
     ; Not sure if scrolling helps or hinders the magic
     * move.w  d1, d3
@@ -469,32 +440,59 @@ MainLoop_BonusClouds:
     addq    #6, d1
     bsr.w   DrawSprite
 
-    ; Incoming items! They set us up the bomb
-    ; Only advance bombs every other frame
+    ****************************************************************
+    * EVENTS - Spawn / Despawn items
+    ****************************************************************
+    ; They set us up the bomb
+    lea     MEM_LEVELITEMS, a3              ; Rebuild list with surviving items
     moveq   #0, d0
     move.w  MEM_LEVELITEM_COUNT, d0
-    beq.s   bc_items_skipped
-    subq    #1, d0
-    lea     MEM_LEVELITEMS, a2
-    movea.l a2, a3                          ; Rebuild list with surviving items
-    moveq   #0, d6                          ; d6 will hold new count
-    bc_items_loop:
-        lea     BonusBombOffsets, a5
-        move.b  (a2)+, d3
-        bne.s   bc_item_pointball
-            lea     BonusBombScaling, a0
-            lea     BC_BombHitPlayer, a4
-            bra.s   bc_item_selected
-        bc_item_pointball:
-            lea     BonusGemScaling, a0
-            lea     BC_PlayerGotGem, a4
-        bc_item_selected:
-        bsr.w   BC_ItemUpdate
-        dbra    d0, bc_items_loop
-    
-    move.w  d6, MEM_LEVELITEM_COUNT
-    bc_items_skipped:
+    beq.s   BC_LoadIncomingEvents
+        move.w	#interrupts_disable, sr
+        subq    #1, d0
+        movea.l a3, a2                          
+        moveq   #0, d6                          ; d6 will hold new count
+        bc_items_loop:
+            lea     BonusBombOffsets, a5
+            move.b  (a2)+, d3
+            bne.s   bc_item_pointball
+                lea     BonusBombScaling, a0
+                lea.l   BC_BombHitPlayer, a4
+                bra.s   bc_item_selected
+            bc_item_pointball:
+                lea     BonusGemScaling, a0
+                lea.l   BC_PlayerGotGem, a4
+            bc_item_selected:
+            bsr.w   BC_ItemUpdate
+            dbra    d0, bc_items_loop
+        move.w	#interrupts_enable, sr
+    BC_LoadIncomingEvents:
+    move.w  frame_counter, d1
+    movea.l mem_events_ptr, a0
+    move.w  (a0)+, d0
 
+    cmp.w   #$FFFF, d0
+    beq.s   BC_EventsSkipped
+
+    cmp.w   d1, d0
+    bne.s   BC_EventsSkipped
+
+    moveq   #0, d0
+    move.w  (a0)+, d0
+    BC_EventLoop:
+        addq    #1, d6
+        move.b  (a0)+, (a3)+
+        move.b  #0, (a3)+
+        move.w  #CB_ITEMS_HORIZON, d3
+        swap    d3
+        move.b  (a0)+, d3
+        add.w   d3, d3
+        move.l  d3, (a3)+
+        dbra    d0, BC_EventLoop
+    move.l  a0, mem_events_ptr
+    BC_EventsSkipped:
+
+    move.w  d6, MEM_LEVELITEM_COUNT
     move.b  d4, mem_sprite_link
 
     move.b  (SP)+, d7
@@ -554,6 +552,8 @@ BC_ItemUpdate:
     ; hitbox is low to make things simple
     cmp.w   #CB_PLAYER_COLLISION_Y, d1
     blt.s   bc_item_nocollision
+    cmp.w   #CB_PLAYER_COLLISION_Y+CB_PLAYER_COLLISION_HEIGHT, d1
+    bgt.s   bc_item_nocollision
     move.w  MEM_player_pos_x, d3
     addi.w  #sprite_view_vmin, d3
     move.w  d3, d7
@@ -617,12 +617,12 @@ BC_BombHitPlayer:
     bra.s   bc_item_end
 
 BC_PlayerGotGem:
-    AddPoints   #CB_GEM_POINTS
     ; d2 should still have the actual position of this object
     subi.l  #sprite_viewport_offset, d2
     move.l  d2, d1
     move.w  #CB_EFFECT_SPARKLE_STARTVALUE, d7
     bsr.w   AddEffect
+    AddPoints   #CB_GEM_POINTS
     bra.s   bc_item_end
 
 BC_HurtPlayer:
