@@ -67,7 +67,7 @@ Init_BonusCloudsCard:
     move.l  #$00700092, MEM_player_pos
     
     ; copy sprites and player sprite
-    move.b  #3, MEM_vblank_mode
+    move.b  #7, MEM_vblank_mode
 
     lea.l   vdp_data, a1
 
@@ -114,6 +114,7 @@ MainLoop_BonusCloudsCard:
     ori.w   #cram_palette_3_bits, d7
     bsr.w   DrawSprite
 
+    bsr.w   CapSpriteBuffer
     EndLoop
 
 ***************************************************************
@@ -199,7 +200,6 @@ Init_BonusClouds:
     bsr.w   LoadCoreGfx
     move.w  #cram_palette_2_bits|vram_priority_bit, d7
     bsr.w   CacheScoreSprites
-    bsr.w   UpdateScoreGfx
     move.w  #cram_palette_2_bits|vram_priority_bit, d7
     bsr.w   CacheHealthSprite
 
@@ -248,6 +248,7 @@ PlayerLostShame_BonusClouds:
         bsr.w   PrintTextAsSprites
     skip_shame:
 
+    bsr.w   CapSpriteBuffer
     EndLoop
 PlayerDead_BonusClouds:
     ; It's a long way down, homie
@@ -494,6 +495,7 @@ MainLoop_BonusClouds:
 
     move.w  d6, MEM_LEVELITEM_COUNT
     move.b  d4, mem_sprite_link
+    bsr.w   CapSpriteBuffer
 
     move.b  (SP)+, d7
     EndLoop

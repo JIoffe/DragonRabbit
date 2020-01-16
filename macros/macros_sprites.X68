@@ -56,13 +56,6 @@ PointToNextSprite   macro
     endm
 
 DMADumpSpriteBuffer   macro
-    ; cap off the last sprite
-    PointToNextSprite   d4, d3, a2
-    move.w  #0, (a2)+
-    move.w  #0, (a2)+
-    move.w  #0, (a2)+
-    move.w  #0, (a2)
-
     moveq   #0, d1
     move.w  #320, d1
     move.l  #MEM_sprite_buffer, d2

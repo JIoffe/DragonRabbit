@@ -78,4 +78,6 @@ Loop_Licensing:
     move.w  #cram_palette_2_bits, d7
     jsr     DrawSpriteFrame
 
+    jsr     CapSpriteBuffer
+
     EndLoop

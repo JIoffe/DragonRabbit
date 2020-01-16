@@ -83,8 +83,8 @@ Main:
 
     ; Begin the game at the licensing screen
     lea     NoOpTrap, a6
-    Goto_BonusClouds
-    ;Goto_Licensing
+    ;Goto_BonusClouds
+    Goto_Licensing
 
 MainLoop:
     bsr.w   WaitVBlank
@@ -123,6 +123,7 @@ VBlank:
     * DMA - 68K to VDP
     *------------------------------------------------------
     ; Best to do DMA on VBlank - VDP has the most bandwidth
+    moveq   #0, d0
     move.b  MEM_vblank_mode, d0
     btst    #vsync_dump_sprites, d0
     beq.s   skip_sprites

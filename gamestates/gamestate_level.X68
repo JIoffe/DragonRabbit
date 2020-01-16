@@ -64,12 +64,10 @@ Init_Level:
     bsr.w   LoadCoreGfx
     moveq   #0, d7
     bsr.w   CacheScoreSprites
+    moveq   #0, d7
     bsr.w   CacheHealthSprite
 
     move.l  a3, (MEM_palette)
-    jsr     UpdateScoreGfx
-
-
     moveq   #3, d4
     ; Setup background - this will vary by level somehow
     testroombg_loop:
@@ -168,13 +166,14 @@ Init_Level:
     
     ; Set "score dirty" flag so it will be redrawn on the first frame
     move.l  #BaoLongTu_sprite_Idle0, (MEM_player_previous_frame)
+    bset    #score_changed, frame_state
 
     ; Naked and vulnerable
     SetPlayerVulnerable
     move.b  #player_max_hp, MEM_player_hp
 
     ; Set up vblank to DMA what we need
-    move.b  #3, MEM_vblank_mode
+    move.b  #7, MEM_vblank_mode
 
     ; We're off to the races!
     move.w	#interrupts_enable, sr
@@ -244,15 +243,6 @@ MainLoop_Level_PlayerDead:
         lea     Fadeout_Level, a6
     skip_death_restart:
 MainLoop_Level:
-    ****************************************************
-    * BEGIN DMAs
-    ***************************************************8
-    bsr.w   UpdateScoreGfxIfDirty
-
-    ****************************************************
-    * END DMAs
-    ****************************************************
-
     ; d1 will hold the player's position for the entire frame
     move.l  (MEM_player_pos),   d1
     move.w  d1, d6
@@ -893,5 +883,7 @@ MainLoop_Level:
             dbra    d5, lvl_effects_update
 
     lvl_effects_done:
+
+    bsr.w   CapSpriteBuffer
 
     EndLoop

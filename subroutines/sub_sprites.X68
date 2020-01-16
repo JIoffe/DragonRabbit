@@ -169,3 +169,12 @@ DrawSprite_Untransformed:
     move.w  d1, (a2)                        ; last is x offset
     move.l (SP)+, a2
     rts
+
+CapSpriteBuffer
+    ; cap off the last sprite so it links to 0 - this is probably the laziest method
+    PointToNextSprite   d4, d3, a2
+    move.w  #0, (a2)+
+    move.w  #0, (a2)+
+    move.w  #0, (a2)+
+    move.w  #0, (a2)
+    rts
