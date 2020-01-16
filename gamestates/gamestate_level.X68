@@ -198,7 +198,7 @@ Fadeout_Level:
 
     move.w  (frame_counter), d5
     cmp.w   #88, d5
-    blt.s   continue_lvl_fadeout
+    bcs.s   continue_lvl_fadeout
         RestartLevel
     continue_lvl_fadeout:
 
@@ -413,7 +413,7 @@ MainLoop_Level:
         asl.w   #3, d3
         subi.w  #player_height, d3
         cmp.w   d3, d6
-        blt.s   lvl_continue_fall_scan
+        bcs.s   lvl_continue_fall_scan
             KillPlayer
             move.w  d3, d6
             bra.w   lvl_player_landed
@@ -464,7 +464,7 @@ MainLoop_Level:
             addq    #1, d2
             swap    d7
             cmp.w   d7, d2
-            ble.s   lvl_player_falling_scan
+            bls.s   lvl_player_falling_scan
             bra.s   lvl_player_y_adjusted
         lvl_player_landed:
             move.b  #0, (MEM_player_jump_frames)
@@ -519,7 +519,7 @@ MainLoop_Level:
         beq.s   lvl_player_jump_checked
             move.b  (MEM_player_jump_frames), d0
             cmp.b   #player_jump_duration, d0
-            bge.s   lvl_player_jump_checked
+            bcc.s   lvl_player_jump_checked
                 move.w  #player_jump_strength, (MEM_player_velocity_y)
                 addq    #1, d0
                 move.b  d0, (MEM_player_jump_frames)
@@ -543,7 +543,7 @@ MainLoop_Level:
     attack_frames_added:
 
     cmp.b   #player_combo_time, d5
-    blt.s   lvl_player_combo_reset
+    bcs.s   lvl_player_combo_reset
         bclr    #player_attack_1, d6
         bclr    #player_attack_2, d6
         bclr    #player_attack_3, d6
@@ -743,7 +743,7 @@ MainLoop_Level:
         test_attack_duration:
         move.b  (MEM_player_attack_frames), d0
         cmp.b   #player_attack_duration, d0
-        bge.s   lvl_player_notattacking
+        bcc.s   lvl_player_notattacking
             ; choose player attack frame
             btst    #player_attack_3, d6
             beq.s   select_attack_2
@@ -774,7 +774,7 @@ MainLoop_Level:
                 move.w  (frame_counter), d5
                 andi.w  #15, d5
                 cmp.w   #8, d5
-                blt.s   player_walk_frame1          
+                bcs.s   player_walk_frame1          
                     lea     BaoLongTu_sprite_Walking0, a0
                     bra.s   lvl_player_animation_selected
                 player_walk_frame1:
@@ -811,7 +811,7 @@ MainLoop_Level:
             move.w  (frame_counter), d5
             andi.w  #7, d5
             cmp.b   #4, d5
-            blt.s   draw_player_sprite
+            bcs.s   draw_player_sprite
             bra.s   skip_player_sprite
         return_vulnerability:
             SetPlayerVulnerable
