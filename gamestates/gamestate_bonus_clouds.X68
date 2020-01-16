@@ -11,7 +11,7 @@ CB_ITEMS_VANISH                 EQU     vdp_screen_height-70
 
 CB_PLAYER_COLLISION_Y           EQU     292
 CB_PLAYER_COLLISION_HEIGHT      EQU     32
-CB_GEM_POINTS                   EQU     25
+CB_GEM_POINTS                   EQU     50
 
 CB_EFFECT_EXPLOSION             EQU     0
 CB_EFFECT_EXPLOSION_DURATION    EQU     32
