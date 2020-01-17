@@ -80,6 +80,62 @@ BonusEvents1:
     dc.w  $00D0
     dc.w  $00C0
     dc.w  $01A8
+ dc.w  520  ; KEYFRAME
+   dc.w  0 ; (n-1) items
+    dc.w  $01A8
+ dc.w  550  ; KEYFRAME
+   dc.w  2 ; (n-1) items
+    dc.w  $01A8
+    dc.w  $00C8
+    dc.w  $0088
+ dc.w  590  ; KEYFRAME
+   dc.w  2 ; (n-1) items
+    dc.w  $0198
+    dc.w  $00B8
+    dc.w  $0078
+ dc.w  630  ; KEYFRAME
+   dc.w  4 ; (n-1) items
+    dc.w  $0188
+    dc.w  $00A8
+    dc.w  $0068
+    dc.w  $0040
+    dc.w  $00D0
+ dc.w  650  ; KEYFRAME
+   dc.w  1 ; (n-1) items
+    dc.w  $0068
+    dc.w  $00A8
+ dc.w  670  ; KEYFRAME
+   dc.w  0 ; (n-1) items
+    dc.w  $0188
+ dc.w  690  ; KEYFRAME
+   dc.w  1 ; (n-1) items
+    dc.w  $0170
+    dc.w  $01A0
+ dc.w  720  ; KEYFRAME
+   dc.w  1 ; (n-1) items
+    dc.w  $0160
+    dc.w  $01B0
+ dc.w  750  ; KEYFRAME
+   dc.w  2 ; (n-1) items
+    dc.w  $0088
+    dc.w  $01C8
+    dc.w  $0148
+ dc.w  760  ; KEYFRAME
+   dc.w  1 ; (n-1) items
+    dc.w  $0078
+    dc.w  $0098
+ dc.w  770  ; KEYFRAME
+   dc.w  1 ; (n-1) items
+    dc.w  $0068
+    dc.w  $00A8
+ dc.w  780  ; KEYFRAME
+   dc.w  1 ; (n-1) items
+    dc.w  $0098
+    dc.w  $0078
+ dc.w  800  ; KEYFRAME
+   dc.w  1 ; (n-1) items
+    dc.w  $0078
+    dc.w  $0098
  ; END
  dc.w $FFFF
 

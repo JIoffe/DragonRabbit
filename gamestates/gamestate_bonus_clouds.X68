@@ -12,7 +12,7 @@ BONUS_START_COUNTING_TIME       EQU     60
 BONUS_END_TRANSITION_TIME       EQU     300
 
 CB_ITEMS_HORIZON                EQU     sprite_view_vmin+70
-CB_ITEMS_VANISH                 EQU     vdp_screen_height-70
+CB_ITEMS_VANISH                 EQU     sprite_view_vmin+vdp_screen_height
 
 CB_PLAYER_COLLISION_Y           EQU     292
 CB_PLAYER_COLLISION_HEIGHT      EQU     32
@@ -525,58 +525,132 @@ MainLoop_BonusClouds:
     ****************************************************************
     * EVENTS - Spawn / Despawn items
     ****************************************************************
-    ; They set us up the bomb
-    lea     MEM_LEVELITEMS, a3              ; Rebuild list with surviving items
-    moveq   #0, d0
+    ; EVENTS are stored in the LEVEL ITEMS buffer as flllows:
+    ; YYYYXXXX.l - Y/X position
+    ; 00TT.w - PADDING / TYPE 
+
+    lea     MEM_LEVELITEMS, a3
+    moveq   #0, d6
+
     move.w  MEM_LEVELITEM_COUNT, d0
-    beq.s   BC_LoadIncomingEvents
-        move.w	#interrupts_disable, sr
+    beq.w   bc_active_items_skip
+        PointToNextSprite   d4, d3, a5
         subq    #1, d0
-        movea.l a3, a2                          
-        moveq   #0, d6                          ; d6 will hold new count
-        bc_items_loop:
-            lea     BonusBombOffsets, a5
-            move.b  (a2)+, d3
-            bne.s   bc_item_pointball
-                lea     BonusBombScaling, a0
-                lea.l   BC_BombHitPlayer, a4
-                bra.s   bc_item_selected
-            bc_item_pointball:
+        moveq   #0, d5
+        movea.l a3, a2
+        bc_active_items_loop:
+            move.l  (a2)+, d1
+            move.w  (a2)+, d3
+
+            swap    d1
+            cmp.w   #CB_ITEMS_VANISH, d1        ; skip when beyond the screen
+            bcc.w   bc_active_item_skip
+
+            cmp.w   #CB_PLAYER_COLLISION_Y, d1
+            bcs.s   bc_active_item_no_collision
+
+            cmp.w   #CB_PLAYER_COLLISION_Y+CB_PLAYER_COLLISION_HEIGHT, d1
+            bhi.s   bc_active_item_no_collision
+                swap    d1
+                move.w  MEM_player_pos_x, d5
+                add.w   #sprite_view_hmin, d5
+                sub.w   d1, d5
+                AbsWord d5
+                swap    d1
+                cmp.w   #BONUS_PLAYER_WIDTH, d5
+                bhi.s   bc_active_item_no_collision
+                    ; COLLISION!!!!
+                    swap    d1
+                    tst.b   d3
+                    beq.w   BC_BombHitPlayer
+                    bra.w   BC_PlayerGotGem
+            bc_active_item_no_collision:
+
+            ; Item is still good, retain the 6 bytes while drawing the sprite
+            ; do the sprites in-line
+            addq    #1, d1
+            swap    d1
+            move.l  d1, (a3)+           ; update actual position for item entry
+            move.w  d3, (a3)+        ; retain type
+            swap    d1
+
+            ; determine the offset and image to use
+            move.w  d1, d5
+            sub.w   #CB_ITEMS_HORIZON, d5
+            lsr.w   #3, d5
+            add.w   d5, d5
+            add.w   d5, d5              ; have to quadruple after the fact for clamping effect
+            ClampToByte     d5, #24
+
+            lea     BonusBombOffsets, a0
+            adda.l  d5, a0
+            add.l   (a0)+, d1
+            
+            tst.b   d3                          ; Only two "items" can spawn
+            beq.s   bc_active_item_bomb
+            bc_active_item_gem:
                 lea     BonusGemScaling, a0
-                lea.l   BC_PlayerGotGem, a4
-            bc_item_selected:
-            bsr.w   BC_ItemUpdate
-            dbra    d0, bc_items_loop
-        move.w	#interrupts_enable, sr
-    BC_LoadIncomingEvents:                  ; use the same pointer to add any new spawns
+                bra.s   bc_active_item_set
+            bc_active_item_bomb:
+                lea     BonusBombScaling, a0
+            bc_active_item_set:
+            
+            adda.l  d5, a0
+
+            move.w  d1, (a5)+           ; y offset
+
+            move.w  (a0)+, d5
+            add.w   d4, d5
+            addq    #1, d4
+            move.w  d5, (a5)+           ; size and link
+
+            move.w  (a0)+, d5
+            ori.w   #cram_palette_2_bits|vram_priority_bit, d5
+            move.w  d5, (a5)+           ; Tile ID / flags
+
+            swap    d1
+            move.w  d1, (a5)+        ; x offset
+            
+
+            addq    #1, d6
+            bc_active_item_skip:
+
+            dbra    d0, bc_active_items_loop     
+    bc_active_items_skip:
+    
+    ; Clip off the sprite buffer - no new sprites from here
+    move.b  d4, mem_sprite_link
+    bsr.w   CapSpriteBuffer
+    ***********************************************
+    * Parse any incoming events that need to spawn
+    ***********************************************
     move.w  frame_counter, d1
     movea.l mem_events_ptr, a0
     move.w  (a0)+, d0
 
     cmp.w   #$FFFF, d0
-    beq.s   BC_EventsSkipped
+    beq.s   BC_NewEventsSkip
 
     cmp.w   d1, d0
-    bne.s   BC_EventsSkipped
+    bne.s   BC_NewEventsSkip
 
     moveq   #0, d0
     move.w  (a0)+, d0
-    BC_EventLoop:
-        addq    #1, d6
-        move.b  (a0)+, (a3)+
-        move.b  #0, (a3)+
-        move.w  #CB_ITEMS_HORIZON, d3
-        swap    d3
+    BC_NewEventLoop:
+        addq    #1, d6                      ; Add one to the level item count
+        move.w  #CB_ITEMS_HORIZON, (a3)+    ; Y Position for item
+        move.b  (a0)+, d1
+        moveq   #0, d3
         move.b  (a0)+, d3
         add.w   d3, d3
-        move.l  d3, (a3)+
-        dbra    d0, BC_EventLoop
-    move.l  a0, mem_events_ptr
-    BC_EventsSkipped:
-
+        move.w  d3, (a3)+                   ; X position for item
+        move.b  #0, (a3)+                   ; padding
+        move.b  d1, (a3)+                   ; Type for item
+        dbra    d0, BC_NewEventLoop
+        move.l  a0, mem_events_ptr
+    BC_NewEventsSkip:
+    
     move.w  d6, MEM_LEVELITEM_COUNT
-    move.b  d4, mem_sprite_link
-    bsr.w   CapSpriteBuffer
 
     move.b  (SP)+, d7
     EndLoop
@@ -622,91 +696,20 @@ HBlank_BonusCloudsTexture:
     rte
 
 ; Item update Subroutines - keep these close
-BC_ItemUpdate:
-    move.b  (a2)+, d1           ; right now the velocity is a "no-op" - testing with everything going straight down
-    move.l  (a2)+, d1
-    move.l  d1, d2
-
-    swap    d1
-    cmp.w   #sprite_view_vmax, d1       ; clear items that went offscreen
-    bge.s   bc_item_end
-
-    ; Collision with player
-    ; hitbox is low to make things simple
-    cmp.w   #CB_PLAYER_COLLISION_Y, d1
-    blt.s   bc_item_nocollision
-    cmp.w   #CB_PLAYER_COLLISION_Y+CB_PLAYER_COLLISION_HEIGHT, d1
-    bgt.s   bc_item_nocollision
-    move.w  MEM_player_pos_x, d3
-    addi.w  #sprite_view_vmin, d3
-    move.w  d3, d7
-    add.w   #BONUS_PLAYER_WIDTH, d3
-    cmp.w   d2, d3
-    blt.s   bc_item_nocollision
-    move.w  d2, d3
-    addi.w  #32, d3
-    cmp.w   d7, d3
-    blt.s   bc_item_nocollision
-        jmp   (a4)
-
-    bc_item_nocollision:
-    
-    
-    moveq   #0, d3
-    move.w  d1, d3
-    sub.w   #CB_ITEMS_HORIZON, d3
-    swap    d1
-
-    lsr.w   #3, d3
-    add.w   d3, d3
-    add.w   d3, d3
-    ClampToByte     d3, #24
-
-    adda.l  d3, a0
-    adda.l  d3, a5
-    add.l   (a5), d1
-
-    move.w  #cram_palette_2_bits|vram_priority_bit, d7
-    bsr.w   DrawSprite_Untransformed
-
-    lea     BCDropShadow, a0
-    move.w  #cram_palette_3_bits|vram_priority_bit, d7
-    move.l  d2, d1
-    addi.l  #$0024000A, d1
-    bsr.w   DrawSprite_Untransformed
-
-    addq    #1, d6                  ; retain for next frame - gets added to item count
-    subq    #6, a2
-    move.w  (a2)+, (a3)+
-
-    ; Uncomment for EASY MODE (wuss)
-    * btst    #0, frame_counter+1     ; move down every other frame
-    * beq.s   bc_item_advance_skip
-        add.l   #$00010000, d2
-        move.l  d2, (a2)
-    * bc_item_advance_skip:
-
-    move.l  (a2)+, (a3)+
-    bc_item_end:
-    rts
-
 BC_BombHitPlayer:
     bsr.s   BC_HurtPlayer
-    ; d2 should still have the actual position of this object
-    subi.l  #sprite_viewport_offset, d2
-    move.l  d2, d1
+    ; d1 should still have the actual position of this object
+    subi.l  #sprite_viewport_offset, d1
     moveq   #CB_EFFECT_EXPLOSION_STARTVALUE, d7
     bsr.w   AddEffect
-    bra.s   bc_item_end
+    bra.w   bc_active_item_skip
 
 BC_PlayerGotGem:
-    ; d2 should still have the actual position of this object
-    subi.l  #sprite_viewport_offset, d2
-    move.l  d2, d1
+    subi.l  #sprite_viewport_offset, d1
     move.w  #CB_EFFECT_SPARKLE_STARTVALUE, d7
     bsr.w   AddEffect
     AddPoints   #CB_GEM_POINTS
-    bra.s   bc_item_end
+    bra.w   bc_active_item_skip
 
 BC_HurtPlayer:
     btst    #player_vulnerable, MEM_player_vulnerability
