@@ -1,10 +1,15 @@
-BONUS_CLOUD_TILES_COUNT         EQU     596
+BONUS_CLOUD_TILES_COUNT         EQU     640
 BONUS_CLOUD_TILES_BYTE_SIZE     EQU     BONUS_CLOUD_TILES_COUNT<<5
 
 BONUS_PLAYER_VRAM_ADDR          EQU     (BONUS_CLOUD_TILES_COUNT+1)<<5
 
 BONUS_PLAYER_SPEED              EQU     3
 BONUS_PLAYER_WIDTH              EQU     29
+
+BONUS_ROUND_TIME                EQU     30
+BONUS_START_COUNTING_TIME       EQU     60
+
+BONUS_END_TRANSITION_TIME       EQU     300
 
 CB_ITEMS_HORIZON                EQU     sprite_view_vmin+70
 CB_ITEMS_VANISH                 EQU     vdp_screen_height-70
@@ -221,6 +226,7 @@ Init_BonusClouds:
 
     ;Set us up some bombs
     move.l  #BonusEvents1, mem_events_ptr
+    move.b  #BONUS_ROUND_TIME, mem_bonus_time
 
     ; DMA - Sprite buffer, player tiles, and score
     move.b  #7, MEM_vblank_mode
@@ -228,8 +234,39 @@ Init_BonusClouds:
     move.w	#interrupts_enable, sr
     rts
 
+PlayerWon_BonusClouds:
+    move.w  frame_counter, d6
+    cmp.w   #BONUS_END_TRANSITION_TIME, d6
+    beq.w   BC_TransitionNext
+
+    move.b  mem_sprite_link, d4
+    PointToNextSprite   d4, d3, a2
+
+    lea     BonusClouds_Success1, a0
+    move.l  #$00A80000|sprite_view_hmin+114, d1
+    move.l  #$FFFB000A, d2
+    move.w  #379|cram_palette_3_bits|vram_priority_bit, d5
+    bsr.w   PrintFallingTextAsSprites
+
+    move.w  frame_counter, d6
+    sub.w   #$005A, d6
+    bcs.s   bc_playerwon_skip_2
+        lea     BonusClouds_Success2, a0
+        move.l  #$00B20000|sprite_view_hmin+100, d1
+        move.l  #$FFFB000A, d2
+        move.w  #379|cram_palette_3_bits|vram_priority_bit, d5
+        bsr.w   PrintFallingTextAsSprites
+    bc_playerwon_skip_2:
+
+    bsr.w   CapSpriteBuffer
+    EndLoop
+
 PlayerLostShame_BonusClouds:
     ;Shame on you!
+    move.w  frame_counter, d6
+    cmp.w   #BONUS_END_TRANSITION_TIME, d6
+    beq.w   BC_TransitionNext
+
     move.b  mem_sprite_link, d4
     PointToNextSprite   d4, d3, a2
 
@@ -237,7 +274,6 @@ PlayerLostShame_BonusClouds:
     move.l  #$00A80000|sprite_view_hmin+119, d1
     move.l  #$FFFB0008, d2
     move.w  #(BONUS_CLOUD_TILES_COUNT)|cram_palette_3_bits|vram_priority_bit, d5
-    move.w  frame_counter, d6
     bsr.w   PrintFallingTextAsSprites
 
     move.w  frame_counter, d6
@@ -266,8 +302,7 @@ PlayerDead_BonusClouds:
         move.l  #HBlank_BonusCloudsNoScroll, MEM_hblank_handler
 
         ; Player is gone, DMA font in his place!
-        move.w  #((BONUS_CLOUD_TILES_COUNT+1)<<5), d0
-        DMA68KtoVRAM    2048, Tiles_FontA, BONUS_PLAYER_VRAM_ADDR
+        bsr.w   BC_ReplacePlayerWithFont
         move.w  #0, frame_counter       ; reset frame counter\
         EndLoop
     bc_continue_playerdead:
@@ -275,7 +310,27 @@ PlayerDead_BonusClouds:
 MainLoop_BonusClouds:
     moveq   #0, d1
     move.w  frame_counter, d5
-    move.w  d5, d1
+    btst    #player_dead, MEM_player_vulnerability
+    bne.s   bc_skip_time_decrement
+    cmp.w   #BONUS_START_COUNTING_TIME, d5
+    bcs.s   bc_skip_time_decrement
+        move.w  d5, d1
+        ; 64 frames is about a second
+        andi.w  #63, d1
+        bne.s   bc_skip_time_decrement
+            move.b  mem_bonus_time, d0
+            subq    #1, d0
+            bpl.s   bc_time_remaining
+                move.w  #0, frame_counter
+                lea     PlayerWon_BonusClouds, a6
+                move.l  #HBlank_BonusCloudsNoScroll, MEM_hblank_handler
+                bsr.w   BC_ReplaceItemsWithFont
+                move.b  #12, mem_sprite_link
+                bra.s   bc_time_adjusted
+            bc_time_remaining:
+            move.b  d0, mem_bonus_time
+            bc_time_adjusted:
+    bc_skip_time_decrement:
 
     ; Cycle palette to make the clouds go whoooshhh
     moveq   #0, d0
@@ -346,7 +401,7 @@ MainLoop_BonusClouds:
     ********************************************************************
     * SPRITE DUMP
     ********************************************************************
-    moveq   #5, d4          ; offset from cached GUI sprites
+    move.b  #5, d4          ; offset from cached GUI sprites
 
     move.b  d7, -(SP)       ; hopefully we pop this back before cloud plane renders...
 
@@ -441,6 +496,32 @@ MainLoop_BonusClouds:
     addq    #6, d1
     bsr.w   DrawSprite
 
+    ***************************************************************
+    * TIME REMAINING
+    ***************************************************************
+    lea     bc_time_label, a0
+    move.l  #$0084010F, d1                                   ; "Time" label is centered and level with score/health
+    move.w  #cram_palette_3_bits|vram_priority_bit, d7
+    bsr.w   DrawSprite_Untransformed
+
+    moveq   #0, d0
+    move.b  mem_bonus_time, d0
+    add.b   d0, d0
+    lea     BC_TimeDigitTable, a2
+    adda.l  d0, a2
+
+    lea     bc_time_digits, a0
+    move.b  (a2)+, d0
+    adda.l  d0, a0
+    move.l  #$00900114, d1
+    bsr.w   DrawSprite_Untransformed
+
+    lea     bc_time_digits, a0
+    move.b  (a2), d0
+    adda.l  d0, a0
+    move.l  #$00900120, d1
+    bsr.w   DrawSprite_Untransformed
+
     ****************************************************************
     * EVENTS - Spawn / Despawn items
     ****************************************************************
@@ -467,7 +548,7 @@ MainLoop_BonusClouds:
             bsr.w   BC_ItemUpdate
             dbra    d0, bc_items_loop
         move.w	#interrupts_enable, sr
-    BC_LoadIncomingEvents:
+    BC_LoadIncomingEvents:                  ; use the same pointer to add any new spawns
     move.w  frame_counter, d1
     movea.l mem_events_ptr, a0
     move.w  (a0)+, d0
@@ -686,3 +767,15 @@ BC_DrawSparkle:
         moveq   #1, d3
     bc_sparkle_end:
     rts
+
+BC_ReplacePlayerWithFont:
+    DMA68KtoVRAM    2048, Tiles_FontA, BONUS_PLAYER_VRAM_ADDR
+    rts
+
+BC_ReplaceItemsWithFont:
+    DMA68KtoVRAM    2880, Tiles_FontA, 12160
+    rts
+
+BC_TransitionNext:
+    Goto_Title
+    EndLoop

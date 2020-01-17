@@ -49,3 +49,4 @@ MEM_vblank_mode                 EQU $FFFF1A26       ;byte
 mem_hblank_counter              EQU $FFFF1A27       ;byte   - reset every vblank
 mem_events_ptr                  EQU $FFFF1A28       ;LONG
 mem_sprite_link                 EQU $FFFF1A2C       ; BYTE
+mem_bonus_time                  EQU $FFFF1A2D       ; byte

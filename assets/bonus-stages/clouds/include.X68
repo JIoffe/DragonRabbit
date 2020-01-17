@@ -10,3 +10,5 @@
 
     ; Particle effects
     include './assets/bonus-stages/clouds/explosion.X68'
+
+    include './assets/bonus-stages/clouds/time-digit-table.X68'

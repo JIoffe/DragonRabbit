@@ -83,8 +83,8 @@ Main:
 
     ; Begin the game at the licensing screen
     lea     NoOpTrap, a6
-    ;Goto_BonusClouds
-    Goto_Licensing
+    Goto_BonusClouds
+    ;Goto_Licensing
 
 MainLoop:
     bsr.w   WaitVBlank
@@ -242,6 +242,7 @@ NotHandled:
 *=====================================================
     include './assets/strings/strings_sys.X68'
 RomEnd:
+
 
 
 

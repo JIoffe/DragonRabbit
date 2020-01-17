@@ -76,3 +76,50 @@ BCDropShadow:
 BC_GemSparkle:
    dc.w $0F00
    dc.w $0245
+
+; Digits for time rendering
+bc_time_label:
+   dc.w $0C00
+   dc.w $0255
+
+bc_time_digits:
+bc_0:
+   dc.w $0500
+   dc.w $0259
+
+bc_1:
+   dc.w $0500
+   dc.w $025D
+
+bc_2:
+   dc.w $0500
+   dc.w $0261
+
+bc_3:
+   dc.w $0500
+   dc.w $0265
+
+bc_4:
+   dc.w $0500
+   dc.w $0269
+
+bc_5:
+   dc.w $0500
+   dc.w $026D
+
+bc_6:
+   dc.w $0500
+   dc.w $0271
+
+bc_7:
+   dc.w $0500
+   dc.w $0275
+
+bc_8:
+   dc.w $0500
+   dc.w $0279
+
+bc_9:
+   dc.w $0500
+   dc.w $027D
+

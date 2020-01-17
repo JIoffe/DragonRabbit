@@ -11,10 +11,16 @@ PresentedByCaption:
 
 BonusCloudsCaption:
     dc.b    '    IT',39,'S BONUS TIME!', CR, CR
-    dc.b    'Get gems and avoid bombs!', 0
+    dc.b    'Get GEMS and avoid BOMBS!', 0
 
 BonusClouds_Fail:
     dc.b    'YOU LOSE', 0
 
 BonusClouds_Fail2:
     dc.b    'HOMEBOY', 0
+
+BonusClouds_Success1:
+    dc.b    'AWESOME!', 0
+
+BonusClouds_Success2:
+    dc.b    'YOU DID IT!', 0
