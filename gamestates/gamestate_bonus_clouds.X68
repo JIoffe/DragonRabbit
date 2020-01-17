@@ -13,6 +13,7 @@ BONUS_END_TRANSITION_TIME       EQU     300
 
 CB_ITEMS_HORIZON                EQU     sprite_view_vmin+70
 CB_ITEMS_VANISH                 EQU     sprite_view_vmin+vdp_screen_height
+CB_ITEMS_SHADOWHEIGHT           EQU     CB_ITEMS_HORIZON+40
 
 CB_PLAYER_COLLISION_Y           EQU     292
 CB_PLAYER_COLLISION_HEIGHT      EQU     32
@@ -540,6 +541,7 @@ MainLoop_BonusClouds:
         movea.l a3, a2
         bc_active_items_loop:
             move.l  (a2)+, d1
+            move.l  d1, d2                      ; hold onto the original height for the drop shadow
             move.w  (a2)+, d3
 
             swap    d1
@@ -610,8 +612,30 @@ MainLoop_BonusClouds:
 
             swap    d1
             move.w  d1, (a5)+        ; x offset
-            
 
+
+            ; Draw a drop shadow - this pushes us close to the raster limits
+            swap    d2
+            cmp.w   #CB_ITEMS_SHADOWHEIGHT, d2
+            bcs.s   bc_item_skip_shadow
+                lea     BCDropShadow, a0
+                addi.l  #$000A0024, d2
+                move.w  d2, (a5)+                        ; first is y offset
+
+                move.w  (a0)+, d3
+                add.w   d4, d3
+                addq    #1, d4
+                move.w  d3, (a5)+                        ; second is size and link
+
+                move.w  (a0)+, d5
+                ori.w   #cram_palette_3_bits|vram_priority_bit, d5
+                move.w  d5, (a5)+           ; Tile ID / flags
+
+                swap    d2
+                move.w  d2, (a5)+                        ; last is x offset
+            bc_item_skip_shadow:
+
+            
             addq    #1, d6
             bc_active_item_skip:
 
