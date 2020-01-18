@@ -24,3 +24,13 @@ BonusClouds_Success1:
 
 BonusClouds_Success2:
     dc.b    'YOU DID IT!', 0
+
+Ending_1:
+    dc.b    'CONGRATULATIONS!', CR, CR
+    dc.b    'By conquering evil,', CR
+    dc.b    'BAO LONG TU gained', CR
+    dc.b    'true enlightenment.', CR, CR
+    dc.b    'Thanks for playing!',0
+
+EndingScore:
+    dc.b    'Score: ', 0

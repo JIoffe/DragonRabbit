@@ -272,7 +272,7 @@ PlayerLostShame_BonusClouds:
     PointToNextSprite   d4, d3, a2
 
     lea     BonusClouds_Fail, a0
-    move.l  #$00A80000|sprite_view_hmin+119, d1
+    move.l  #$00A80000|sprite_view_hmin+120, d1
     move.l  #$FFFB0008, d2
     move.w  #(BONUS_CLOUD_TILES_COUNT)|cram_palette_3_bits|vram_priority_bit, d5
     bsr.w   PrintFallingTextAsSprites
@@ -281,7 +281,7 @@ PlayerLostShame_BonusClouds:
     cmp.w   #90, d6
     blt.s   skip_shame
         lea     BonusClouds_Fail2, a0
-        move.l  #$00B80000|sprite_view_hmin+123, d1
+        move.l  #$00B80000|sprite_view_hmin+124, d1
         bsr.w   PrintTextAsSprites
     skip_shame:
 
@@ -804,5 +804,5 @@ BC_ReplaceItemsWithFont:
     rts
 
 BC_TransitionNext:
-    Goto_Title
+    Goto_End
     EndLoop

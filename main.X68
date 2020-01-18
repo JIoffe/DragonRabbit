@@ -99,6 +99,7 @@ MainLoop:
     include './gamestates/gamestate_title.X68'
     include './gamestates/gamestate_level.X68'
     include './gamestates/gamestate_bonus_clouds.X68'
+    include './gamestates/gamestate_end.X68'
 
 *-----------------------------
 * Utility Subroutines
@@ -227,6 +228,8 @@ NotHandled:
 
     ; BONUS!!!!
     include './assets/bonus-stages/clouds/include.X68'
+
+    include './assets/end-screen/include.X68'
 
 *=====================================
 * Items / Enemies / Thingamabobs

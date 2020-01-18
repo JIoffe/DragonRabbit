@@ -56,6 +56,15 @@ Goto_BonusClouds macro
     move.b  #gamestate_bonus_cloud_card, (MEM_gamestate)
     endm
 
+* -----------------------------------------------
+* That's all folks
+* -----------------------------------------------
+Goto_End macro
+    jsr     Init_TheEnd
+    lea     MainLoop_TheEnd, a6
+    move.b  #gamestate_end, (MEM_gamestate)
+    endm
+
 ; Just in case anything needs to be renamed or added
 EndLoop macro
     jmp     MainLoop

@@ -1,0 +1,34 @@
+EndScreenPalette:
+    dc.w $0000
+    dc.w $0000
+    dc.w $0CCC
+    dc.w $0EEE
+    dc.w $0628
+    dc.w $0EEE
+    dc.w $062A
+    dc.w $0A6E
+    dc.w $000E
+    dc.w $004E
+    dc.w $040C
+    dc.w $064C
+    dc.w $0A88
+    dc.w $0EEE
+    dc.w $0000
+    dc.w $0000
+
+    dc.w $0000  
+   dc.w $0ECC
+   dc.w $0E66
+   dc.w $0EA6
+   dc.w $0A60
+   dc.w $000E
+   dc.w $000C
+   dc.w $000A
+   dc.w $0008
+   dc.w $0006
+   dc.w $0004
+   dc.w $0002
+   dc.w $0000
+   dc.w $0AAA
+   dc.w $0CCC
+   dc.w $0EEE

@@ -103,3 +103,14 @@ PrintTextAsSprites:
         bra.s   print_text_sprite_loop
         print_sprite_end:
     rts
+
+****************************************
+* a0 - Address of Source
+* a1 - Address of Destination
+****************************************
+StrCopy:
+    strcpy_loop:
+        move.b  (a0)+, (a1)
+        tst.b   (a1)+
+        bne.s   strcpy_loop
+    rts
