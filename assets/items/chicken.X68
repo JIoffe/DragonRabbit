@@ -6,7 +6,7 @@ chicken_collision_offset      EQU     chicken_height-2
 chicken_speed                 EQU     $02  
 chicken_bb_offset             EQU     (chicken_height<<16)|chicken_width
 
-chicken_points                EQU     50
+chicken_points                EQU     5
 
 Chicken_Update:
     move.l  a4, -(SP)

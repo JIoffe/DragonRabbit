@@ -7,7 +7,7 @@ gem_bb_offset               EQU     (gem_height<<16)|gem_width
 gemh_bb_offset              EQU     (gem_height<<16)|(gem_spacing_h<<3)
 gemv_bb_offset              EQU     (gem_height<<19)|(gem_spacing_h)
 
-gem_points                  EQU     10
+gem_points                  EQU     1
 
 GemsH_Update:
     move.l  a4, -(SP)

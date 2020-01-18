@@ -60,6 +60,21 @@ UpdateScoreGfx
         score_digit_skip:
         dbra    d0, score_render_loop
 
+    ; add 2 trailing zeros. More points more fun
+    moveq   #1, d0
+    trailing_zeros:
+        lea     UINumbers_Tiles, a2
+
+        move.l  (a2)+, (a0)+
+        move.l  (a2)+, (a0)+
+        move.l  (a2)+, (a0)+
+        move.l  (a2)+, (a0)+
+        move.l  (a2)+, (a0)+
+        move.l  (a2)+, (a0)+
+        move.l  (a2)+, (a0)+
+        move.l  (a2), (a0)+
+        dbra    d0, trailing_zeros
+
     ; Prepare DMA
     score_dma:
     moveq   #0, d1

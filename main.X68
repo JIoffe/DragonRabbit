@@ -183,15 +183,16 @@ NotHandled:
     palette_empty:
     dc.w    $0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0
 
-    ; The score is 8 digits long.... 10000
-    ; 5 steps for score
+    ; There is room for 8 digits in the score but
+    ; keep it to 6 steps for the loops.. add trailing 0s
     SCORE_number:
-    number_100000:  dc.l    100000
-    number_10000:   dc.l    10000
-    number_1000:    dc.l    1000
-    number_100:     dc.l    100
-    number_10:      dc.l    10
-    number_1:       dc.l    1
+    number_10000000: 
+    number_100000:      dc.l    100000
+    number_10000:       dc.l    10000
+    number_1000:        dc.l    1000
+    number_100:         dc.l    100
+    number_10:          dc.l    10
+    number_1:           dc.l    1
 
     include './assets/palettes/palettes_system.X68'
 

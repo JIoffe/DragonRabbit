@@ -17,7 +17,7 @@ CB_ITEMS_SHADOWHEIGHT           EQU     CB_ITEMS_HORIZON+40
 
 CB_PLAYER_COLLISION_Y           EQU     292
 CB_PLAYER_COLLISION_HEIGHT      EQU     32
-CB_GEM_POINTS                   EQU     50
+CB_GEM_POINTS                   EQU     5
 
 CB_EFFECT_EXPLOSION             EQU     0
 CB_EFFECT_EXPLOSION_DURATION    EQU     32
@@ -309,6 +309,8 @@ PlayerDead_BonusClouds:
     bc_continue_playerdead:
 
 MainLoop_BonusClouds:
+    bsr.w   PauseGame
+
     moveq   #0, d1
     move.w  frame_counter, d5
     btst    #player_dead, MEM_player_vulnerability

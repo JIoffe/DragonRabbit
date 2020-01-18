@@ -8,7 +8,7 @@ chipmunk_bb_offset             EQU     (chipmunk_height<<16)|chipmunk_width
 chipmunk_right_spit_src        EQU     $000D001F
 chipmunk_left_spit_src         EQU     $000DFFF9
 
-chipmunk_points                EQU     1000
+chipmunk_points                EQU     10
 
 Chipmunk_Update:
     move.b  (a4)+, d6
