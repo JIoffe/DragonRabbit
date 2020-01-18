@@ -243,6 +243,8 @@ MainLoop_Level_PlayerDead:
         lea     Fadeout_Level, a6
     skip_death_restart:
 MainLoop_Level:
+    bsr.w   PauseGame
+    
     ; d1 will hold the player's position for the entire frame
     move.l  (MEM_player_pos),   d1
     move.w  d1, d6

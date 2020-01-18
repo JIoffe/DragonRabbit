@@ -26,6 +26,7 @@ RomStart:
 *==================================
 vblank_on_flag                  EQU $0001
 score_changed                   EQU $0002
+game_paused                     EQU $0003
 
 *-----------------------------------------------------------
 * CPU VECTORS
@@ -83,11 +84,10 @@ Main:
 
     ; Begin the game at the licensing screen
     lea     NoOpTrap, a6
-    Goto_BonusClouds
-    ;Goto_Licensing
+    Goto_Licensing
 
 MainLoop:
-    bsr.w   WaitVBlank
+    WaitVBlank
     ; a6 holds the main loop handler
     jmp (a6)
 
@@ -104,21 +104,23 @@ MainLoop:
 *-----------------------------
 * Utility Subroutines
 *-----------------------------
-    include './subroutines/sub_waitvblank.X68'
     include './subroutines/sub_readinput.X68'
     
 *-----------------------------
 * Traps
 *-----------------------------
 HBlank:
-    movea.l (MEM_hblank_handler), a0
+    movea.l MEM_hblank_handler, a0
     jmp (a0)
 
 VBlank:
-	bset	#vblank_on_flag, (frame_state)
-	add.w   #1, (frame_counter)
-
     bsr.s   ReadInput
+    bset	#vblank_on_flag, frame_state
+
+    btst    #game_paused, frame_state
+    bne.s   vblank_paused   
+	    add.w   #1, (frame_counter)
+    vblank_paused:
 
     *------------------------------------------------------
     * DMA - 68K to VDP
@@ -181,7 +183,7 @@ NotHandled:
     palette_empty:
     dc.w    $0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0,$0
 
-    ; The score is 8 digits long.... 1000000
+    ; The score is 8 digits long.... 10000
     ; 5 steps for score
     SCORE_number:
     number_100000:  dc.l    100000

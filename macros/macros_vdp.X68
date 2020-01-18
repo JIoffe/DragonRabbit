@@ -151,3 +151,9 @@ DisableHBlank   macro
     move.w  #$8004, vdp_control     ; explicitly disable H Int
     move.w  #$8AFF, vdp_control     ; set H Int to every 255 lines ( never happens )
     endm
+
+WaitVBlank      macro
+waitvblank\@
+    bclr	#vblank_on_flag, frame_state
+	beq.s	waitvblank\@
+    endm
