@@ -35,9 +35,7 @@ HazardousProjectile_effect:
     move.l  d1, (a4)+       ; update new position
 
     movem.l d2/a2, -(SP)
-    move.l  d1, d2
-    addi.l  #$00100010, d2
-    HurtPlayerIfTouching
+    HurtPlayerIfTouching    #$00100010
     movem.l (SP)+, d2/a2
 
     lea     NutProjectile, a0

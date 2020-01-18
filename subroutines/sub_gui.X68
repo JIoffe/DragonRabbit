@@ -88,7 +88,7 @@ UpdateScoreGfx
     rts
 
 LoadCoreGfx:
-    move.w  #$0540, d1
+    move.w  #$0740, d1
     move.l  #CoreGameTiles, d2
     moveq   #0, d3
     move.w  (MEM_UI_sprite_start), d3

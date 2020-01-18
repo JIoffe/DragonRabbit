@@ -3,34 +3,32 @@
 ; Check that maximum overlaps minimum
 ; a2 - point to return to
 ; d1 - min point of box to check agianst player attack box
-; d2 - max point of box to check against player attack box
-; d3 - holds the damage, which may be 0
-; d7 - used for comparing positions
+; d3 - max point of box to check against player attack box / Holds return damage
+; d7 - used for comparing positions / Trashed
 **************************************************
 RecievePlayerAttack:                                                ; (abbreviated as rpa for labels)
-    move.b  (MEM_player_att_strength), d3
-    bne.s   rpa_checkbounds                         ; player is not attacking this frame
-        jmp (a2)
+    tst.b  MEM_player_att_strength
+    beq.s   rpa_collision_done                         ; player is not attacking this frame
 
     rpa_checkbounds:
-    moveq   #0, d3
-
     move.l  (MEM_playerattack_max), d7
     sub.l   d1, d7
     bmi.s   rpa_collision_done
     tst.w   d7
     bmi.s   rpa_collision_done
 
-    move.l  (MEM_playerattack_min), d7
-    sub.l   d2, d7
+    move.l  MEM_playerattack_min, d7
+    sub.l   d3, d7
     bpl.s   rpa_collision_done
     tst.w   d7
     bpl.s   rpa_collision_done
 
     ; return damage
-    move.b  (MEM_player_att_strength), d3
+    move.b  MEM_player_att_strength, d3
+    jmp (a2)
 
     rpa_collision_done:
+    moveq   #0, d3
     jmp (a2)
 
 **************************************************
@@ -70,7 +68,7 @@ CollideAgainstPlayer:
 ; Check that maximum overlaps minimum
 ; a2 - point to return to
 ; d1 - min point of box to check agianst player box
-; d2 - max point of box to check against player box
+; d7 - max point of box to check against player box
 ; d3 - d4 holds player's bounding box in this subroutine
 **************************************************
 CollideHazardAgainstPlayer:
@@ -83,7 +81,7 @@ CollideHazardAgainstPlayer:
     tst.w   d4
     bmi.s   skip_player_damage
 
-    sub.l   d2, d3
+    sub.l   d7, d3
     bpl.s   skip_player_damage
     tst.w   d3
     bpl.s   skip_player_damage
@@ -96,12 +94,13 @@ CollideHazardAgainstPlayer:
 
 
 **************************************************
-* Tests if bounding box intersects current player bounding box
-; Check that maximum overlaps minimum
+* Tests if item bumps against level edges
 ; a2 - point to return to
-; d3 - point to start first check (for check against walls)
+; d3 - point to use to check
 **************************************************
 BumpAgainstEdges:
+    move.l  d2, -(SP)       ; save d2 since it might hold the camera
+
     movea.l a1, a0
     moveq   #0, d2
     addq    #2, a0
@@ -130,5 +129,7 @@ BumpAgainstEdges:
         edge_bumped:
         bchg    #sprite_flip_h, d6
     edge_bump_skip:
+
+    move.l  (SP)+, d2      ; restore camera to d2
 
     jmp (a2)

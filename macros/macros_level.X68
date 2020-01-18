@@ -2,7 +2,7 @@
 * Macros for loading specific levels
 *===============================================================================
 GotoTestRoom    macro
-    Goto_Level  TestRoom_level, TESTROOM_tiles, #648, Palettes_TESTROOM
+    Goto_Level  TestRoom_level, TESTROOM_tiles, #10368, Palettes_TESTROOM
     endm
 
 *===============================================================================

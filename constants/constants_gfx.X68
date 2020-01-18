@@ -8,3 +8,5 @@ score_pts_position_y    EQU sprite_view_vmin+12
 
 health_sprite_x         EQU (447-36)
 health_sprite_y         EQU (sprite_view_vmin+4)
+
+score_vram_tile_offset  EQU 85 ; Offset from core tile definitions to place rendered score

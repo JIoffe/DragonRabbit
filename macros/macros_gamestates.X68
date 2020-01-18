@@ -29,16 +29,16 @@ Goto_Title macro
 * Move to a level
 * - \1 level
 * - \2 tileset
-* - \3 # of tiles
+* - \3 level tile byte size / 2 for DMA
 * - \4 palettes
 * -----------------------------------------------
 Goto_Level macro
-    lea     levelstart\@, a0
-    move.l  a0, MEM_level_restart_address
+    move.l  #levelstart\@, MEM_level_restart_address
+    
 levelstart\@
     lea     NoOpTrap, a6            ; just in case vblank hits while we're getting ready
     lea     \1, a1
-    lea     \2, a2
+    move.l  #\2, d2
     move.w  \3, d1
     lea     \4, a3
     jsr     Init_Level

@@ -19,11 +19,10 @@ Chicken_Update:
 
     CancelOutOfView     chicken_done, d2, d1, #chicken_bb_offset, d3
 
-    move.l  d2, -(SP)
-    move.l  d1, d2
-    addi.l  #chicken_bb_offset, d2
+    HurtPlayerIfTouching    #chicken_bb_offset
 
-    GetDamageReceived
+    move.l  d2, -(SP)
+    GetDamageReceived   #chicken_bb_offset
 
     moveq   #0, d7
     move.b  d6, d7
@@ -46,8 +45,6 @@ Chicken_Update:
 
         move.b  #chicken_recoil_frames, d7
     chicken_damage_skip:
-
-    HurtPlayerIfTouching
     
     tst.b   d7
     beq.s   chicken_walking_anim

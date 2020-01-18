@@ -114,6 +114,7 @@ HBlank:
     jmp (a0)
 
 VBlank:
+    movem.l d0-d7/a0-a5, -(SP)
     bsr.s   ReadInput
     bset	#vblank_on_flag, frame_state
 
@@ -147,6 +148,7 @@ VBlank:
         bsr.w   UpdateScoreGfxIfDirty
     skip_score:
 
+    movem.l (SP)+, d0-d7/a0-a5
 	rte
     
 HandleException:

@@ -10,52 +10,41 @@ mogu_speed                  EQU     $01
 mogu_points                 EQU     2
 
 Moguren_Update:
-    move.l  a4, -(SP)
-    move.b  (a4)+, d6
-    move.l  (a4)+, d1
+    movea.l a4, a3          ; save a reference to this address to update later
+
+    move.b  (a4)+, d6       ; STATE
+    move.l  (a4)+, d1       ; YYYYXXXX POSITION
 
     move.b  d6, d3
     andi.b  #6, d3          ; mask out health
-    beq.w   mogu_done
+    beq.w   mogu_skip       ; dead as a doorknob
 
-    CancelOutOfView     mogu_done, d2, d1, #mogu_bb_offset, d3
+    CancelOutOfView     mogu_skip, d2, d1, #mogu_bb_offset, d3
 
-    move.l  d2, -(SP)
-    move.l  d1, d2
-    addi.l  #mogu_bb_offset, d2
-
-    lea     mogu_receivedmg_test, a2
-    jmp     RecievePlayerAttack
-    mogu_receivedmg_test:
-
-    moveq   #0, d7
-    move.b  d6, d7
-    lsr.b   #3, d7
+    HurtPlayerIfTouching    #mogu_bb_offset
+    ; check for player damage
+    GetDamageReceived   #mogu_bb_offset
 
     tst.b   d3
-        beq.s   mogu_damage_received
+    beq.s   mogu_damage_skip
         AddBloodSpurt
         subq    #2, d6
         move.b  d6, d3
-        andi.b  #6, d3
+        andi.b  #6, d3          ; check if HP is 0
         AddPointsAndBloodburst  #mogu_points
-        move.b  #moguren_recoil_frames, d7
-    mogu_damage_received:
-
-    HurtPlayerIfTouching
+        move.b  #moguren_recoil_frames, d7 
+        bra.s   mogu_damage_done
+    mogu_damage_skip:
+        move.b  d6, d7
+        lsr.b   #3, d7      ; use prior "recoil" state
+    mogu_damage_done:
 
     tst.b   d7
-    beq.s   mogu_walking_anim
+    bls.s   mogu_walking
         subq    #1, d7
-        lea     Moguren_Hurt0, a0 
-        bra.s   mogu_anim_chosen                    ; Mushroom also is "stunnen" by attack and will not move, skip over that logic
-    
-    mogu_walking_anim:
-        ***********************************************************
-        * Move until we bump into a wall or edge
-        * (the mushroom naturally faces left, so "flip" means moving right)
-        ***********************************************************
-        move.l  d1, d3
+        bra.s   mogu_skip_walking
+    mogu_walking:
+        move.l  d1, d3              ; d3 will hold collision check
         btst    #sprite_flip_h, d6
         beq.s   mogu_move_left
             addi.w  #mogu_speed, d1
@@ -66,31 +55,31 @@ Moguren_Update:
             subq    #1, d3
         mogu_moved:
 
-        **********************************
-        * Bump against the edges
-        **********************************
         BumpAgainstEdgesMacro   #mogu_collision_offset
+    mogu_skip_walking:
 
-        movea.l a4, a0
-        subq    #4, a0
-        move.l  d1, (a0)                          ; Update position in RAM
-
-        ; Only two frames...
-        move.w  (frame_counter), d3
-        add.w   a4, d3                      ; mix it up a little bit to make them look more random
-        ToggleFrames    #32, Moguren_Walking0, Moguren_Walking1, d3
-    mogu_anim_chosen:
-
+    ; update state and position
     asl.b   #3, d7
-    andi.b  #7, d6                          ; mask out the flip flags
+    andi.b  #7, d6      ; mask away and add the "recoil" state
     add.b   d7, d6
+    move.b  d6, (a3)+
+    move.l  d1, (a3)+
 
+    mogu_render:
+    tst.b   d7
+    beq.s   mogu_render_walking
+    mogu_render_stunned:
+        lea     Moguren_Hurt0, a0 
+        bra.s   mogu_frame_chosen
+    mogu_render_walking:
+    move.w  frame_counter, d3
+    add.w   a3, d3              ; add item pointer for some randomness
+    ToggleFrames    #32, Moguren_Walking0, Moguren_Walking1, d3
+    mogu_frame_chosen:
+
+    andi.b  #7, d6
     moveq   #0, d7
-    move.l  (SP)+, d2                       ; restore camera from stack
     jsr     DrawSpriteFrame
 
-    mogu_done:
-    move.l  (SP)+, a0
-    move.b  d6, (a0)                        ; save state updates
-
+    mogu_skip:
     jmp (a5)

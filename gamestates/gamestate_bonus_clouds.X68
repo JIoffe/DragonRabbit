@@ -198,7 +198,7 @@ Init_BonusClouds:
 
     add.w   #player_tile_allocation, d1
     move.w  d1, (MEM_UI_sprite_start)
-    addi.w  #85, d1
+    addi.w  #score_vram_tile_offset, d1
     move.w  d1, (MEM_score_digits_id)
     lsl.w   #5, d1
     move.w  d1, (MEM_score_vram_address)

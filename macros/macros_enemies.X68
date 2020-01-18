@@ -12,9 +12,11 @@ bumpchecked\@
 
 *-------------------------------------------
 * Checks if player attack intersects bounding box,
-* returns received damage in d3
+* returns received damage in d3. assumes position in d1
 * \1 - Size of bounding box to compute
 GetDamageReceived   macro
+    move.l  d1, d3
+    addi.l  \1, d3
     lea     receivedmg_test\@, a2
     jmp     RecievePlayerAttack
 receivedmg_test\@

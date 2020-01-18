@@ -31,7 +31,7 @@ ClearFlipH    macro
 ToggleFrames    macro
     andi.w  \1-1, \4
     cmp.b   \1>>1, \4
-    bge.s   toggle_b\@
+    bcc.s   toggle_b\@
     lea     \2, a0
     bra.s   toggle_done\@
 toggle_b\@

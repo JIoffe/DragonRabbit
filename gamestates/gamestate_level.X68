@@ -36,30 +36,27 @@ Init_Level:
     bsr.w   ClearLevelVars
 
     move.b  #$0E, (MEM_fade)              ; Start at full fade and then fade in
+    move.l  a3, (MEM_palette)
 
-    * - a1 level
-    * - a2 tileset
-    * - a3 palettes
-    moveq   #0, d5
+    * d1 and d2 should already hold the correct values for DMA
     move.w  d1, d5
-    addq    #1, d5
-    move.w  d5, d1
-    move.w  d5, (MEM_player_sprite_index)
-    lsl.w   #5, d5
-    move.w  d5,  (MEM_player_tiles_start)
-
-    addi.w  #player_tile_allocation, d1
-    move.w  d1, (MEM_UI_sprite_start)
-
-    addi.w  #85, d1
-    move.w  d1, (MEM_score_digits_id)
-    lsl.w   #5, d1
-    move.w  d1, (MEM_score_vram_address)
-
-    lsl.w   #4, d1
-    move.l  a2, d2
     move.l  #$20, d3
     jsr     TriggerDMADumpToVRAM
+    
+
+    add.w   d5, d5
+    addi.w  #$20, d5
+    move.w  d5, MEM_player_tiles_start         ; VRAM address where to DMA player tiles into
+    lsr.w   #5, d5
+    move.w  d5, MEM_player_sprite_index
+
+    addi.w  #player_tile_allocation, d5
+    move.w  d5, (MEM_UI_sprite_start)
+
+    addi.w  #score_vram_tile_offset, d5
+    move.w  d5, (MEM_score_digits_id)
+    lsl.w   #5, d5
+    move.w  d5, (MEM_score_vram_address)
 
     bsr.w   LoadCoreGfx
     moveq   #0, d7
@@ -67,7 +64,6 @@ Init_Level:
     moveq   #0, d7
     bsr.w   CacheHealthSprite
 
-    move.l  a3, (MEM_palette)
     moveq   #3, d4
     ; Setup background - this will vary by level somehow
     testroombg_loop:
@@ -81,19 +77,22 @@ Init_Level:
         bsr.w   Plane_DrawPattern
         dbra    d4, testroombg_loop
 
+    ********************************************************
+    * Parse active level
+    ********************************************************
     ; first long in level data is the address of player start
-    move.l  (a1)+, a6
-    move.l  (a6),  d0
+    movea.l (a1)+, a2
+    move.l  (a2),  d0
     move.l  d0, (MEM_player_pos)
 
     ; second long is the address of where items are held
-    move.l  (a1)+, a6
-    move.w  (a6)+, d0
+    movea.l (a1)+, a2
+    move.w  (a2)+, d0
     move.w  d0, (MEM_LEVELITEM_COUNT)
-    move.l  #MEM_LEVELITEMS, a4
+    lea.l   MEM_LEVELITEMS, a4
     lvl_copy_items_to_ram:
-        move.w  (a6)+, (a4)+
-        move.l  (a6)+, (a4)+
+        move.w  (a2)+, (a4)+
+        move.l  (a2)+, (a4)+
         dbra    d0, lvl_copy_items_to_ram
 
 
@@ -833,7 +832,7 @@ MainLoop_Level:
     lvl_pvitem_update:
         lea     Game_ItemTable, a3
         moveq   #0, d3
-        move.b  (a4)+, d3
+        move.b  (a4)+, d3           ; Pull out the type; a4 will have the STATE and POSITION in the callback
         add.w   d3, d3
         add.w   d3, d3
 

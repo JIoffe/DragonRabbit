@@ -34,7 +34,12 @@ SkipWhenPlayerDead      macro
     bne.w   \2
     endm
 
+**********************************
+* Hurts player on touching bounding box
+* \1 - BoundingBox size, assumes d1 has position
 HurtPlayerIfTouching    macro
+    move.l  d1, d7
+    addi.l  \1, d7
     lea     return\@, a2
     jmp     CollideHazardAgainstPlayer
 return\@

@@ -18,10 +18,9 @@ Chipmunk_Update:
     beq.w   chipmunk_done
     CancelOutOfView     chipmunk_done, d2, d1, #chipmunk_bb_offset, d3
 
+    HurtPlayerIfTouching    #chipmunk_bb_offset
     move.l  d2, -(SP)
-    move.l  d1, d2
-    addi.l  #chipmunk_bb_offset, d2
-    GetDamageReceived
+    GetDamageReceived   #chipmunk_bb_offset
 
     ; mask out the health
     move.b  d6, d7
@@ -43,8 +42,6 @@ Chipmunk_Update:
         bne.s   chipmunk_damage_skip
             bra.w   chipmunk_done
     chipmunk_damage_skip:
-
-    HurtPlayerIfTouching
     
     tst.b   d7
     beq.s   chipmunk_recoil_updated
