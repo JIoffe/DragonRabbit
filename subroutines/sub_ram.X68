@@ -19,4 +19,42 @@ ResetState:
     move.w  #0, (frame_counter)
     ClearVram
     bsr.w   ClearCRAM
+    bsr.s   ClearVSRam
+    rts
+
+ClearVSRam:
+    movem.l  d0-d1/a1, -(SP)
+    lea.l   vdp_data, a1
+    move.l  #vdp_vram_hscroll, vdp_control
+    moveq   #0, d0
+    move.w  #31, d0
+    moveq   #0, d1
+    hclear_loop:
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        move.w  d1, (a1)
+        dbra    d0, hclear_loop
+
+    move.l  #vdp_vram_vscroll, vdp_control
+    move.w  d1, (a1)
+    move.w  d1, (a1)
+
+    movem.l (SP)+, d0-d1/a1
     rts

@@ -194,3 +194,21 @@ ClearPlane:
         move.w  #0, vdp_data
         dbra    d0, clp_loop
     rts
+
+FadeOutLevelPalettes:
+    move.w  (frame_counter), d5
+    moveq   #0, d1
+    move.b  (MEM_fade), d1
+
+    cmp.b   #$0E, d1
+    beq.s   lvl_fadeout_advance
+    andi.w  #lvl_fadein_interval, d5
+    bne.s   lvl_fadeout_advance
+        addi.b  #2, d1
+        move.b  d1, (MEM_fade)
+    lvl_fadeout_advance:
+
+    move.l  MEM_palette, a0
+    moveq   #4, d0
+	bsr.w   FadePalettes
+    rts

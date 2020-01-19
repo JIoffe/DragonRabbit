@@ -34,3 +34,8 @@ Ending_1:
 
 EndingScore:
     dc.b    'Score: ', 0
+
+LevelClearedCaption:
+    dc.b    '  STAGE CLEARED', CR, CR
+    dc.b    '   +50,000 PTS', CR, CR, CR, CR
+    dc.b    'Way to go, rabbit!', 0

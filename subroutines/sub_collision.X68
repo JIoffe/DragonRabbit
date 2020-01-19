@@ -36,13 +36,10 @@ RecievePlayerAttack:                                                ; (abbreviat
 ; Check that maximum overlaps minimum
 ; a2 - point to return to
 ; d1 - min point of box to check agianst player box
-; d2 - max point of box to check against player box
 ; d3 - d4 holds player's bounding box in this subroutine
-; d7 will hold the result
+; d7 - max point of box to check against player boxwill hold the result
 **************************************************
 CollideAgainstPlayer: 
-    moveq   #0, d7
-
     ; test against max bound of player first to be consistent with other subroutines
     move.l  (MEM_player_pos), d3
     move.l  d3, d4
@@ -52,15 +49,17 @@ CollideAgainstPlayer:
     tst.w   d4
     bmi.s   cap_collision_done
 
-    sub.l   d2, d3
+    sub.l   d7, d3
     bpl.s   cap_collision_done
     tst.w   d3
     bpl.s   cap_collision_done
 
     ;return true
     moveq   #1, d7
+    jmp (a2)
 
     cap_collision_done:
+    moveq   #0, d7
     jmp (a2)
 
 **************************************************

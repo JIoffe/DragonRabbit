@@ -178,22 +178,55 @@ Init_Level:
     move.w	#interrupts_enable, sr
     rts
 
+LevelCleared_MessageLoop:
+    cmp.w   #120, frame_counter
+    bcs.s   lvlclrmsg_continue
+        Goto_BonusClouds
+        EndLoop
+    lvlclrmsg_continue:
+    EndLoop
+
+LevelClearedLoop:
+    cmp.w   #30, frame_counter
+    bcs.s   lvl_cleared_fadeout_delay
+    jsr     FadeOutLevelPalettes
+    lvl_cleared_fadeout_delay:
+
+    cmp.w   #90, frame_counter
+    bcs.w   level_clear_msg_delay
+        move.w  #interrupts_disable, sr
+        jsr     ResetState
+        bsr.w   ClearLevelVars
+
+        move.b  #0, MEM_vblank_mode             ; no more graphics changes on vblank
+
+        add.l   #500, MEM_score                 ; 50 000 pt reward
+        lea     LevelCleared_MessageLoop, a6
+
+        lea.l   vdp_write_plane_a, a0
+        jsr     ClearPlane
+        lea.l   vdp_write_plane_b, a0
+        jsr     ClearPlane
+
+        lea     Palette_Licensing, a0
+        moveq   #3, d0
+        bsr.w   LoadPalettes
+
+        DMA68KtoVRAM    2880, Tiles_FontA, $20
+  
+        lea     LevelClearedCaption, a0
+        move.w  #cram_palette_0_bits, d6
+        move.l  #vdp_write_plane_a|$02960000, d7
+        bsr.w   PrintStringNoDMA
+
+        move.w  #interrupts_enable, sr
+        EndLoop
+    level_clear_msg_delay:
+
+    jmp     MainLoop_Level
+
 Fadeout_Level:
-    move.w  (frame_counter), d5
-    moveq   #0, d1
-    move.b  (MEM_fade), d1
-
-    cmp.b   #$0E, d1
-    beq.s   lvl_fadeout_advance
-    andi.w  #lvl_fadein_interval, d5
-    bne.s   lvl_fadeout_advance
-        addi.b  #2, d1
-        move.b  d1, (MEM_fade)
-    lvl_fadeout_advance:
-
-    move.l  MEM_palette, a0
-    moveq   #4, d0
-	bsr.w   FadePalettes
+    jsr     FadeOutLevelPalettes
 
     move.w  (frame_counter), d5
     cmp.w   #88, d5

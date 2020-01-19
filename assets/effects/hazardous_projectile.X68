@@ -20,15 +20,6 @@ HazardousProjectile_effect:
     ; To extend, would need a way to map to different sprites
     ; Maybe have a few indices in RAM for sprite, and store
     ; the index into that table as part of the state.
-    moveq   #0, d7
-    move.w  #cram_palette_3_bits, d7
-    move.w  (frame_counter), d3
-    andi.w  #8, d3
-    cmp.w   #4, d3
-    bls.s   projectile_flipped
-        ori.w   #vram_hflip_bit, d7
-    projectile_flipped:
-
     suba.l  #4, a4
     move.l  (a4), d1
     add.w   d6, d1
@@ -38,6 +29,15 @@ HazardousProjectile_effect:
     HurtPlayerIfTouching    #$00100010
     movem.l (SP)+, d2/a2
 
+    moveq   #0, d7
+    move.w  #cram_palette_3_bits, d7
+    move.w  (frame_counter), d3
+    andi.w  #8, d3
+    cmp.w   #4, d3
+    bls.s   projectile_flipped
+        ori.w   #vram_hflip_bit, d7
+    projectile_flipped:
+    
     lea     NutProjectile, a0
     jsr     DrawSprite
 

@@ -66,6 +66,9 @@ Init_TheEnd:
         dbra    d0, ending_score_loop
 
 
+    ; trailing 0s and null terminator
+    move.b  #48, (a1)+
+    move.b  #48, (a1)+
     move.b  #0, (a1)
     move.w  #182|cram_palette_1_bits, d6
     move.l  #vdp_write_plane_a|$06280000, d7

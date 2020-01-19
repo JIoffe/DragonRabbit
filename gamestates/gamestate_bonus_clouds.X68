@@ -14,6 +14,7 @@ BONUS_END_TRANSITION_TIME       EQU     300
 CB_ITEMS_HORIZON                EQU     sprite_view_vmin+70
 CB_ITEMS_VANISH                 EQU     sprite_view_vmin+vdp_screen_height
 CB_ITEMS_SHADOWHEIGHT           EQU     CB_ITEMS_HORIZON+40
+CB_ITEM_SHADOWCLIP              EQU     312
 
 CB_PLAYER_COLLISION_Y           EQU     292
 CB_PLAYER_COLLISION_HEIGHT      EQU     32
@@ -309,8 +310,7 @@ PlayerDead_BonusClouds:
     bc_continue_playerdead:
 
 MainLoop_BonusClouds:
-    bsr.w   PauseGame
-
+    moveq   #0, d0
     moveq   #0, d1
     move.w  frame_counter, d5
     btst    #player_dead, MEM_player_vulnerability
@@ -328,8 +328,8 @@ MainLoop_BonusClouds:
                 lea     PlayerWon_BonusClouds, a6
                 move.l  #HBlank_BonusCloudsNoScroll, MEM_hblank_handler
                 bsr.w   BC_ReplaceItemsWithFont
-                move.b  #12, mem_sprite_link
-                bra.s   bc_time_adjusted
+                move.b  #13, mem_sprite_link
+                EndLoop
             bc_time_remaining:
             move.b  d0, mem_bonus_time
             bc_time_adjusted:
@@ -423,6 +423,7 @@ MainLoop_BonusClouds:
         lea     MEM_effects, a2
         movea.l a2, a3
         bc_effects_loop:
+            movea.l a2, a4
             move.b  (a2)+, d3
             bne.s   bc_choose_sparkle
                 bsr.w   BC_DrawExplosion
@@ -431,15 +432,11 @@ MainLoop_BonusClouds:
                 bsr.w   BC_DrawSparkle
             bc_effect_chosen:
             
-            beq.s   bc_effect_dropped
+            beq.s   bc_effects_continue
                 ; retain for next frame
-                subq    #2, a2
-                move.w  (a2)+, (a3)+
-                move.l  (a2)+, (a3)+
+                move.w  (a4)+, (a3)+
+                move.l  (a4)+, (a3)+
                 addi.w  #1, MEM_effects_count
-                bra.s   bc_effects_continue
-            bc_effect_dropped:
-                addq    #4, a2
             bc_effects_continue:
             dbra    d5, bc_effects_loop
     bc_effects_skip:
@@ -616,10 +613,12 @@ MainLoop_BonusClouds:
             move.w  d1, (a5)+        ; x offset
 
 
-            ; Draw a drop shadow - this pushes us close to the raster limits
+            ; Draw a drop shadow - this pushes us close to the raster limits so only draw within a certain range
             swap    d2
             cmp.w   #CB_ITEMS_SHADOWHEIGHT, d2
             bcs.s   bc_item_skip_shadow
+            cmp.w   #CB_ITEM_SHADOWCLIP, d2
+            bhi.s   bc_item_skip_shadow
                 lea     BCDropShadow, a0
                 addi.l  #$000A0024, d2
                 move.w  d2, (a5)+                        ; first is y offset
@@ -762,7 +761,7 @@ BC_DrawExplosion:
     move.b  (a2), d3
     subq    #1, d3
     move.b  d3, (a2)+
-    move.l  (a2), d1
+    move.l  (a2)+, d1
     tst.b   d3
     beq.s   bc_explosion_end
         move.w  #vram_priority_bit|cram_palette_3_bits, d7
@@ -782,7 +781,7 @@ BC_DrawSparkle:
     move.b  (a2), d3
     subq    #1, d3
     move.b  d3, (a2)+
-    move.l  (a2), d1
+    move.l  (a2)+, d1
     tst.b   d3
     beq.s   bc_sparkle_end
         lea     BC_GemSparkle, a0

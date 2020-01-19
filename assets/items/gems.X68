@@ -30,8 +30,8 @@ GemsH_Update:
             move.l  d3, d1
             movem.l d1-d4/d7, -(SP)
 
-            move.l  d1, d2
-            addi.l  #gem_bb_offset, d2
+            move.l  d1, d7
+            addi.l  #gem_bb_offset, d7
             jmp     CollideAgainstPlayer
             gemh_collision_test:
 
@@ -77,8 +77,8 @@ GemsV_Update:
             move.l  d3, d1
             movem.l d1-d4/d7, -(SP)
 
-            move.l  d1, d2
-            addi.l  #gem_bb_offset, d2
+            move.l  d1, d7
+            addi.l  #gem_bb_offset, d7
             jmp     CollideAgainstPlayer
             gemv_collision_test:
 
