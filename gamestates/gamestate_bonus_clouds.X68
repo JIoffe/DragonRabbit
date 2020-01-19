@@ -211,8 +211,6 @@ Init_BonusClouds:
     bsr.w   CacheHealthSprite
 
     moveq   #5, d4          ; advance d4 so sprite buffer is capped correctly
-
-    moveq   #0, d7          ; d7 will be the line counter
     lea.l   vdp_data, a1    ; a1 permanently points to data port for this state
 
     lea.l   MEM_LEVELITEMS, a3  ; a3 will point to the items list from the previous frame
@@ -310,6 +308,8 @@ PlayerDead_BonusClouds:
     bc_continue_playerdead:
 
 MainLoop_BonusClouds:
+    bsr.w   PauseGame
+
     moveq   #0, d0
     moveq   #0, d1
     move.w  frame_counter, d5
@@ -367,17 +367,14 @@ MainLoop_BonusClouds:
     move.l  MEM_player_pos, d1
     btst    #player_dead, MEM_player_vulnerability
     bne.s   bc_player_dead0
-        move.b	(MEM_buttons_held), d0
-
-        move.b  d0, d3
-        andi.b  #joypad_right, d3
+        move.b	MEM_buttons_held, d0
+        btst    #joypad_right, d0
         beq.s   bc_check_left              ; Not pressing right; see if pressing left
             ; Moving RIGHT
             addi.w  #BONUS_PLAYER_SPEED, d1
             bra.s   bc_lr_checked
         bc_check_left:
-            move.b	d0, d3
-            andi.b  #joypad_left, d3
+            btst    #joypad_left, d0
             beq.s   bc_lr_checked
                 ; Moving LEFT
                 subi.w  #BONUS_PLAYER_SPEED, d1
@@ -405,8 +402,6 @@ MainLoop_BonusClouds:
     * SPRITE DUMP
     ********************************************************************
     move.b  #5, d4          ; offset from cached GUI sprites
-
-    move.b  d7, -(SP)       ; hopefully we pop this back before cloud plane renders...
 
     moveq   #0, d2          ; static camera for subroutines that need it
     moveq   #0, d6
@@ -676,24 +671,27 @@ MainLoop_BonusClouds:
     BC_NewEventsSkip:
     
     move.w  d6, MEM_LEVELITEM_COUNT
-
-    move.b  (SP)+, d7
     EndLoop
 
 
 HBlank_BonusCloudsNoScroll
+    move.w	#interrupts_disable, sr
+    movem.l d0/a0, -(SP)
     moveq   #0, d0
-    move.b  d7, d0
+    move.b  mem_hblank_counter, d0
+    addq    #1, d0
+    move.b  d0, mem_hblank_counter
     bra.s   HBlank_BonusCloudsTexture
 HBlank_BonusCloudsScroll:
+    move.w	#interrupts_disable, sr
+    movem.l d0/a0, -(SP)
     moveq   #0, d0
-    move.b  d7, d0
-    move.w  frame_counter, d1
-    lsr.w   #1, d1
-    sub.w   d1, d0
+    move.w  frame_counter, d0
+    neg     d0
+    lsr.b   #1, d0
+    add.b  mem_hblank_counter, d0
+    addi.b  #1, mem_hblank_counter
 HBlank_BonusCloudsTexture:
-    * move.w	#interrupts_disable, sr
-    addi.b  #1, d7
     andi.w  #15, d0
     asl.w   #5, d0
 
@@ -718,6 +716,8 @@ HBlank_BonusCloudsTexture:
     move.w  (a0)+, (a1)
     move.w  (a0)+, (a1)
     move.w  (a0), (a1)
+
+    movem.l (SP)+, d0/a0
     rte
 
 ; Item update Subroutines - keep these close

@@ -19,14 +19,15 @@ joypad_2_control        EQU $00A1000B
 joypad_x_control        EQU $00A1000D
 
 * button bitflags
-joypad_up               EQU $01
-joypad_down             EQU $02
-joypad_left             EQU $04
-joypad_right            EQU $08
-joypad_b                EQU $10
-joypad_c                EQU $20
-joypad_a                EQU $40
-joypad_start            EQU $80
+joypad_up               EQU 0
+joypad_down             EQU 1
+joypad_left             EQU 2
+joypad_right            EQU 3
+joypad_b                EQU 4
+joypad_c                EQU 5
+joypad_a                EQU 6
+joypad_start            EQU 7
+joypad_facebuttons      EQU %11110000
 
 *=====================================
 * VDP Constants

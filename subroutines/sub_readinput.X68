@@ -6,8 +6,7 @@
 
 PauseGame:
 	pause_loop:
-	move.b	MEM_buttons_pressed, d0
-	andi.b	#joypad_start, d0
+	btst	#joypad_start, MEM_buttons_pressed
 	bne.s	pause_start_pressed
 		btst	#game_paused, frame_state
 		beq.s	pause_end

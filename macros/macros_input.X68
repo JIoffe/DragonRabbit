@@ -7,6 +7,6 @@
 *------------------------------
 CheckABCStart   macro
     move.b	(MEM_buttons_pressed), d0
-    andi.b  #joypad_a|joypad_b|joypad_c|joypad_start, d0
+    andi.b  #joypad_facebuttons, d0
     beq.s   \1
     endm

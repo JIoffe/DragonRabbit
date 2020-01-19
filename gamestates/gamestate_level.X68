@@ -291,18 +291,15 @@ MainLoop_Level:
     btst    #player_dead, d0
     bne.w   skip_input
 
-    move.b	(MEM_buttons_held), d0
-
-    move.b  d0, d7
-    andi.b  #joypad_right, d7
+    move.b	MEM_buttons_held, d0
+    btst    #joypad_right, d0
     beq.s   lvl_check_left              ; Not pressing right; see if pressing left
         ; Moving RIGHT
         ClearFlipH    (MEM_player_state), d2
         addi.w  #player_x_speed, d6
         bra.s   lvl_lr_checked
     lvl_check_left:
-        move.b	d0, d7
-        andi.b  #joypad_left, d7
+        btst    #joypad_left, d0
         beq.s   lvl_lr_checked
             ; Moving LEFT
             SetFlipH    (MEM_player_state), d2
@@ -548,8 +545,7 @@ MainLoop_Level:
 
     btst    #sprite_jumping, d6
     beq.s   lvl_notjumping
-        move.b	(MEM_buttons_held), d0
-        andi.b  #control_jump, d0
+        btst    #control_jump, MEM_buttons_held
         beq.s   lvl_player_jump_checked
             move.b  (MEM_player_jump_frames), d0
             cmp.b   #player_jump_duration, d0
@@ -559,8 +555,7 @@ MainLoop_Level:
                 move.b  d0, (MEM_player_jump_frames)
                 bra.s   lvl_player_jump_checked
     lvl_notjumping:
-        move.b	(MEM_buttons_pressed), d0
-        andi.b  #control_jump, d0
+        btst    #control_jump, MEM_buttons_pressed
         beq.s   lvl_player_jump_checked
             bset    #sprite_jumping, d6
             move.w  #player_jump_strength, (MEM_player_velocity_y)
@@ -585,8 +580,7 @@ MainLoop_Level:
 
     move.b  #0, (MEM_player_att_strength)                       ; clear the attack strength on each frame
 
-    move.b	(MEM_buttons_pressed), d0
-    andi.b  #control_attack, d0
+    btst    #control_attack, MEM_buttons_pressed
     beq.w   lvl_player_attack_checked
         move.b  #1, (MEM_player_att_strength)                   ; to make it easier for now, all attacks will have 1 strength
 
