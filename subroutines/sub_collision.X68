@@ -23,7 +23,9 @@ RecievePlayerAttack:                                                ; (abbreviat
     tst.w   d7
     bpl.s   rpa_collision_done
 
-    ; return damage
+    ; return damage - get smack'd
+    move.w  #sfx_smack, d0
+    bsr.w   SetSFX
     move.b  MEM_player_att_strength, d3
     jmp (a2)
 

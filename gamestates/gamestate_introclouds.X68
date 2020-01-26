@@ -15,6 +15,7 @@ fade\@
     endm
 
 UnfadeIntro     macro
+    move.b  #%11111111, psg_tone_port
     move.b  #0, MEM_FADE
     lea     Palettes_intro_storm, a0
     moveq   #4, d0
@@ -106,6 +107,12 @@ MainLoop_Clouds:
 
     move.b  MEM_fade, d1
     beq.s   skip_intro_fade
+        ; silence any lingering thunder effects
+        move.b  #$0F, d0
+        sub.b   d1, d0
+        ori.b   #%11110000, d0
+        move.b  d0, psg_tone_port
+
         move.w  frame_counter, d0
         andi.w  #7, d0
         bne.s   skip_intro_fade
@@ -194,9 +201,33 @@ MainLoop_Clouds:
 
     ; Flicker a few times...
     cmp.w   #325, d4
-    blt.s   ic_f6
+    blt.w   ic_f6
+
     cmp.w   #453, d4
-    bgt.s   ic_f6
+    bgt.w   ic_f6
+        ; Angry thunder 
+
+        cmp.w   #440, d4
+        bcc.s   flicker_thunder_skip
+        move.b  #%11110010, psg_tone_port
+        move.b  #%11101010, psg_tone_port
+        move.b  #%10010111, psg_tone_port
+
+        move.w  frame_counter, d0
+        lsr.w   #2, d0
+        andi.b  #%00001111, d0
+        move.b  d0, d1
+        ori.b   #%11110000, d1
+        move.b  d1, psg_tone_port
+        ori.b   #%10000011, d0
+        move.b  d0, psg_tone_port
+        move.b  #%00001001, psg_tone_port
+        bra.s   flicker_thunder_end
+        flicker_thunder_skip:
+        move.b  #%10011111, psg_tone_port
+        move.b  #%11111111, psg_tone_port
+        flicker_thunder_end:
+
         move.w  d4, d0
         andi.w  #15, d0
         tst.w   d0
@@ -217,7 +248,19 @@ MainLoop_Clouds:
 
     ; SLASHY
     cmp.w   #454, d4                            ; 404, FACE NOT FOUND DUE TO SLASHING
-    bne.s   ic_f7
+    bhi.s   ic_f7_att
+    bcs.w   ic_f7
+        ; silence noise channel, use one of the square wave channels instead
+
+        move.b  #$0, mem_bonus_time
+        move.b  #%10000110, psg_tone_port
+        move.b  #%00000100, psg_tone_port
+        move.b  #%10010000, psg_tone_port
+
+        ; Add some noise to make it more rip and tear
+        move.b  #%11100101, psg_tone_port
+        move.b  #%11110000, psg_tone_port
+
         move.w	#interrupts_disable, sr
         SetBG   #nolightning_bg
         move.l  #vdp_write_plane_a, a0
@@ -229,6 +272,19 @@ MainLoop_Clouds:
         move.w	#interrupts_enable, sr
 
         EndLoop
+    ic_f7_att:
+        move.b  mem_bonus_time, d0
+        andi.b  #%00001111, d0
+        ori.b   #%10010000, d0
+        move.b  d0, psg_tone_port
+        ori.b   #%11110000, d0
+        move.b  d0, psg_tone_port
+
+        move.w  frame_counter, d1
+        andi.w  #3, d1
+        bne.s   ic_f7
+            addq    #1, d0
+            move.b  d0, mem_bonus_time
     ic_f7:
 
     cmp.w   #470, d4
@@ -261,14 +317,21 @@ MainLoop_Clouds:
         EndLoop
     ic_fB:
 
-    cmp.w   #550, d4
+    cmp.w   #560, d4
     bne.s   ic_fC
+        ; cut out the psg sound
+        move.b  #%11111111, psg_tone_port
+        move.b  #%10011111, psg_tone_port
         Goto_Title
     ic_fC:
 
     EndLoop
 
 Bolt_Clouds:
+    ; Lightning and THUNDER
+    move.b #%11101110, psg_tone_port
+    move.b #%11110000, psg_tone_port
+
     SetBG   #lightning_bg
     lea     intro_lightningA, a0
     bsr.w   Plane_DrawPattern

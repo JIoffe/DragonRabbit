@@ -28,6 +28,8 @@ receivedmg_test\@
 *-------------------------------------------------
 AddPointsAndBloodburst  macro
     bne.s   death_skip\@
+    move.w  #sfx_pewpew, d0
+    jsr     SetSFX
     AddDeathBloodBurst
     AddPoints   \1
 death_skip\@

@@ -121,11 +121,25 @@ sprite_viewport_offset  EQU (sprite_view_vmin<<16)|sprite_view_hmin
 
 vram_sprites_address    EQU $B800
 
+**************************************
+* SFX Constants
+**************************************
+z80_ram		            EQU $A00000	; start of shared z80/m68k RAM space
+z80_dac3_pitch		    EQU $A000EA
+z80_dac_status	    	EQU $A01FFD
+z80_dac_sample  		EQU $A01FFF
+z80_ram_end     		EQU $A02000	; end of shared z80/m68k RAM space
+z80_version 		    EQU $A10001
+z80_port_1_data 	    EQU $A10002
+z80_port_1_control	    EQU $A10008
+z80_port_2_control	    EQU $A1000A
+z80_expansion_control	EQU $A1000C
+z80_bus_control  	    EQU $A11100
+z80_reset       		EQU $A11200
+ym2612_a0       		EQU $A04000
+ym2612_d0               EQU $A04001
+ym2612_a1       		EQU $A04002
+ym2612_d1               EQU $A04003
+security_addr   		EQU $A14000
 
-
-
-
-*~Font name~Courier New~
-*~Font size~10~
-*~Tab type~1~
-*~Tab size~4~
+psg_tone_port           EQU $C00011     ; adjust one of 3 square wave channels and a noise channel

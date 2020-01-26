@@ -11,6 +11,7 @@ RomStart:
 *======================
     include './constants/constants_segagenesis.X68'
     include './constants/constants_gfx.X68'
+    include './constants/constants_sfx.X68'
     include './constants/constants_ascii.X68'
     include './constants/constants_gamestates.X68'
     include './constants/constants_player.X68'
@@ -71,6 +72,7 @@ game_paused                     EQU $0003
     include './macros/macros_player.X68'
     include './macros/macros_enemies.X68'
     include './macros/macros_score.X68'
+    include './macros/macros_z80.X68'
 
 Main:
     include './init/init_validatetmss.X68'
@@ -78,6 +80,7 @@ Main:
 *================================================
 * Coprocessor and Inputs Setup
 *================================================
+    include './init/init_SFX.X68' 
     include './init/init_vdp.X68' 
     include './init/init_inputs.X68' 
     include './init/init_clearmem.X68'
@@ -241,6 +244,11 @@ NotHandled:
 *=====================================
     include './assets/items/item_table.X68'
     include './assets/effects/effects_table.X68'
+
+*========================================
+* Sound drivers and other assets for Z80
+*========================================
+    include './z80/include.X68'
 
     NoOpTrap:
         jmp     MainLoop

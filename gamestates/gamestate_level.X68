@@ -34,6 +34,7 @@ Init_Level:
     DisableHBlank
     jsr     ResetState
     bsr.w   ClearLevelVars
+    bsr.w   UploadPrimarySFXProgram
 
     move.b  #$0E, (MEM_fade)              ; Start at full fade and then fade in
     move.l  a3, (MEM_palette)
@@ -390,14 +391,6 @@ MainLoop_Level:
     asr.w   #3, d4
     add.w   d4, d6
 
-    * *****************************************************************
-    * * Kill player when falling past level bounds
-    * *****************************************************************
-    
-    * bne.s   player_did_not_fall_to_doom
-    *     KillPlayer
-    * player_did_not_fall_to_doom:
-
     *****************************************************************
     * COLLIDE PLAYER AGAINST LEVEL TILES
     *****************************************************************
@@ -445,7 +438,7 @@ MainLoop_Level:
         subi.w  #player_height, d3
         cmp.w   d3, d6
         bcs.s   lvl_continue_fall_scan
-            KillPlayer
+            KillPlayer                      ; player out of bounds
             move.w  d3, d6
             bra.w   lvl_player_landed
         lvl_continue_fall_scan:
@@ -534,6 +527,7 @@ MainLoop_Level:
     *---------------------------------------------------------------------------------
     * And the club is jumpin', jumpin'
     *---------------------------------------------------------------------------------
+    ; the sound work here could be deferred to the Z80
     move.b  (MEM_player_state), d6
 
     move.b  (MEM_player_vulnerability), d0
@@ -546,7 +540,7 @@ MainLoop_Level:
     btst    #sprite_jumping, d6
     beq.s   lvl_notjumping
         btst    #control_jump, MEM_buttons_held
-        beq.s   lvl_player_jump_checked
+        beq.s   lvl_jump_released
             move.b  (MEM_player_jump_frames), d0
             cmp.b   #player_jump_duration, d0
             bcc.s   lvl_player_jump_checked
@@ -554,9 +548,17 @@ MainLoop_Level:
                 addq    #1, d0
                 move.b  d0, (MEM_player_jump_frames)
                 bra.s   lvl_player_jump_checked
+        lvl_jump_released:
+        move.b  #player_jump_duration, MEM_player_jump_frames
+        bra.s   lvl_player_jump_checked
     lvl_notjumping:
         btst    #control_jump, MEM_buttons_pressed
         beq.s   lvl_player_jump_checked
+        tst.w   MEM_player_velocity_y
+        bne.s   lvl_player_jump_checked
+            ;Play jump BOING because BOINGS are better
+            move.w  #sfx_boing, d0
+            bsr.w   SetSFX
             bset    #sprite_jumping, d6
             move.w  #player_jump_strength, (MEM_player_velocity_y)
             move.b  #0, (MEM_player_jump_frames)
@@ -582,6 +584,8 @@ MainLoop_Level:
 
     btst    #control_attack, MEM_buttons_pressed
     beq.w   lvl_player_attack_checked
+        move.w  #sfx_swish, d0
+        bsr.w   SetSFX
         move.b  #1, (MEM_player_att_strength)                   ; to make it easier for now, all attacks will have 1 strength
 
         ; adjust the hitbox for player attack
