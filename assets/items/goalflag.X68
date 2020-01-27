@@ -32,12 +32,14 @@ GoalFlag_Update:
             dbra    d0, flagsparkleloop
         move.l  d3, d1
         move.w  #0, frame_counter
+        jsr     FanfareSFX
         lea     LevelClearedLoop, a6        ; YOUR WINNER
         move.b  #1, (a3)
     goalflag_nocollision:
 
     lea     GoalFlag_Unrolled0, a0
     moveq   #0, d7
+    moveq   #0, d6
     move.w  (MEM_UI_sprite_start), d7
     jsr     DrawSpriteFrame
 

@@ -145,6 +145,7 @@ Init_BonusClouds:
 
     jsr     ResetState
     bsr.w   ClearLevelVars
+    bsr.w   UploadPrimarySFXProgram
 
     lea     Palette_BonusClouds, a0
     moveq   #4, d0
@@ -298,6 +299,7 @@ PlayerDead_BonusClouds:
 
     cmp.w   #vdp_screen_height, d1
     blt.s   bc_continue_playerdead
+        jsr     PlayerDeathJingle
         lea     PlayerLostShame_BonusClouds, a6
         move.l  #HBlank_BonusCloudsNoScroll, MEM_hblank_handler
 
@@ -326,6 +328,7 @@ MainLoop_BonusClouds:
             bpl.s   bc_time_remaining
                 move.w  #0, frame_counter
                 lea     PlayerWon_BonusClouds, a6
+                jsr     FanfareSFX
                 move.l  #HBlank_BonusCloudsNoScroll, MEM_hblank_handler
                 bsr.w   BC_ReplaceItemsWithFont
                 move.b  #13, mem_sprite_link
@@ -727,6 +730,7 @@ BC_BombHitPlayer:
     subi.l  #sprite_viewport_offset, d1
     moveq   #CB_EFFECT_EXPLOSION_STARTVALUE, d7
     bsr.w   AddEffect
+    jsr     PlayerHurtJingle
     bra.w   bc_active_item_skip
 
 BC_PlayerGotGem:
@@ -734,6 +738,10 @@ BC_PlayerGotGem:
     move.w  #CB_EFFECT_SPARKLE_STARTVALUE, d7
     bsr.w   AddEffect
     AddPoints   #CB_GEM_POINTS
+    move.w  d0, -(SP)
+    move.w  #sfx_collect, d0
+    jsr     SetSFX
+    move.w  (SP)+, d0
     bra.w   bc_active_item_skip
 
 BC_HurtPlayer:

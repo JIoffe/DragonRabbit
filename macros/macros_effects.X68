@@ -19,10 +19,14 @@ AddDeathBloodBurst macro
 * Make it fancy
 * -----------------------------------------------
 AddSparkle macro
-    move.w  d7, -(SP)
+    movem.l d0/d7, -(SP)
     move.w  #$0100|sparkle_lifespan, d7
     jsr     AddEffect
-    move.w  (SP)+, d7
+
+    move.w  #sfx_collect, d0
+    jsr     SetSFX
+
+    movem.l (SP)+, d0/d7
     endm
 
 * -----------------------------------------------
@@ -43,3 +47,4 @@ AddFeathers macro
 
     move.w  (SP)+, d7
     endm
+
