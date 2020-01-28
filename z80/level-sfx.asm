@@ -156,7 +156,7 @@ sfx_collection_att:
 	and	%10001111
 	ld	(psg),a
 	ld	a,%00000000
-	ld	(psg),a
+	ld	(psg),a 
 	jp	sfx_callback_return
 
 sfx_player_dead:

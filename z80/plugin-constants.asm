@@ -7,4 +7,4 @@ sfx_next_note_addr	equ &006F
 sfx_playmelody		equ &0075
 sfx_playmelody_repeat	equ &007C	
 
-sfx_coredriver_size	equ &00CA
+sfx_coredriver_size	equ &00C6

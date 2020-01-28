@@ -193,7 +193,7 @@ LevelClearedLoop:
     jsr     FadeOutLevelPalettes
     lvl_cleared_fadeout_delay:
 
-    cmp.w   #90, frame_counter
+    cmp.w   #110, frame_counter
     bcs.w   level_clear_msg_delay
         move.w  #interrupts_disable, sr
         jsr     ResetState

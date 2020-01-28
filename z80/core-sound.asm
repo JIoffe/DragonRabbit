@@ -16,7 +16,7 @@ sfx_callback:	defs 2		; In effect, the current sound effect to play
 
 ; VBlank Interrupt Handler
 	defs    &32	; VBlank starts at &38
-vblank:			
+vblank:		
 	inc	bc
 	ld	hl,(sfx_callback)
 	jp	(hl)

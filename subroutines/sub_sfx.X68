@@ -52,6 +52,7 @@ CommiteZ80MemWrite:
 ***************************************
 * d0 - desired address
 SetSFX:
+    move.w	#interrupts_disable, sr
     StopZ80
     WaitZ80
     move.b  d0, z80_sfx_ptr
@@ -59,6 +60,7 @@ SetSFX:
     move.b  d0, (z80_sfx_ptr+1)
     ReleaseZ80
     Z80BusSync
+    move.w	#interrupts_enable, sr
     rts
 
 PlayerDeathJingle:

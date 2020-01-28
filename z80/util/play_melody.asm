@@ -15,11 +15,10 @@ sfx_melody_repeats:	defs 1
 sfx_playmelody:
 	ld	a,0
 	ld	(sfx_melody_repeats),a		;  Do not Repeat
-	jr	sfx_melody_init
+	jp	sfx_melody_init
 sfx_playmelody_repeat:
 	ld	a,1
 	ld	(sfx_melody_repeats),a		;  REPEAT!!!
-	jr	sfx_melody_init
 sfx_melody_init:
 	call	sfx_mute_psg
 	ld	bc,0
@@ -29,8 +28,6 @@ sfx_melody_init:
 
 	ld 	hl,sfx_playmelody_loop
 	ld 	(sfx_callback),hl
-	jp	sfx_callback_return
-
 sfx_playmelody_loop:
 	ld	hl,(sfx_next_note_addr)
 	ld	a,(hl)
@@ -46,7 +43,7 @@ sfx_playmelody_loop:
 	sfx_melody_continue:
 
 	cp	c
-	jp	NZ,sfx_callback_return
+	jp	NC,sfx_callback_return
 
 	push	bc
 	ld	b,11

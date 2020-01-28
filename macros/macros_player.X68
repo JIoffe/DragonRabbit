@@ -1,27 +1,22 @@
 *********************************
 * Damages player if vulnerability flag is set
-* \1 - register to test with / trash
 DamagePlayer    macro
-    move.b  (MEM_player_vulnerability), \1
-    btst    #player_vulnerable, \1
+    btst    #player_vulnerable, MEM_player_vulnerability
     beq.s   skip\@
-        move.b  MEM_player_hp, \1
-        subq    #1, \1
-        move.b  \1, MEM_player_hp
+        sub.b   #1, MEM_player_hp
+        jsr UpdateHealthGfx                                             ; This probably doesn't change so often that it needs to be every frame
+        tst.b   MEM_player_hp
         bne.s   notdead\@
-            move.b  #$10, (MEM_player_vulnerability)
-            move.w  #player_death_velocity, MEM_player_velocity_y       ; jump for... death?
             jsr     PlayerDeathJingle
+            move.b  #$10, MEM_player_vulnerability
+            move.w  #player_death_velocity, MEM_player_velocity_y       ; jump for... death?
             lea     MainLoop_Level_PlayerDead, a6                       ; Go to update loop for player death
             bra.s   skip\@
 notdead\@
-        moveq   #0, \1
-        bset    #player_hurt_recoil, \1
-        move.b  \1, (MEM_player_vulnerability)
+        move.b  #2, MEM_player_vulnerability
         move.w  #player_hurt_duration, (MEM_player_inv_frames)
         jsr     PlayerHurtJingle
 skip\@
-    jsr UpdateHealthGfx             ; This probably doesn't change so often that it needs to be every frame
     endm
 
 SetPlayerVulnerable     macro
