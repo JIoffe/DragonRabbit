@@ -259,8 +259,6 @@ MainLoop_Clouds:
 
         ; Add some noise to make it more rip and tear
         move.b  #%11100101, psg_tone_port
-        move.b  #%11110000, psg_tone_port
-
         move.w	#interrupts_disable, sr
         SetBG   #nolightning_bg
         move.l  #vdp_write_plane_a, a0

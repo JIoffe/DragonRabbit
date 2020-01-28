@@ -145,7 +145,7 @@ Init_BonusClouds:
 
     jsr     ResetState
     bsr.w   ClearLevelVars
-    bsr.w   UploadPrimarySFXProgram
+    bsr.w   UploadGameplaySFXProgram
 
     lea     Palette_BonusClouds, a0
     moveq   #4, d0

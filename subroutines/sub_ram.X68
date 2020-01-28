@@ -62,3 +62,9 @@ ClearVSRam:
 
     movem.l (SP)+, d0-d1/a1
     rts
+
+MemCpy:
+    memcpy_loop:
+        move.b  (a0)+, (a1)+
+        dbra    d0, memcpy_loop
+    rts

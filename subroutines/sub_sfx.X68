@@ -2,29 +2,43 @@
 * Uploads the primary gameplay (level) SFX 
 * program to the Z80's memory
 ********************************************
-UploadPrimarySFXProgram:
+UploadGameplaySFXProgram:
     movem.l d0/a0-a1, -(SP)
-    lea     LevelSFXDriverBegin, a0
-    move.l  #LevelSFXDriverEnd-1, d0
-    bsr.s   UpdateZ80Program
+
+    bsr.w   PrepareZ80MemWrite
+    lea     CoreSFXDriverBegin, a0
+    lea.l   (z80_ram).l, a1
+    move.l  #LevelSFXEnd-1, d0
+    sub.l   a0, d0
+    bsr.w   MemCpy
+    bsr.w   CommiteZ80MemWrite
     movem.l (SP)+, d0/a0-a1
     rts
-******************************************
-* Copies the driver from a0 to shared RAM
-* a0 - driver start
-* a1 - Trashed
-* d0 - driver end/Trashed
-UpdateZ80Program:
+UploadTitleSFXProgram:
+    movem.l d0/a0-a1, -(SP)
+    bsr.w   PrepareZ80MemWrite
+    lea     CoreSFXDriverBegin, a0
+    lea.l   (z80_ram).l, a1
+    move.l  #CoreSFXDriverEnd-1, d0
+    sub.l   a0, d0
+    bsr.w   MemCpy
+
+    lea     TitleSFXBegin, a0
+    move.l  #TitleSFXEnd-1, d0
+    sub.l   a0, d0
+    bsr.w   MemCpy
+
+    bsr.w   CommiteZ80MemWrite
+    movem.l (SP)+, d0/a0-a1
+    rts
+
+PrepareZ80MemWrite:
     StopZ80
     ResetZ80
     WaitZ80
+    rts
 
-    lea.l   (z80_ram).l, a1
-    sub.l   a0, d0
-    sound_driver_loop:
-        move.b  (a0)+, (a1)+
-        dbra    d0, sound_driver_loop
-
+CommiteZ80MemWrite:
     ReloadZ80
     Z80BusSync
     ReleaseZ80
@@ -32,7 +46,6 @@ UpdateZ80Program:
     ResetZ80
     Z80BusSync
     rts
-
 ***************************************
 * Sets the address of the desired SFX
 * to the Z80's callback

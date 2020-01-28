@@ -5,6 +5,7 @@ Init_Title:
     move.w	#interrupts_disable, sr
     DisableHBlank
     jsr     ResetState
+    bsr.w   UploadTitleSFXProgram
 
     lea     Palettes_TitleScreen, a0
 	moveq   #2, d0
@@ -105,6 +106,10 @@ MainLoop_Title:
     lea     title_logo, a0
     move.l  #$01150000, d5
     bsr.w   Plane_DrawPattern
+
+    ; Start the MUZIK
+    move.w  #sfx_titletheme, d0
+    jsr     SetSFX
 
     title_scrolltitle:
     move.w  d1, d3

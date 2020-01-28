@@ -34,7 +34,7 @@ Init_Level:
     DisableHBlank
     jsr     ResetState
     bsr.w   ClearLevelVars
-    bsr.w   UploadPrimarySFXProgram
+    bsr.w   UploadGameplaySFXProgram
 
     move.b  #$0E, (MEM_fade)              ; Start at full fade and then fade in
     move.l  a3, (MEM_palette)
