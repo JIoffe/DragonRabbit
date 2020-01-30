@@ -220,10 +220,61 @@ MainLoop_Level:
     bsr.w   PauseGame
     ; d1 will hold the player's position for the entire frame
     move.l  (MEM_player_pos),   d1
+    move.l  d1, d6
 
+    *********************************************************************************************
+    * INPUT... INPUT!!!
+    *********************************************************************************************
+    bclr    #player_walking, MEM_player_state
+    move.b  (MEM_player_vulnerability), d0
+    btst    #player_hurt_recoil, d0
+    bne.w   skip_input
+
+    btst    #player_dead, d0
+    bne.w   skip_input
+
+    move.b	MEM_buttons_held, d0
+    btst    #joypad_right, d0
+    beq.s   lvl_check_left              ; Not pressing right; see if pressing left
+        ; Moving RIGHT
+        ClearFlipH    (MEM_player_state), d2
+        addi.w  #player_x_speed, d6
+        bset    #player_walking, MEM_player_state
+        bra.s   lvl_lr_checked
+    lvl_check_left:
+        btst    #joypad_left, d0
+        beq.s   lvl_lr_checked
+            ; Moving LEFT
+            SetFlipH    (MEM_player_state), d2
+            subi.w  #player_x_speed, d6
+            bset    #player_walking, MEM_player_state
+    lvl_lr_checked:
+
+    skip_input:
+
+    move.w  d6, d1                      ; update active player position
+    move.l  d1, (MEM_player_pos)
+
+    *************************************************
+    * CAMERA MOVEMENT
+    *************************************************
     ; Move the camera along with the player - d2 holds the camera for the majority of the frame
     move.l  (MEM_camera_pos),   d2
-    
+    move.l  a1, a0
+
+    SkipWhenPlayerDead  d5, camera_tracking_skip
+    ClampCameraToPlayer d2, d1
+    camera_tracking_skip:
+    ClampCameraToLevel  d2, d6, d7
+
+    move.l  (MEM_camera_pos),  d5       ; keep previous camera position as a reference in d5
+    move.l  d2, (MEM_camera_pos)
+
+    *---------------------------------------------------------------------------------
+    * And the club is jumpin', jumpin'
+    *---------------------------------------------------------------------------------
+    move.b  (MEM_player_state), d6
+
     *----------------------------------------------------------------------------------
     * ATTACK!
     *----------------------------------------------------------------------------------
