@@ -12,5 +12,6 @@ sfx_collect      EQU   $00E8+sfx_driver_size
 sfx_playerdead   EQU   $0134+sfx_driver_size
 sfx_playerhurt   EQU   $013D+sfx_driver_size
 sfx_fanfare      EQU   $0146+sfx_driver_size
+sfx_spawn        EQU   $014F+sfx_driver_size
 
 sfx_titletheme   EQU   $0000+sfx_driver_size

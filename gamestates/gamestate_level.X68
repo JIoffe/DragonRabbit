@@ -175,6 +175,9 @@ Init_Level:
     ; Set up vblank to DMA what we need
     move.b  #7, MEM_vblank_mode
 
+    move.w  #sfx_spawn, d0
+    bsr.w   SetSFX
+
     ; We're off to the races!
     move.w	#interrupts_enable, sr
     rts

@@ -55,6 +55,7 @@ Init_BonusCloudsCard:
     move.w	#interrupts_disable, sr
     DisableHBlank
     jsr     ResetState
+    bsr.w   UploadGameplaySFXProgram
 
     lea     Palette_BonusClouds, a0
     moveq   #4, d0
@@ -84,9 +85,9 @@ Init_BonusCloudsCard:
 MainLoop_BonusCloudsCard:
     cmp.w   #140, frame_counter
     bne.s   bcc_continue
-        jsr     Init_BonusClouds
+        bsr.w   Init_BonusClouds
         lea     MainLoop_BonusClouds, a6
-        move.b  #gamestate_bonus_clouds, (MEM_gamestate)
+        move.b  #gamestate_bonus_clouds, MEM_gamestate
         EndLoop
     bcc_continue:
 
@@ -145,7 +146,6 @@ Init_BonusClouds:
 
     jsr     ResetState
     bsr.w   ClearLevelVars
-    bsr.w   UploadGameplaySFXProgram
 
     lea     Palette_BonusClouds, a0
     moveq   #4, d0

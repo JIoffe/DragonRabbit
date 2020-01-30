@@ -20,9 +20,9 @@ ResetState:
     ResetZ80
     SilencePSG68k
 
+    bsr.w   ClearCRAM
     move.w  #0, (frame_counter)
     ClearVram
-    bsr.w   ClearCRAM
     bsr.s   ClearVSRam
     rts
 

@@ -2,33 +2,36 @@
 * Uploads the primary gameplay (level) SFX 
 * program to the Z80's memory
 ********************************************
-UploadGameplaySFXProgram:
-    movem.l d0/a0-a1, -(SP)
-
+WritetoZ80:
     bsr.w   PrepareZ80MemWrite
-    lea     CoreSFXDriverBegin, a0
-    lea.l   (z80_ram).l, a1
-    move.l  #LevelSFXEnd-1, d0
     sub.l   a0, d0
     bsr.w   MemCpy
     bsr.w   CommiteZ80MemWrite
-    movem.l (SP)+, d0/a0-a1
     rts
-UploadTitleSFXProgram:
+UploadCoreSoundDriver:
     movem.l d0/a0-a1, -(SP)
-    bsr.w   PrepareZ80MemWrite
     lea     CoreSFXDriverBegin, a0
     lea.l   (z80_ram).l, a1
     move.l  #CoreSFXDriverEnd-1, d0
-    sub.l   a0, d0
-    bsr.w   MemCpy
+    bsr.s   WritetoZ80
+    movem.l (SP)+, d0/a0-a1
+    rts
 
+UploadGameplaySFXProgram:
+    movem.l d0/a0-a1, -(SP)
+    lea     LevelSFXBegin, a0
+    lea.l   (z80_ram+sfx_driver_size).l, a1
+    move.l  #LevelSFXEnd-1, d0
+    bsr.s   WritetoZ80
+    movem.l (SP)+, d0/a0-a1
+    rts
+
+UploadTitleSFXProgram:
+    movem.l d0/a0-a1, -(SP)
     lea     TitleSFXBegin, a0
+    lea.l   (z80_ram+sfx_driver_size).l, a1
     move.l  #TitleSFXEnd-1, d0
-    sub.l   a0, d0
-    bsr.w   MemCpy
-
-    bsr.w   CommiteZ80MemWrite
+    bsr.s   WritetoZ80
     movem.l (SP)+, d0/a0-a1
     rts
 

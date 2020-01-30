@@ -2,6 +2,7 @@ Init_Licensing:
     move.w	#interrupts_disable, sr
     DisableHBlank
     jsr     ResetState
+    bsr.w   UploadCoreSoundDriver
 
     lea     Palette_Licensing, a0
     moveq   #3, d0
