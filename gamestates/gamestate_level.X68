@@ -270,6 +270,9 @@ MainLoop_Level:
     move.l  (MEM_camera_pos),  d5       ; keep previous camera position as a reference in d5
     move.l  d2, (MEM_camera_pos)
 
+    ; prepare to stream from the edges
+    StreamLevelForCamera
+
     *---------------------------------------------------------------------------------
     * And the club is jumpin', jumpin'
     *---------------------------------------------------------------------------------
