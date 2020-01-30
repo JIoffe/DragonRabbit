@@ -26,25 +26,29 @@ camera_zone_vmax        EQU (vdp_screen_height>>1)+(camera_zone_height>>1)-playe
 camera_zone_bb_start    EQU (camera_zone_vmin<<16)|camera_zone_hmin
 camera_zone_bb_offset   EQU (camera_zone_height<<16)|camera_zone_width
 
+
 lvl_fadein_interval     EQU $03
 
 ; a1 always pointed to the start of the level we're working with
 Init_Level:
     move.w	#interrupts_disable, sr
-    DisableHBlank
     jsr     ResetState
     bsr.w   ClearLevelVars
-    bsr.w   UploadGameplaySFXProgram
+    ; bsr.w   UploadGameplaySFXProgram
 
     move.b  #$0E, (MEM_fade)              ; Start at full fade and then fade in
     move.l  a3, (MEM_palette)
 
+    **********************************************************
+    * DMA in level tile set
     * d1 and d2 should already hold the correct values for DMA
     move.w  d1, d5
     move.l  #$20, d3
     jsr     TriggerDMADumpToVRAM
-    
 
+    ********************************************
+    * DMA in Player GFX and core sprites
+    ********************************************
     add.w   d5, d5
     addi.w  #$20, d5
     move.w  d5, MEM_player_tiles_start         ; VRAM address where to DMA player tiles into
@@ -65,8 +69,11 @@ Init_Level:
     moveq   #0, d7
     bsr.w   CacheHealthSprite
 
+    ******************************************************
+    * LEVEL BACKGROUND
+    ******************************************************
     moveq   #3, d4
-    ; Setup background - this will vary by level somehow
+    ;this will vary by level somehow...
     testroombg_loop:
         move.l  #vdp_write_plane_b, a5
         moveq   #0, d5
@@ -163,83 +170,26 @@ Init_Level:
         add.l   d3, a0
         swap    d5
         dbra    d1, fill_frame_y
-    
-    ; Set "score dirty" flag so it will be redrawn on the first frame
+        
+    ***************************************
+    * Set up initial game states and DMAs
+    ***************************************
+    ;Init player gfx pointer
     move.l  #BaoLongTu_sprite_Idle0, (MEM_player_previous_frame)
+
+    ;init score changed flag
     bset    #score_changed, frame_state
 
-    ; Naked and vulnerable
+    ; reset player health and condition
     SetPlayerVulnerable
     move.b  #player_max_hp, MEM_player_hp
 
-    ; Set up vblank to DMA what we need
+    ; Set up vblank to DMA sprites,score and player
     move.b  #7, MEM_vblank_mode
-
-    move.w  #sfx_spawn, d0
-    bsr.w   SetSFX
-
-    ; We're off to the races!
     move.w	#interrupts_enable, sr
     rts
 
-LevelCleared_MessageLoop:
-    cmp.w   #120, frame_counter
-    bcs.s   lvlclrmsg_continue
-        Goto_BonusClouds
-        EndLoop
-    lvlclrmsg_continue:
-    EndLoop
-
 LevelClearedLoop:
-    cmp.w   #30, frame_counter
-    bcs.s   lvl_cleared_fadeout_delay
-    jsr     FadeOutLevelPalettes
-    lvl_cleared_fadeout_delay:
-
-    cmp.w   #110, frame_counter
-    bcs.w   level_clear_msg_delay
-        move.w  #interrupts_disable, sr
-        jsr     ResetState
-        bsr.w   ClearLevelVars
-
-        move.b  #0, MEM_vblank_mode             ; no more graphics changes on vblank
-
-        add.l   #500, MEM_score                 ; 50 000 pt reward
-        lea     LevelCleared_MessageLoop, a6
-
-        lea.l   vdp_write_plane_a, a0
-        jsr     ClearPlane
-        lea.l   vdp_write_plane_b, a0
-        jsr     ClearPlane
-
-        lea     Palette_Licensing, a0
-        moveq   #3, d0
-        bsr.w   LoadPalettes
-
-        DMA68KtoVRAM    2880, Tiles_FontA, $20
-  
-        lea     LevelClearedCaption, a0
-        move.w  #cram_palette_0_bits, d6
-        move.l  #vdp_write_plane_a|$02960000, d7
-        bsr.w   PrintStringNoDMA
-
-        move.w  #interrupts_enable, sr
-        EndLoop
-    level_clear_msg_delay:
-
-    jmp     MainLoop_Level
-
-Fadeout_Level:
-    jsr     FadeOutLevelPalettes
-
-    move.w  (frame_counter), d5
-    cmp.w   #88, d5
-    bcs.s   continue_lvl_fadeout
-        RestartLevel
-    continue_lvl_fadeout:
-
-    EndLoop
-
 Fadein_Level:
     move.w  (frame_counter), d5
     moveq   #0, d1
@@ -265,308 +215,15 @@ Fadein_Level:
 
     bra.s   MainLoop_Level
 MainLoop_Level_PlayerDead:
-    ; Restart the level when player is beyond view
-    move.l  (MEM_player_pos),   d1
-    move.l  (MEM_camera_pos),   d2
-
-    swap    d1
-    swap    d2
-    sub.w   d2, d1
-    subi.w  #vdp_screen_height, d1
-    bmi.s   skip_death_restart
-        move.b  #0, MEM_fade
-        move.w  #0, frame_counter 
-        lea     Fadeout_Level, a6
-    skip_death_restart:
+    nop
 MainLoop_Level:
     bsr.w   PauseGame
-    
     ; d1 will hold the player's position for the entire frame
     move.l  (MEM_player_pos),   d1
-    move.w  d1, d6
-
-    *********************************************************************************************
-    * INPUT... INPUT!!!
-    *********************************************************************************************
-    move.b  (MEM_player_vulnerability), d0
-    btst    #player_hurt_recoil, d0
-    bne.w   skip_input
-
-    btst    #player_dead, d0
-    bne.w   skip_input
-
-    move.b	MEM_buttons_held, d0
-    btst    #joypad_right, d0
-    beq.s   lvl_check_left              ; Not pressing right; see if pressing left
-        ; Moving RIGHT
-        ClearFlipH    (MEM_player_state), d2
-        addi.w  #player_x_speed, d6
-        bra.s   lvl_lr_checked
-    lvl_check_left:
-        btst    #joypad_left, d0
-        beq.s   lvl_lr_checked
-            ; Moving LEFT
-            SetFlipH    (MEM_player_state), d2
-            subi.w  #player_x_speed, d6
-    lvl_lr_checked:
-
-    ; If player's trying to move, set the walking flag
-    move.b  (MEM_player_state), d5
-    cmp.w   d1, d6
-    beq.s   lvl_not_walking
-        bset    #player_walking, d5
-        bra.s   lvl_walkingflag_set
-    lvl_not_walking:
-        bclr    #player_walking, d5
-    lvl_walkingflag_set:
-    move.b  d5, (MEM_player_state)
-
-    skip_input:
-
-    *******************************************************************
-    * Player collision against level (horizontal)
-    *******************************************************************
-    move.l  a1, a0
-    move.w  (a0)+, d3                            ; d3 has level height
-    moveq   #0, d4
-    move.w  (a0)+, d4                            ; d4 has level width
-
-    moveq   #0, d0
-    moveq   #0, d5
-
-    move.w  d6, d2
-    lsr.w   #3, d2   
-
-    cmp.w   d1, d6
-    blt.s   lvl_player_moving_left
-        add.w   #player_width_tiles, d2     ; moving right - scan the right side
-        lea     lvl_player_right_scan_hit, a3
-        bra.s   lvl_side_prescan   ;player is moving right
-    lvl_player_moving_left:
-        lea     lvl_player_left_scan_hit, a3
-        lvl_side_prescan:
-        swap    d1
-        move.w  d1, d5
-        lsr.w   #3, d5
-        swap    d1
-        mulu.w  d4, d5
-
-        add.w   d2, d5
-        add.w   d5, d5
-        add.l   d5, a0
-
-        add.w   d4, d4
-        move.w  #player_side_scan_height, d0
-        lvl_side_scan:
-            tst.w   (a0)
-            bne.s   lvl_side_scan_hit
-            add.l   d4, a0
-            dbra    d0, lvl_side_scan
-        bra.s  lvl_player_x_adjusted
-
-    lvl_side_scan_hit:
-        jmp     (a3)
-    lvl_player_left_scan_hit:
-        addq    #1, d2
-        asl.w   #3, d2
-        move.w  d2, d6
-        bra.s   lvl_player_x_adjusted
-    lvl_player_right_scan_hit:
-        sub.w   #player_width_tiles, d2
-        asl.w   #3, d2
-        move.w  d2, d6
-
-    lvl_player_x_adjusted:
-    move.w  d6, d1                      ; update active player position
-
-
-    *---------------------------------------------------------------------------------
-    * VERTICAL VELOCITY: Jumping / falling
-    *---------------------------------------------------------------------------------
-    moveq   #0, d0                                      ; Add gravity to velocity
-    swap    d1
-    move.w  d1, d6                                      ; let d6 hold the potential next position
-
-    ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
-    move.w  (MEM_player_velocity_y), d0
-    addi.w  #world_gravity, d0
-    move.w  d0, d4
-    asr.w   #3, d4
-    add.w   d4, d6
-
-    *****************************************************************
-    * COLLIDE PLAYER AGAINST LEVEL TILES
-    *****************************************************************
-    * ; see if player has dropped beneath tiles
-    * ; ray march for every row the player has dropped (The player can fall faster than moving side-to-side)
-
-    SkipWhenPlayerDead  d3, lvl_player_y_adjusted
-
-    move.l  a1, a0
-    move.w  (a0)+, d3                            ; d3 has level height
-    moveq   #0, d4
-    move.w  (a0)+, d4                            ; d4 has level width
-
-    cmp.w   d1, d6
-    bpl.s   lvl_player_falling
-        ; bump against ceiling tiles
-        move.l  a0, a2
-        move.w  d1, d2
-        lsr.w   #3, d2
-        mulu.w  d4, d2
-
-        moveq   #0, d5
-        swap    d1
-        move.w  d1, d5
-        swap    d1
-        lsr.w   #3, d5
-
-        add.w   d2, d5
-        add.w   d5, d5
-        add.l   d5, a2
-
-        tst.w   (a2)
-        bne.w   lvl_player_landed
-
-        move.w  #player_width_tiles-1, d5
-        add.w   d5, d5
-        add.l   d5, a2
-
-        tst.w   (a2)
-        bne.w   lvl_player_landed
-
-        bra.w   lvl_player_y_adjusted
-    lvl_player_falling:
-        asl.w   #3, d3
-        subi.w  #player_height, d3
-        cmp.w   d3, d6
-        bcs.s   lvl_continue_fall_scan
-            KillPlayer                      ; player out of bounds
-            move.w  d3, d6
-            bra.w   lvl_player_landed
-        lvl_continue_fall_scan:
-
-        move.w  d1, d2
-        add.w   #player_height, d2
-        lsr.w   #3, d2
-
-        move.w  d6, d7
-        add.w   #player_height, d7
-        lsr.w   #3, d7
-        swap    d7
-        swap    d1       
-        move.w  d1, d7
-        lsr.w   #3, d7
-        swap    d7
-        swap    d1
-        lvl_player_falling_scan:
-            move.l  a0, a2
-            ; see tile at index
-            moveq   #0, d5
-            move.w  d2, d5
-            mulu.w  d4, d5
-
-            swap    d7
-            add.w   d7, d5
-            add.w   d5, d5
-            add.l   d5, a2
-
-            tst.w   (a2)
-            beq.s   lvl_fall_scan_check_lr
-            lvl_fall_scan_hit:
-                move.w  d2, d6
-                asl.w   #3, d6
-                subi.w  #player_height, d6
-                bra.s   lvl_player_landed
-            lvl_fall_scan_check_middle:
-                add.w   #player_width_tiles, a2
-                tst.w   (a2)
-                bne.s   lvl_fall_scan_hit
-            lvl_fall_scan_check_lr:
-                add.w   #player_width_tiles, a2
-                tst.w   (a2)
-                bne.s   lvl_fall_scan_hit
-
-            lvl_fall_scan_continue:
-            addq    #1, d2
-            swap    d7
-            cmp.w   d7, d2
-            bls.s   lvl_player_falling_scan
-            bra.s   lvl_player_y_adjusted
-        lvl_player_landed:
-            move.b  #0, (MEM_player_jump_frames)
-            move.b  (MEM_player_state), d7
-            bclr    #sprite_jumping, d7
-            move.b  d7, (MEM_player_state)
-            moveq   #0, d0
-    lvl_player_y_adjusted:
-    move.w  d0, (MEM_player_velocity_y)
-    move.w  d6, d1
-    swap    d1
-
-    ************************************************************
-    * SAVE PLAYER POSITION TO MEMORY
-    ************************************************************
-    move.l  d1, (MEM_player_pos)
-
-    ; Move the camera as needed
-    move.l  a1, a0
 
     ; Move the camera along with the player - d2 holds the camera for the majority of the frame
     move.l  (MEM_camera_pos),   d2
-
-    SkipWhenPlayerDead  d5, camera_tracking_skip
-    ClampCameraToPlayer d2, d1
-    camera_tracking_skip:
-    ClampCameraToLevel  d2, d6, d7
-
-    move.l  (MEM_camera_pos),  d5       ; keep previous camera position as a reference in d5
-    move.l  d2, (MEM_camera_pos)
-
-    ; prepare to stream from the edges
-    StreamLevelForCamera
-
-
-    *---------------------------------------------------------------------------------
-    * And the club is jumpin', jumpin'
-    *---------------------------------------------------------------------------------
-    ; the sound work here could be deferred to the Z80
-    move.b  (MEM_player_state), d6
-
-    move.b  (MEM_player_vulnerability), d0
-    btst    #player_hurt_recoil, d0
-    bne.w   lvl_player_attack_checked
-
-    btst    #player_dead, d0
-    bne.w   lvl_player_attack_checked
-
-    btst    #sprite_jumping, d6
-    beq.s   lvl_notjumping
-        btst    #control_jump, MEM_buttons_held
-        beq.s   lvl_jump_released
-            move.b  (MEM_player_jump_frames), d0
-            cmp.b   #player_jump_duration, d0
-            bcc.s   lvl_player_jump_checked
-                move.w  #player_jump_strength, (MEM_player_velocity_y)
-                addq    #1, d0
-                move.b  d0, (MEM_player_jump_frames)
-                bra.s   lvl_player_jump_checked
-        lvl_jump_released:
-        move.b  #player_jump_duration, MEM_player_jump_frames
-        bra.s   lvl_player_jump_checked
-    lvl_notjumping:
-        btst    #control_jump, MEM_buttons_pressed
-        beq.s   lvl_player_jump_checked
-        tst.w   MEM_player_velocity_y
-        bne.s   lvl_player_jump_checked
-            ;Play jump BOING because BOINGS are better
-            move.w  #sfx_boing, d0
-            bsr.w   SetSFX
-            bset    #sprite_jumping, d6
-            move.w  #player_jump_strength, (MEM_player_velocity_y)
-            move.b  #0, (MEM_player_jump_frames)
-    lvl_player_jump_checked:
-
+    
     *----------------------------------------------------------------------------------
     * ATTACK!
     *----------------------------------------------------------------------------------
@@ -635,119 +292,15 @@ MainLoop_Level:
     move.b  d6, (MEM_player_state)
     move.b  d5, (MEM_player_attack_frames)
 
-
-
-
-    * ---------------------------------------------------------------------------------
-    * Scroll Planes Horizontally and vertically
-    * ---------------------------------------------------------------------------------
-
-    ; this will vary by level neatly somehow...
-    ; always assume d2 is the camera
-    moveq   #0, d0                              ; d0 will loop for every h
-    moveq   #0, d7
-
-    move.l  #vdp_vram_hscroll, vdp_control
-    move.w  d2, d7      
-    neg     d7                                  ; scroll against camera
-
-    move.b  #47, d0
-    lvl_scroll_loop_a:
-        move.w  d7, vdp_data
-        move.w  #0, vdp_data
-        dbra    d0, lvl_scroll_loop_a
-
-    moveq   #0, d0
-    move.b  #32, d0
-    move.w  d7, d6
-    lsr.w   #1, d6
-    lvl_scroll_loop_b:
-        move.w  d7, vdp_data
-        move.w  d6, vdp_data
-        dbra    d0, lvl_scroll_loop_b
-
-    moveq   #0, d0
-    move.b  #16, d0
-    lsr.w   #1, d6
-    lvl_scroll_loop_c:
-        move.w  d7, vdp_data
-        move.w  d6, vdp_data
-        dbra    d0, lvl_scroll_loop_c
-
-    moveq   #0, d0
-    move.b  #12, d0
-    lsr.w   #1, d6
-    lvl_scroll_loop_d:
-        move.w  d7, vdp_data
-        move.w  d6, vdp_data
-        dbra    d0, lvl_scroll_loop_d
-
-    moveq   #0, d0
-    move.b  #25, d0
-    lsr.w   #1, d6
-    lvl_scroll_loop_e:
-        move.w  d7, vdp_data
-        move.w  d6, vdp_data
-        dbra    d0, lvl_scroll_loop_e
-
-    moveq   #0, d0
-    move.b  #30, d0
-    lsr.w   #1, d6
-    lvl_scroll_loop_f:
-        move.w  d7, vdp_data
-        move.w  d6, vdp_data
-        dbra    d0, lvl_scroll_loop_f
-
-    ; Grass to trees
-    moveq   #0, d0
-    move.b  #7, d0
-    move.w  d7, d6
-    lsr.w   #4, d6
-    lvl_scroll_loop_g:
-        move.w  d7, vdp_data
-        move.w  d6, vdp_data
-        dbra    d0, lvl_scroll_loop_g
-
-    moveq   #0, d0
-    move.b  #7, d0
-    move.w  d7, d6
-    lsr.w   #3, d6
-    lvl_scroll_loop_h:
-        move.w  d7, vdp_data
-        move.w  d6, vdp_data
-        dbra    d0, lvl_scroll_loop_h
-
-    moveq   #0, d0
-    move.b  #7, d0
-    move.w  d7, d6
-    lsr.w   #2, d6
-    lvl_scroll_loop_i:
-        move.w  d7, vdp_data
-        move.w  d6, vdp_data
-        dbra    d0, lvl_scroll_loop_i
-
-    moveq   #0, d0
-    move.b  #31, d0
-    move.w  d7, d6
-    lsr.w   #1, d6
-    lvl_scroll_loop_j:
-        move.w  d7, vdp_data
-        move.w  d6, vdp_data
-        dbra    d0, lvl_scroll_loop_j
-
-    swap    d2
-    move.w  d2, d7
-    move.l  #vdp_vram_vscroll, vdp_control
-    move.w  d7,   vdp_data
-    move.w  #0, vdp_data
-    swap    d2                                  ; swap the camera because we'll be using it for sprites
-
     *-----------------------------------------------------------
     * Sprites
     *-----------------------------------------------------------
     ; Draw all the sprites - start with the player because players come first!
     ; Every sprite is world position + camera + {sprite_view_hmin,sprite_view_vmin}
 
+    ********************************
+    * RABBIT SPRITE
+    ********************************
 
     ; Has the great hero been injured?
     move.b  (MEM_player_state), d6
@@ -828,14 +381,12 @@ MainLoop_Level:
     add.w   d3, d3
     adda.l  d3, a0
 
-
     ******************************************************
     * START WORKING ON SPRITES
     * - populate buffer in RAM and then DMA
     ******************************************************
     moveq   #5, d4                                          ; d4 will keep track of *linking*
-
-    ; obligatory "GTFO or die" flicker
+    
     move.b  (MEM_player_vulnerability), d0
     btst    #player_dmg_invulnerable, d0
     beq.s   draw_player_sprite
@@ -855,70 +406,5 @@ MainLoop_Level:
         bsr.w   DrawSpriteFrame
     skip_player_sprite:
 
-    ***************************************************
-    * ITEMS in level,  like enemies and collectibles
-    ***************************************************
-    moveq   #0, d5
-    move.w  (MEM_LEVELITEM_COUNT), d5
-    lea     MEM_LEVELITEMS, a4
-    lea     lvl_item_update_done, a5            ; jmp back here after calling item subroutine
-
-    lvl_pvitem_update:
-        lea     Game_ItemTable, a3
-        moveq   #0, d3
-        move.b  (a4)+, d3           ; Pull out the type; a4 will have the STATE and POSITION in the callback
-        add.w   d3, d3
-        add.w   d3, d3
-
-        movea.l	(a3,d3.w), a3        
-        jmp     (a3)
-
-        lvl_item_update_done:
-        dbra    d5, lvl_pvitem_update
-
-    ***************************************************
-    * EFFECTS - blood, sparkles
-    ***************************************************
-    ; Assume effects are created by things happening on-screen and are always visible
-    ; that is why we only allocate 16 of them.
-    moveq   #0, d5
-    move.w  (MEM_effects_count), d5
-    beq.s   lvl_effects_done
-        subq    #1, d5
-        move.w  #0, (MEM_effects_count)         ; we will rebuild this later 
-
-        lea     MEM_effects, a4
-        movea.l a4, a2                      ; save a reference going backwards so we can rebuild with survivors
-
-        lea     lvl_effect_update_done, a5
-
-        lvl_effects_update:
-            move.l  a4, -(SP)                  ; save a reference to the start of this object in case we're keeping it
-
-            lea     Game_EffectTable, a3
-            moveq   #0, d3
-            move.b  (a4)+, d3
-            add.w   d3, d3
-            add.w   d3, d3
-
-            movea.l	(a3,d3.w), a3        
-            jmp     (a3)
-
-            lvl_effect_update_done:
-
-            ; d6 will hold the state of the effect. If it is 0, it is time to remove
-            move.l  (SP)+, a0
-            tst.b   d6
-            beq.s   lvl_fx_skip
-                move.w  (a0)+, (a2)+
-                move.l  (a0)+, (a2)+
-                addi.w  #1, (MEM_effects_count)
-            lvl_fx_skip:
-
-            dbra    d5, lvl_effects_update
-
-    lvl_effects_done:
-
     bsr.w   CapSpriteBuffer
-
     EndLoop

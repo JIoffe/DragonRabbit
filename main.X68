@@ -155,6 +155,9 @@ VBlank:
 	rte
     
 HandleException:
+    ; RED SCREEN OF DEATH
+    move.l  #vdp_cram_write, vdp_control
+    move.w  #$000E, vdp_data
     stop    #$2700
     rte
     
@@ -259,6 +262,8 @@ NotHandled:
 *=====================================================
     include './assets/strings/strings_sys.X68'
 RomEnd:
+
+
 
 
 

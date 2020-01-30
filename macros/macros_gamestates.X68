@@ -34,7 +34,6 @@ Goto_Title macro
 * -----------------------------------------------
 Goto_Level macro
     move.l  #levelstart\@, MEM_level_restart_address
-    
 levelstart\@
     lea     NoOpTrap, a6            ; just in case vblank hits while we're getting ready
     lea     \1, a1
@@ -44,7 +43,6 @@ levelstart\@
     jsr     Init_Level
     lea     Fadein_Level, a6
     move.b  #gamestate_level, (MEM_gamestate)
-    jmp     MainLoop
     endm
 
 * -----------------------------------------------

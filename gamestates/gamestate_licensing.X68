@@ -1,6 +1,5 @@
 Init_Licensing:
     move.w	#interrupts_disable, sr
-    DisableHBlank
     jsr     ResetState
     bsr.w   UploadCoreSoundDriver
 

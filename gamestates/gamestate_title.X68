@@ -3,7 +3,6 @@ title_scrolloffset            EQU $80
 
 Init_Title:
     move.w	#interrupts_disable, sr
-    DisableHBlank
     jsr     ResetState
     bsr.w   UploadTitleSFXProgram
 

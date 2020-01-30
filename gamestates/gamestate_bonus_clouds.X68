@@ -53,7 +53,6 @@ wobbled\@
 **************************************************************
 Init_BonusCloudsCard:
     move.w	#interrupts_disable, sr
-    DisableHBlank
     jsr     ResetState
     bsr.w   UploadGameplaySFXProgram
 

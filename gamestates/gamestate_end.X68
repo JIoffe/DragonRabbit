@@ -1,6 +1,5 @@
 Init_TheEnd:
     move.w	#interrupts_disable, sr
-    DisableHBlank
     jsr     ResetState
 
     lea     EndScreenPalette, a0

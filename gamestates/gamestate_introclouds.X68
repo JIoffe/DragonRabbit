@@ -25,7 +25,6 @@ UnfadeIntro     macro
 
 Init_IntroClouds:
     move.w	#interrupts_disable, sr
-    DisableHBlank
     jsr     ResetState
 	
     moveq   #0, d0

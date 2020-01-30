@@ -2,20 +2,21 @@
 * Clears states related to a particular level
 *********************************************
 ClearLevelVars:
-    movem.l d0-d1, -(SP)
-    move.l  MEM_score, -(SP)
-    moveq   #0, d0
-    moveq   #0, d1
-    move.w  #(((MEM_player_inv_frames-MEM_player_state)/2)-1), d0
+    movem.l d0-d2/a0, -(SP)
+    move.l  MEM_score, d1
+    moveq   #0, d2
     lea.l   MEM_player_state, a0
-    clear_level_vars_loop:
-        move.w  d1, (a0)+
-        dbra    d0, clear_level_vars_loop
-    move.l  (SP)+, MEM_score
-    movem.l (SP)+, d0-d1
+    move.l  #(MEM_end-MEM_player_state-1), d0
+    clear_level_ram_loop:
+        move.b  d2, (a0)+
+        dbra    d0, clear_level_ram_loop
+
+    move.l  d1, MEM_score
+    movem.l (SP)+, d0-d2/a0
     rts
 
 ResetState:
+    movem.l d0-d7/a0-a6, -(SP)
     StopZ80
     ResetZ80
     SilencePSG68k
@@ -24,8 +25,13 @@ ResetState:
     move.w  #0, (frame_counter)
     ClearVram
     bsr.s   ClearVSRam
+    DisableHBlank
+    movem.l (SP)+, d0-d7/a0-a6
     rts
 
+***************************************************************************
+* Clears the scroll RAM, assuming that H Scroll is in a table per scanline
+***************************************************************************
 ClearVSRam:
     movem.l  d0-d1/a1, -(SP)
     lea.l   vdp_data, a1

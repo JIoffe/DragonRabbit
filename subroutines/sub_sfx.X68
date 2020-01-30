@@ -18,12 +18,13 @@ UploadCoreSoundDriver:
     rts
 
 UploadGameplaySFXProgram:
-    movem.l d0/a0-a1, -(SP)
-    lea     LevelSFXBegin, a0
-    lea.l   (z80_ram+sfx_driver_size).l, a1
-    move.l  #LevelSFXEnd-1, d0
-    bsr.s   WritetoZ80
-    movem.l (SP)+, d0/a0-a1
+    nop
+    * movem.l d0/a0-a1, -(SP)
+    * lea     LevelSFXBegin, a0
+    * lea.l   (z80_ram+sfx_driver_size).l, a1
+    * move.l  #LevelSFXEnd-1, d0
+    * bsr.s   WritetoZ80
+    * movem.l (SP)+, d0/a0-a1
     rts
 
 UploadTitleSFXProgram:
@@ -55,15 +56,16 @@ CommiteZ80MemWrite:
 ***************************************
 * d0 - desired address
 SetSFX:
-    move.w	#interrupts_disable, sr
-    StopZ80
-    WaitZ80
-    move.b  d0, z80_sfx_ptr
-    lsr.w   #8, d0
-    move.b  d0, (z80_sfx_ptr+1)
-    ReleaseZ80
-    Z80BusSync
-    move.w	#interrupts_enable, sr
+    nop
+    * move.w	#interrupts_disable, sr
+    * StopZ80
+    * WaitZ80
+    * move.b  d0, z80_sfx_ptr
+    * lsr.w   #8, d0
+    * move.b  d0, (z80_sfx_ptr+1)
+    * ReleaseZ80
+    * Z80BusSync
+    * move.w	#interrupts_enable, sr
     rts
 
 PlayerDeathJingle:

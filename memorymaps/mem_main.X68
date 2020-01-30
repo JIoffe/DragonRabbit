@@ -51,3 +51,5 @@ mem_events_ptr                  EQU $FFFF1A28       ;LONG
 mem_sprite_link                 EQU $FFFF1A2C       ; BYTE
 mem_sprite_cap                  EQU $FFFF1A2D       ; byte
 mem_bonus_time                  EQU $FFFF1A2E       ; byte
+
+MEM_end                         EQU $FFFF1A2F
