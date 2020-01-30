@@ -34,7 +34,7 @@ Init_Level:
     move.w	#interrupts_disable, sr
     jsr     ResetState
     bsr.w   ClearLevelVars
-    ; bsr.w   UploadGameplaySFXProgram
+    bsr.w   UploadGameplaySFXProgram
 
     move.b  #$0E, (MEM_fade)              ; Start at full fade and then fade in
     move.l  a3, (MEM_palette)
@@ -292,6 +292,110 @@ MainLoop_Level:
     move.b  d6, (MEM_player_state)
     move.b  d5, (MEM_player_attack_frames)
 
+    * ---------------------------------------------------------------------------------
+    * Scroll Planes Horizontally and vertically
+    * ---------------------------------------------------------------------------------
+
+    ; this will vary by level neatly somehow...
+    ; always assume d2 is the camera
+    moveq   #0, d0                              ; d0 will loop for every h
+    moveq   #0, d7
+
+    move.l  #vdp_vram_hscroll, vdp_control
+    move.w  d2, d7      
+    neg     d7                                  ; scroll against camera
+
+    lea.l   vdp_data, a0
+    move.b  #47, d0
+    lvl_scroll_loop_a:
+        move.w  d7, (a0)
+        move.w  #0, (a0)
+        dbra    d0, lvl_scroll_loop_a
+
+    moveq   #0, d0
+    move.b  #32, d0
+    move.w  d7, d6
+    lsr.w   #1, d6
+    lvl_scroll_loop_b:
+        move.w  d7, (a0)
+        move.w  d6, (a0)
+        dbra    d0, lvl_scroll_loop_b
+
+    moveq   #0, d0
+    move.b  #16, d0
+    lsr.w   #1, d6
+    lvl_scroll_loop_c:
+        move.w  d7, (a0)
+        move.w  d6, (a0)
+        dbra    d0, lvl_scroll_loop_c
+
+    moveq   #0, d0
+    move.b  #12, d0
+    lsr.w   #1, d6
+    lvl_scroll_loop_d:
+        move.w  d7, (a0)
+        move.w  d6, (a0)
+        dbra    d0, lvl_scroll_loop_d
+
+    moveq   #0, d0
+    move.b  #25, d0
+    lsr.w   #1, d6
+    lvl_scroll_loop_e:
+        move.w  d7, (a0)
+        move.w  d6, (a0)
+        dbra    d0, lvl_scroll_loop_e
+
+    moveq   #0, d0
+    move.b  #30, d0
+    lsr.w   #1, d6
+    lvl_scroll_loop_f:
+        move.w  d7, (a0)
+        move.w  d6, (a0)
+        dbra    d0, lvl_scroll_loop_f
+
+    ; Grass to trees
+    moveq   #0, d0
+    move.b  #7, d0
+    move.w  d7, d6
+    lsr.w   #4, d6
+    lvl_scroll_loop_g:
+        move.w  d7, (a0)
+        move.w  d6, (a0)
+        dbra    d0, lvl_scroll_loop_g
+
+    moveq   #0, d0
+    move.b  #7, d0
+    move.w  d7, d6
+    lsr.w   #3, d6
+    lvl_scroll_loop_h:
+        move.w  d7, (a0)
+        move.w  d6, (a0)
+        dbra    d0, lvl_scroll_loop_h
+
+    moveq   #0, d0
+    move.b  #7, d0
+    move.w  d7, d6
+    lsr.w   #2, d6
+    lvl_scroll_loop_i:
+        move.w  d7, (a0)
+        move.w  d6, (a0)
+        dbra    d0, lvl_scroll_loop_i
+
+    moveq   #0, d0
+    move.b  #31, d0
+    move.w  d7, d6
+    lsr.w   #1, d6
+    lvl_scroll_loop_j:
+        move.w  d7, (a0)
+        move.w  d6, (a0)
+        dbra    d0, lvl_scroll_loop_j
+
+    swap    d2
+    move.w  d2, d7
+    move.l  #vdp_vram_vscroll, vdp_control
+    move.w  d7, (a0)
+    move.w  #0, (a0)
+    swap    d2                                  ; swap the camera because we'll be using it for sprites
     *-----------------------------------------------------------
     * Sprites
     *-----------------------------------------------------------
