@@ -43,9 +43,8 @@ sfx_playmelody_loop:
 	sfx_melody_continue:
 
 	cp	c
-	jp	NC,sfx_callback_return
+	jp	NZ,sfx_callback_return
 
-	push	bc
 	ld	b,11
 	inc	hl
 
@@ -54,8 +53,8 @@ sfx_playmelody_loop:
 		ld	(psg),a
 		inc	hl
 		djnz melody_psg_loop
-	pop	bc
-	ld	c,0
+
+	ld	bc,0
 
 	ld	(sfx_next_note_addr),hl
 	

@@ -17,12 +17,10 @@ loop\@
 * Clears all VRAM
 *---------------------------------------
 ClearVram macro
-    lea.l   vdp_control, a0
-    move.l  #$40000080, (a0)
+    move.l  #$40000080, vdp_control
     lea.l   vdp_data, a0
     
-    moveq   #0, d0
-    move.w  #$7CFF, d0
+    move.l  #$00007CFF, d0
 loop\@
     move.w  #0, (a0)
     dbra    d0, loop\@
