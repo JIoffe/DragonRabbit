@@ -797,5 +797,70 @@ MainLoop_Level:
         bsr.w   DrawSpriteFrame
     skip_player_sprite:
 
+    ***************************************************
+    * ITEMS in level,  like enemies and collectibles
+    ***************************************************
+    moveq   #0, d5
+    move.w  (MEM_LEVELITEM_COUNT), d5
+    lea     MEM_LEVELITEMS, a4
+    lea     lvl_item_update_done, a5            ; jmp back here after calling item subroutine
+
+    lvl_pvitem_update:
+        lea     Game_ItemTable, a3
+        moveq   #0, d3
+        move.b  (a4)+, d3           ; Pull out the type; a4 will have the STATE and POSITION in the callback
+        add.w   d3, d3
+        add.w   d3, d3
+
+        movea.l	(a3,d3.w), a3        
+        jmp     (a3)
+
+        lvl_item_update_done:
+        dbra    d5, lvl_pvitem_update
+
+
+    ***************************************************
+    * EFFECTS - blood, sparkles
+    ***************************************************
+    ; Assume effects are created by things happening on-screen and are always visible
+    ; that is why we only allocate 16 of them.
+    moveq   #0, d5
+    move.w  (MEM_effects_count), d5
+    beq.s   lvl_effects_done
+        subq    #1, d5
+        move.w  #0, (MEM_effects_count)         ; we will rebuild this later 
+
+        lea     MEM_effects, a4
+        movea.l a4, a2                      ; save a reference going backwards so we can rebuild with survivors
+
+        lea     lvl_effect_update_done, a5
+
+        lvl_effects_update:
+            move.l  a4, -(SP)                  ; save a reference to the start of this object in case we're keeping it
+
+            lea     Game_EffectTable, a3
+            moveq   #0, d3
+            move.b  (a4)+, d3
+            add.w   d3, d3
+            add.w   d3, d3
+
+            movea.l	(a3,d3.w), a3        
+            jmp     (a3)
+
+            lvl_effect_update_done:
+
+            ; d6 will hold the state of the effect. If it is 0, it is time to remove
+            move.l  (SP)+, a0
+            tst.b   d6
+            beq.s   lvl_fx_skip
+                move.w  (a0)+, (a2)+
+                move.l  (a0)+, (a2)+
+                addi.w  #1, (MEM_effects_count)
+            lvl_fx_skip:
+
+            dbra    d5, lvl_effects_update
+
+    lvl_effects_done:
+    
     bsr.w   CapSpriteBuffer
     EndLoop
