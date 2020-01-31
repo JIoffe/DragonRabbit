@@ -300,9 +300,9 @@ MainLoop_Level:
         adda.l  d4, a0
         tst     (a0)
         bne.s   lvl_player_landed
-        * addq    #player_width_tiles, a0
-        * tst     (a0)
-        * bne.s   lvl_player_landed
+        addq    #player_width_tiles<<1, a0
+        tst     (a0)
+        bne.s   lvl_player_landed
         bra.s   lvl_player_vscan_end
         lvl_player_landed:
             move.b  #0, MEM_player_jump_frames
