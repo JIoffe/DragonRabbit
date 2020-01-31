@@ -53,4 +53,6 @@ mem_sprite_cap                  EQU $FFFF1A2D       ; byte
 mem_bonus_time                  EQU $FFFF1A2E       ; byte
 mem_padding                     EQU $FFFF1A2F       ; byte
 mem_level_playerscan_offset     EQU $FFFF1A30       ;word
-MEM_end                         EQU $FFFF1A32
+mem_level_deathbound            EQU $FFFF1A32       ;word
+mem_level_playerscanh_offset    EQU $FFFF1A34       ;word
+MEM_end                         EQU $FFFF1A36

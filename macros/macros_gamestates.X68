@@ -43,6 +43,7 @@ levelstart\@
     jsr     Init_Level
     lea     Fadein_Level, a6
     move.b  #gamestate_level, (MEM_gamestate)
+    jmp     MainLoop
     endm
 
 * -----------------------------------------------

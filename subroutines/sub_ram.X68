@@ -2,8 +2,12 @@
 * Clears states related to a particular level
 *********************************************
 ClearLevelVars:
-    movem.l d0-d2/a0, -(SP)
+    movem.l d0-d3/a0, -(SP)
+
+    ; some variables should be retained
     move.l  MEM_score, d1
+    move.l  MEM_level_restart_address, d3
+
     moveq   #0, d2
     lea.l   MEM_player_state, a0
     move.l  #(MEM_end-MEM_player_state-1), d0
@@ -12,7 +16,8 @@ ClearLevelVars:
         dbra    d0, clear_level_ram_loop
 
     move.l  d1, MEM_score
-    movem.l (SP)+, d0-d2/a0
+    move.l  d3, MEM_level_restart_address
+    movem.l (SP)+, d0-d3/a0
     rts
 
 ResetState:

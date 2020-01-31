@@ -118,11 +118,19 @@ Init_Level:
     move.w  (a0)+, d2                       ; Level Height
     move.w  (a0)+, d3                       ; Level Width
 
+    ;Cache the height that will kill the player for falling out of bounds
+    asl.w   #3, d2
+    subi.w  #player_height, d2
+    move.w  d2, mem_level_deathbound
+
     ;Cache the offset into the level array for the player's feet
     move.l  d3, d7
-    mulu.w  #player_height_tiles, d7
-    add.w   d7, d7
+    mulu.w  #(player_height_tiles<<1), d7
     move.w  d7, mem_level_playerscan_offset
+
+    move.w  d3, d7
+    mulu.w  #((player_height_tiles-1)<<1), d7
+    move.w  d7, mem_level_playerscanh_offset
 
     ; Rough way of filling the frame with the right tiles given our starting scroll
     ; Start with moving into our data based on the camera offset
@@ -191,10 +199,72 @@ Init_Level:
 
     ; Set up vblank to DMA sprites,score and player
     move.b  #7, MEM_vblank_mode
+
+    ; Make a sound when the player appears, like a pinball table
+    move.w  #sfx_spawn, d0
+    bsr.w   SetSFX
+
     move.w	#interrupts_enable, sr
     rts
 
+LevelCleared_MessageLoop:
+    cmp.w   #120, frame_counter
+    bcs.s   lvlclrmsg_continue
+        Goto_BonusClouds
+        EndLoop
+    lvlclrmsg_continue:
+    EndLoop
+
 LevelClearedLoop:
+    cmp.w   #30, frame_counter
+    bcs.s   lvl_cleared_fadeout_delay
+    jsr     FadeOutLevelPalettes
+    lvl_cleared_fadeout_delay:
+
+    cmp.w   #110, frame_counter
+    bcs.w   level_clear_msg_delay
+        move.w  #interrupts_disable, sr
+        jsr     ResetState
+        bsr.w   ClearLevelVars
+
+        move.b  #0, MEM_vblank_mode             ; no more graphics changes on vblank
+
+        add.l   #500, MEM_score                 ; 50 000 pt reward
+        lea     LevelCleared_MessageLoop, a6
+
+        lea.l   vdp_write_plane_a, a0
+        jsr     ClearPlane
+        lea.l   vdp_write_plane_b, a0
+        jsr     ClearPlane
+
+        lea     Palette_Licensing, a0
+        moveq   #3, d0
+        bsr.w   LoadPalettes
+
+        DMA68KtoVRAM    2880, Tiles_FontA, $20
+  
+        lea     LevelClearedCaption, a0
+        move.w  #cram_palette_0_bits, d6
+        move.l  #vdp_write_plane_a|$02960000, d7
+        bsr.w   PrintStringNoDMA
+
+        move.w  #interrupts_enable, sr
+        EndLoop
+    level_clear_msg_delay:
+
+    jmp     MainLoop_Level
+
+Fadeout_Level:
+    jsr     FadeOutLevelPalettes
+
+    move.w  frame_counter, d5
+    cmp.w   #88, d5
+    bne.s   continue_lvl_fadeout
+        RestartLevel
+    continue_lvl_fadeout:
+
+    EndLoop
+
 Fadein_Level:
     move.w  (frame_counter), d5
     moveq   #0, d1
@@ -220,7 +290,19 @@ Fadein_Level:
 
     bra.s   MainLoop_Level
 MainLoop_Level_PlayerDead:
-    nop
+    ; Restart the level when player is beyond view
+    move.l  (MEM_player_pos),   d1
+    move.l  (MEM_camera_pos),   d2
+
+    swap    d1
+    swap    d2
+    sub.w   d2, d1
+    subi.w  #vdp_screen_height, d1
+    bmi.s   skip_death_restart
+        move.b  #0, MEM_fade
+        move.w  #0, frame_counter 
+        lea     Fadeout_Level, a6
+    skip_death_restart:
 MainLoop_Level:
     bsr.w   PauseGame
     ; d1 will hold the player's position for the entire frame
@@ -270,7 +352,6 @@ MainLoop_Level:
 
     ; Get starting position in array
     move.w  MEM_player_pos_y, d5
-    subq    #2, d5                  ; We can get stuck on flat ground
     lsr.w   #3, d5
     mulu.w  d5, d4
     move.w  d6, d3
@@ -290,7 +371,7 @@ MainLoop_Level:
     lvl_player_hscan:
     tst.w   (a0)
     bne.s   lvl_player_hit_wall
-    move.w  mem_level_playerscan_offset, d5
+    move.w  mem_level_playerscanh_offset, d5        ; Use a slightly lower range so we don't get stuck on floor
     adda.l  d5, a0
     tst.w   (a0)
     bne.s   lvl_player_hit_wall
@@ -319,6 +400,14 @@ MainLoop_Level:
     * Player vertical collision against level
     ************************************************************************
     SkipWhenPlayerDead  d3, lvl_player_vscan_end
+    ; See if player flew out of bounds and prompty kill
+    move.w  mem_level_deathbound, d3
+    cmp.w   d3, d6
+    bcs.s   lvl_player_in_bounds
+        KillPlayer
+        EndLoop
+    lvl_player_in_bounds:
+
     movea.l a1, a0
     move.w  (a0)+, d3                            ; d3 has level height
     moveq   #0, d4
