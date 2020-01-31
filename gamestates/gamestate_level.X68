@@ -118,6 +118,11 @@ Init_Level:
     move.w  (a0)+, d2                       ; Level Height
     move.w  (a0)+, d3                       ; Level Width
 
+    ;Cache the offset into the level array for the player's feet
+    move.l  d3, d7
+    mulu.w  #player_height_tiles, d7
+    add.w   d7, d7
+    move.w  d7, mem_level_playerscan_offset
 
     ; Rough way of filling the frame with the right tiles given our starting scroll
     ; Start with moving into our data based on the camera offset
@@ -252,7 +257,69 @@ MainLoop_Level:
 
     skip_input:
 
+    move.w  d6, d1
+    *---------------------------------------------------------------------------------
+    * VERTICAL VELOCITY: Jumping / falling
+    *---------------------------------------------------------------------------------
+    moveq   #0, d0                                      ; Add gravity to velocity
+    swap    d1
+    move.w  d1, d6                                      ; let d6 hold the potential next position
+
+    ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
+    move.w  (MEM_player_velocity_y), d0
+    addi.w  #world_gravity, d0
+    move.w  d0, d4
+    asr.w   #3, d4
+    add.w   d4, d6
+
+    ************************************************************************
+    * Player vertical collision against level
+    ************************************************************************
+    SkipWhenPlayerDead  d3, lvl_player_vscan_end
+    movea.l a1, a0
+    move.w  (a0)+, d3                            ; d3 has level height
+    moveq   #0, d4
+    move.w  (a0)+, d4                            ; d4 has level width
+
+    ; Get Starting position in array
+    move.w  d6, d5
+    lsr.w   #3, d5
+    mulu.w  d5, d4                      ; d5 will hold the value to clamp to
+    move.w  MEM_player_pos_x, d3
+    lsr.w   #3, d3
+    add.w   d3, d4
+    add.w   d4, d4
+    adda.l  d4, a0
+
+    tst     d0
+    bpl.s   lvl_player_falling
+        nop
+        bra.s   lvl_player_vscan_end
+    lvl_player_falling:
+        move.w  mem_level_playerscan_offset, d4
+        adda.l  d4, a0
+        tst     (a0)
+        bne.s   lvl_player_landed
+        * addq    #player_width_tiles, a0
+        * tst     (a0)
+        * bne.s   lvl_player_landed
+        bra.s   lvl_player_vscan_end
+        lvl_player_landed:
+            move.b  #0, MEM_player_jump_frames
+            bclr    #sprite_jumping, MEM_player_state
+            moveq   #0, d0
+            moveq   #0, d0
+            move.w  d5, d6
+            asl.w   #3, d6
+
+    lvl_player_vscan_end:
+
+    ************************************************************************
+    * Finalize Player position this frame
+    ************************************************************************
+    move.w  d0, MEM_player_velocity_y
     move.w  d6, d1                      ; update active player position
+    swap    d1
     move.l  d1, (MEM_player_pos)
 
     *************************************************
@@ -263,7 +330,7 @@ MainLoop_Level:
     move.l  a1, a0
 
     SkipWhenPlayerDead  d5, camera_tracking_skip
-    ClampCameraToPlayer d2, d1
+        ClampCameraToPlayer d2, d1
     camera_tracking_skip:
     ClampCameraToLevel  d2, d6, d7
 
@@ -277,6 +344,40 @@ MainLoop_Level:
     * And the club is jumpin', jumpin'
     *---------------------------------------------------------------------------------
     move.b  (MEM_player_state), d6
+
+    move.b  (MEM_player_vulnerability), d0
+    btst    #player_hurt_recoil, d0
+    bne.w   lvl_player_attack_checked
+
+    btst    #player_dead, d0
+    bne.w   lvl_player_attack_checked
+
+    btst    #sprite_jumping, d6
+    beq.s   lvl_notjumping
+        btst    #control_jump, MEM_buttons_held
+        beq.s   lvl_jump_released
+            move.b  (MEM_player_jump_frames), d0
+            cmp.b   #player_jump_duration, d0
+            bcc.s   lvl_player_jump_checked
+                move.w  #player_jump_strength, (MEM_player_velocity_y)
+                addq    #1, d0
+                move.b  d0, (MEM_player_jump_frames)
+                bra.s   lvl_player_jump_checked
+        lvl_jump_released:
+        move.b  #player_jump_duration, MEM_player_jump_frames
+        bra.s   lvl_player_jump_checked
+    lvl_notjumping:
+        btst    #control_jump, MEM_buttons_pressed
+        beq.s   lvl_player_jump_checked
+        tst.w   MEM_player_velocity_y
+        bne.s   lvl_player_jump_checked
+            ;Play jump BOING because BOINGS are better
+            move.w  #sfx_boing, d0
+            bsr.w   SetSFX
+            bset    #sprite_jumping, d6
+            move.w  #player_jump_strength, (MEM_player_velocity_y)
+            move.b  #0, (MEM_player_jump_frames)
+    lvl_player_jump_checked:
 
     *----------------------------------------------------------------------------------
     * ATTACK!

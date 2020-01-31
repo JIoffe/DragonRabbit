@@ -51,5 +51,6 @@ mem_events_ptr                  EQU $FFFF1A28       ;LONG
 mem_sprite_link                 EQU $FFFF1A2C       ; BYTE
 mem_sprite_cap                  EQU $FFFF1A2D       ; byte
 mem_bonus_time                  EQU $FFFF1A2E       ; byte
-
-MEM_end                         EQU $FFFF1A2F
+mem_padding                     EQU $FFFF1A2F       ; byte
+mem_level_playerscan_offset     EQU $FFFF1A30       ;word
+MEM_end                         EQU $FFFF1A32
