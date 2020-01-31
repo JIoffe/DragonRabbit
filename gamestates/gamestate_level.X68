@@ -257,7 +257,50 @@ MainLoop_Level:
 
     skip_input:
 
-    move.w  d6, d1
+    *******************************************************************
+    * Player horizontal collision against level
+    *******************************************************************
+    movea.l a1, a0
+    move.w  (a0)+, d3                            ; d3 has level height
+    moveq   #0, d4
+    move.w  (a0)+, d4                            ; d4 has level width
+
+    moveq   #0, d0
+    moveq   #0, d5
+
+    ; Get starting position in array
+    move.w  MEM_player_pos_y, d5
+    subq    #2, d5                  ; We can get stuck on flat ground
+    lsr.w   #3, d5
+    mulu.w  d5, d4
+    move.w  d6, d3
+    lsr.w   #3, d3
+    add.w   d3, d4
+    add.w   d4, d4
+    adda.l  d4, a0
+
+    move.w  d6, d2
+    lsr.w   #3, d2   
+
+    cmp.w   d1, d6
+    bhi.s   lvl_player_moving_right
+        bra.s   lvl_player_hscan
+    lvl_player_moving_right:
+        addq    #player_width_tiles<<1, a0
+    lvl_player_hscan:
+    tst.w   (a0)
+    bne.s   lvl_player_hit_wall
+    move.w  mem_level_playerscan_offset, d5
+    adda.l  d5, a0
+    tst.w   (a0)
+    bne.s   lvl_player_hit_wall
+    bra.s   lvl_player_x_adjusted
+    lvl_player_hit_wall:
+        move.w  d1, d6
+
+    lvl_player_x_adjusted:
+    move.w  d6, d1                      ; update active player position
+
     *---------------------------------------------------------------------------------
     * VERTICAL VELOCITY: Jumping / falling
     *---------------------------------------------------------------------------------
