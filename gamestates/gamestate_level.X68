@@ -5,6 +5,9 @@ control_attack          EQU joypad_a
 ; Note on velocity - it is by a factor of 8
 ; so this means that gravity is actually at 1/4 pixel per frame per frame
 world_gravity           EQU $02
+
+level_maximum_velocity  EQU 7<<3
+
 ; for states in RAM, not VRAM
 sprite_flip_h           EQU $00
 sprite_jumping          EQU $01
@@ -392,8 +395,15 @@ MainLoop_Level:
     ;   velocity is at a factor of 8 for subpixel precision (if it's stupid but it works...)
     move.w  (MEM_player_velocity_y), d0
     addi.w  #world_gravity, d0
+
+    ; limit to 7 pixels per frame
+    cmp.w   #level_maximum_velocity, d0
+    blt.s   lvl_gravity_limitcheck
+        move.w  #level_maximum_velocity, d0
+    lvl_gravity_limitcheck:
     move.w  d0, d4
     asr.w   #3, d4
+
     add.w   d4, d6
 
     ************************************************************************
@@ -425,8 +435,18 @@ MainLoop_Level:
 
     tst     d0
     bpl.s   lvl_player_falling
-        nop
+        ; Don't test the full square for ceiling collisions...
+        ; makes this a little easier and hopefully more pleasant for the player
+        * addq    #player_width_tiles, a0
+        tst     (a0)
+        bne.s   lvl_player_hithead
+        addq    #player_width_tiles<<1, a0
+        tst     (a0)
+        bne.s   lvl_player_hithead
         bra.s   lvl_player_vscan_end
+        lvl_player_hithead:
+            move.w  d1, d6
+            bra.s   lvl_clr_y_velocity
     lvl_player_falling:
         move.w  mem_level_playerscan_offset, d4
         adda.l  d4, a0
@@ -437,12 +457,12 @@ MainLoop_Level:
         bne.s   lvl_player_landed
         bra.s   lvl_player_vscan_end
         lvl_player_landed:
+            move.w  d5, d6
+            asl.w   #3, d6
+        lvl_clr_y_velocity:
             move.b  #0, MEM_player_jump_frames
             bclr    #sprite_jumping, MEM_player_state
             moveq   #0, d0
-            moveq   #0, d0
-            move.w  d5, d6
-            asl.w   #3, d6
 
     lvl_player_vscan_end:
 
@@ -861,6 +881,6 @@ MainLoop_Level:
             dbra    d5, lvl_effects_update
 
     lvl_effects_done:
-    
+
     bsr.w   CapSpriteBuffer
     EndLoop
