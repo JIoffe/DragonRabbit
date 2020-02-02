@@ -12,17 +12,17 @@ psg equ &7F11
 
 ; VBlank needs to start at &38
 ; Padd with variables
-sfx_callback:	defs 2		; In effect, the current sound effect to play
+sfx_callback:	defw sfx_nop		; In effect, the current sound effect to play
 
 ; VBlank Interrupt Handler
-	defs    &32	; VBlank starts at &38
+align &38
 vblank:		
 	inc	bc
 	ld	hl,(sfx_callback)
 	jp	(hl)
 sfx_callback_return:
 	ei
-	reti
+	ret
 
 ; END VBLANK
 
@@ -36,9 +36,7 @@ sfx_nop:
 init:
 	im 1			; turn on V Blank interrupts
 	ld sp,&2000
-	
-	ld hl,sfx_nop		; in a hurry to do nothing
-	ld (sfx_callback),hl
+
 	ei
 	mainloop:
 		jr mainloop	; Keep it busy, action happens on vblank
@@ -55,4 +53,5 @@ sfx_mute_psg:
 	ret
 
 read	'./util/Play_melody.asm'
+align 2
 __sfx_core_end:

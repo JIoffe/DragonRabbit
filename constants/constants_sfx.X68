@@ -1,7 +1,7 @@
 ; The var in shared RAM that points to 
 ; where the z80 should process the current sound
 z80_sfx_ptr      EQU   $A00004
-sfx_driver_size  EQU   $00C6
+sfx_driver_size  EQU   $00BE
 
 ; Sound Effect Values (addresses from Z80's perspective)
 sfx_boing        EQU   $0000+sfx_driver_size
