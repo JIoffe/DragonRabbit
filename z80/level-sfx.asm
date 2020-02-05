@@ -4,7 +4,8 @@ read	'./Plugin-constants.asm'
 ; Boingy, boingy - player jumped
 sfx_boing:
 	call	sfx_mute_psg
-	ld	bc,0
+	ld	a, &0E
+	ld	(sfx_counter), a
 
 	ld 	a,%10010100
 	ld 	(psg),a
@@ -19,9 +20,8 @@ sfx_boing:
 	ld 	(sfx_callback),hl
 	jp	sfx_callback_return
 sfx_boing_att:
-	ld	a,&FF
-	sub	c
-	cp	&F1
+	ld	a, (sfx_counter)
+	or	a
 	jp	Z,sfx_nop_trap
 
 	and	%00001111
@@ -33,7 +33,8 @@ sfx_boing_att:
 
 sfx_pewpew:
 	call	sfx_mute_psg
-	ld	bc,0
+	ld	a, 12
+	ld	(sfx_counter), a
 
 	ld 	a,%10010000
 	ld 	(psg),a
@@ -54,17 +55,19 @@ sfx_pewpew:
 	ld 	(sfx_callback),hl
 	jp	sfx_callback_return
 sfx_pewpew_att:
-	ld	a,c
-	cp	12
+	ld	a,(sfx_counter)
+	or	a
 	jp	Z,sfx_nop_trap
 
+	neg
+	add	12
 	and	%00001111
 	or	%10000000
 	ld	(psg),a
 	and	%01111111
 	ld	(psg),a
 
-	ld	a,c
+	ld	a,(sfx_counter)
 	and	%00001111
 	or	%11110000
 	ld	(psg),a
@@ -76,7 +79,9 @@ sfx_pewpew_att:
 
 sfx_slash:
 	call	sfx_mute_psg
-	ld	bc,0
+	ld	a, 10
+	ld	(sfx_counter), a
+
 	ld	a,%11110011
 	ld	(psg),a
 	ld	a,%11100101
@@ -93,7 +98,9 @@ sfx_slash:
 	jp	sfx_callback_return
 sfx_smack:
 	call	sfx_mute_psg
-	ld	bc,0
+	ld	a, 10
+	ld	(sfx_counter), a
+
 	ld	a,%11111011
 	ld	(psg),a
 	ld	a,%11100010
@@ -109,9 +116,12 @@ sfx_smack:
 	ld 	(sfx_callback),hl
 	jp	sfx_callback_return
 sfx_slash_att:
-	ld	a,c
-	cp	10
+	ld	a,(sfx_counter)
+	or	a
 	jp	Z,sfx_nop_trap
+
+	neg
+	add	10
 	and	%00001111
 	or	%11110000
 	ld	(psg),a
@@ -122,7 +132,9 @@ sfx_slash_att:
 
 sfx_collection:
 	call	sfx_mute_psg
-	ld	bc,0
+	ld	a, 10
+	ld	(sfx_counter), a
+
 	ld	a,%10110010
 	ld	(psg),a
 	ld	a,%10011010
@@ -143,10 +155,12 @@ sfx_collection:
 	jp	sfx_callback_return
 
 sfx_collection_att:
-	ld	a,c
-	cp	10
+	ld	a,(sfx_counter)
+	or	a
 	jp	Z,sfx_nop_trap
 
+	neg
+	add	10
 	and	%00001111
 	or	%10010000
 	ld	(psg),a
@@ -161,22 +175,22 @@ sfx_collection_att:
 
 sfx_player_dead:
 	ld	hl,melody_death+sfx_coredriver_size
-	ld	(sfx_next_note_addr),hl
+	ld	(sfx_melody_start_ptr),hl
 	jp	sfx_playmelody
 
 sfx_player_hurt:
 	ld	hl,melody_player_damaged+sfx_coredriver_size
-	ld	(sfx_next_note_addr),hl
+	ld	(sfx_melody_start_ptr),hl
 	jp	sfx_playmelody
 
 sfx_fanfare:
 	ld	hl,melody_happy_jingle+sfx_coredriver_size
-	ld	(sfx_next_note_addr),hl
+	ld	(sfx_melody_start_ptr),hl
 	jp	sfx_playmelody
 
 sfx_spawn:
 	ld	hl,melody_spawn+sfx_coredriver_size
-	ld	(sfx_next_note_addr),hl
+	ld	(sfx_melody_start_ptr),hl
 	jp	sfx_playmelody
 ;As a test, PSG melodies have the following format:
 ; For each note:

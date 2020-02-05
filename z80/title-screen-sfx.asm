@@ -3,7 +3,7 @@ read	'./Plugin-constants.asm'
 
 sfx_title_theme:
 	ld	hl,melody_title_theme+sfx_coredriver_size
-	ld	(sfx_next_note_addr),hl
+	ld	(sfx_melody_start_ptr),hl
 	jp	sfx_playmelody_repeat
 
 melody_title_theme:
