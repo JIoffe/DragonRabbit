@@ -20,6 +20,12 @@ sfx_next_note_ptr:	dw 0
 sfx_melody_start_ptr:	dw 0
 sfx_melody_repeats:	db 0
 sfx_counter		db 0
+sfx_tempo		db 0
+sfx_tempo_accumulator	db 0
+sfx_note_fade		db 0
+sfx_note_counter	db 0
+sfx_note_fade_rate	db 0
+sfx_fade_accumulator	db 0
 
 align	2
 
@@ -98,51 +104,89 @@ sfx_playmelody_repeat:
 	ld	(sfx_melody_repeats),a
 sfx_melody_init:
 	call	sfx_reset
+	ld	hl, (sfx_melody_start_ptr)
 
-	ld	hl, (sfx_melody_start_ptr)	; point to the start of the melody
-	
+	; queue up the first note
 	ld	a, (hl)
-	ld	(sfx_counter), a
-
+	call	sfx_tempo_adjust
+	ld 	(sfx_note_counter), a
 	inc	hl
-	ld	(sfx_next_note_ptr),hl	
-
+	ld	a, (hl)
+	call	sfx_tempo_adjust
+	ld 	(sfx_note_fade), a
+	inc	hl
+	ld	(sfx_next_note_ptr),hl
 
 	ld 	hl, sfx_playmelody_loop
 	ld 	(sfx_callback),hl
-
 sfx_playmelody_loop:
-	ld	a, (sfx_counter)
+	; Mute active note when it ends
+	ld 	a, (sfx_note_fade)
+	dec	a
 	or	a
-	jp	NZ, sfx_callback_return
+	call	Z, sfx_mute_psg
+	ld 	(sfx_note_fade), a
 
+	; reduce note counter until it hits 0
+	ld	a, (sfx_note_counter)
+	or	a
+	jp	Z, sfx_next_note
+	dec	a
+	ld	(sfx_note_counter), a
+	jp	sfx_callback_return
+sfx_next_note:
 	ld	hl, (sfx_next_note_ptr)
 	ld	de, psg
 	ld	b, 11
-	sfx_note_parse:
+	melody_push_note_loop:
 		ld	a, (hl)
 		ld	(de), a
 		inc	hl
-		djnz	sfx_note_parse
+		djnz	melody_push_note_loop
 
+	; peek the next note
 	ld	a, (hl)
 	or	a
-	jr	NZ, sfx_melody_continue
-	; hit null termination - end the song
-	ld	a, (sfx_melody_repeats)
+	; melody ends with 0
+	jr	NZ, sfx_melody_cont
+
+	; see if melody should restart or end
+	ld	a,(sfx_melody_repeats)
 	or	a
-	jr	NZ, sfx_melody_init
+	jp	Z,sfx_nop_trap
+	jp	sfx_melody_init
+
+sfx_melody_cont:
+	; multiply by "tempo"
+	call	sfx_tempo_adjust
+	ld 	(sfx_note_counter), a
+	inc	hl
+
+	ld	a, (hl)
+	call	sfx_tempo_adjust
+	ld 	(sfx_note_fade), a
+	inc	hl
+
+	ld	(sfx_next_note_ptr),hl
+	jp	sfx_callback_return
 sfx_melody_end:
 	ld 	hl, sfx_nop_trap
 	ld 	(sfx_callback),hl
 	jp	sfx_callback_return
-	
-sfx_melody_continue:
-	inc	hl
-	ld	(sfx_next_note_ptr),hl	
-	ld	(sfx_counter), a
 
-	jp	sfx_callback_return
+; Naively multiplies a by "tempo"
+sfx_tempo_adjust:
+	push	hl
+	ld	hl, sfx_tempo_accumulator
+	ld	(hl), a
+	ld	a, (sfx_tempo)
+	ld	b, a
+	xor	a
+mulu_loop:
+	add	(hl)
+	djnz 	mulu_loop	
+	pop 	hl
+	ret
 
 align 2
 sfx_driver_end:
