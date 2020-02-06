@@ -84,6 +84,8 @@ Chipmunk_Update:
             chipmunk_spit_chosen:    
 
             jsr     AddEffect
+            move.w  #sfx_projectile, d0
+            jsr     SetSFX
 
             move.l  (SP)+, d1
         Chipmunk_spit_skip:     

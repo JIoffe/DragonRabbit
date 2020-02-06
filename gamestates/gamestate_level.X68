@@ -204,8 +204,8 @@ Init_Level:
     move.b  #7, MEM_vblank_mode
 
     ; Make a sound when the player appears, like a pinball table
-    move.w  #sfx_spawn, d0
-    bsr.w   SetSFX
+    * move.w  #sfx_spawn, d0
+    * bsr.w   SetSFX
 
     move.w	#interrupts_enable, sr
     rts
