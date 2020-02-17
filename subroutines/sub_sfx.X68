@@ -6,6 +6,9 @@ WritetoZ80:
     bsr.w   PrepareZ80MemWrite
     sub.l   a0, d0
     bsr.w   MemCpy
+    ; Just in case, cancel whatever is happening
+    move.w  #sfx_no_op, z80_sfx_ptr
+    move.w  #0, z80_state
     bsr.w   CommiteZ80MemWrite
     rts
 UploadCoreSoundDriver:
