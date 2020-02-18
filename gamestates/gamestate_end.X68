@@ -2,6 +2,10 @@ Init_TheEnd:
     move.w	#interrupts_disable, sr
     jsr     ResetState
 
+    lea     EndingThemeBegin, a0
+    move.l  #EndingThemeEnd-1, d0
+    bsr.w   UploadBGM
+
     lea     EndScreenPalette, a0
 	moveq   #2, d0
 	bsr.w   LoadPalettes
@@ -75,6 +79,10 @@ Init_TheEnd:
 
     ; copy sprites to VRAM
     move.b  #1, MEM_vblank_mode
+
+    ; start the music!
+    move.w  #sfx_oneshotbgm, d0
+    bsr.w   SetSFX
 
     move.w  #interrupts_enable, sr
     rts

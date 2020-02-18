@@ -232,6 +232,9 @@ sfx_fanfare:
 sfx_spawn:
 	startbgm_loop	level_bgm+sfx_coredriver_size
 
+sfx_oneshotbgm
+	startbgm 	level_bgm+sfx_coredriver_size
+
 death_bgm:
 incbin '../assets/bgm/death.vgm'
 

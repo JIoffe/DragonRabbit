@@ -38,6 +38,15 @@ UploadTitleSFXProgram:
     movem.l (SP)+, d0/a0-a1
     rts
 
+; Assumes CORE DRIVER IS ALREADY LOADED
+; Set a0 to start of data
+; set d0 to end of data
+; d0, a0, a1 trashed
+UploadBGM:
+    lea.l   (sfx_level_bgm).l, a1
+    bsr.w   WritetoZ80
+    rts
+
 PrepareZ80MemWrite:
     StopZ80
     ResetZ80

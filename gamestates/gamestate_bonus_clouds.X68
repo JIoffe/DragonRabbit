@@ -54,7 +54,10 @@ wobbled\@
 Init_BonusCloudsCard:
     move.w	#interrupts_disable, sr
     jsr     ResetState
-    bsr.w   UploadGameplaySFXProgram
+    ;bsr.w   UploadGameplaySFXProgram
+    lea     BonusThemeBegin, a0
+    move.l  #BonusThemeEnd-1, d0
+    bsr.w   UploadBGM
 
     lea     Palette_BonusClouds, a0
     moveq   #4, d0
@@ -215,7 +218,6 @@ Init_BonusClouds:
 
     lea.l   MEM_LEVELITEMS, a3  ; a3 will point to the items list from the previous frame
 
-
     ; set initial player graphics and position
     move.l  #BaoLongTu_sprite_FlyingRear0, (MEM_player_previous_frame)
     move.l  #$00900092, (MEM_player_pos)
@@ -231,6 +233,11 @@ Init_BonusClouds:
     ; DMA - Sprite buffer, player tiles, and score
     move.b  #7, MEM_vblank_mode
     EnableHBlank    #HBlank_BonusCloudsScroll, 1
+
+    ; start the music!
+    move.w  #sfx_spawn, d0
+    bsr.w   SetSFX
+
     move.w	#interrupts_enable, sr
     rts
 
