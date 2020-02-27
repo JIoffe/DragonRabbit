@@ -86,6 +86,8 @@ Main:
     include './init/init_clearmem.X68'
 
     ; Begin the game at the licensing screen
+    ; Ensure that the first level is queued
+    move.l  #LVL_Queue_ForestDay, MEM_next_level
     lea     NoOpTrap, a6
     Goto_Licensing
 
@@ -225,19 +227,9 @@ NotHandled:
     include './assets/title-screen/nose-twitch.X68'
     include './assets/title-screen/press-start.X68'
 
-    include './assets/levels/core-tiles.X68'
-    include './assets/levels/core-sprites.X68'
-    include './assets/levels/numbers-tiles.X68'
-
     include './assets/fonts/font_a.X68'
     
-    ; FOR TEST ROOM
-    include './assets/levels/testroom/tiles.X68'
-    include './assets/levels/testroom/palette.X68'
-    include './assets/levels/testroom/bg.X68'
-    include './assets/levels/testroom/level.X68'
-    include './assets/levels/testroom/enemies.X68'
-
+     include './assets/levels/include.X68'
     ; BONUS!!!!
     include './assets/bonus-stages/clouds/include.X68'
 

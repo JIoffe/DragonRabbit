@@ -2,6 +2,11 @@
 * Levels / Tile Plans
 *------------------------------
 
+Goto_NextLevel:
+    move.l  MEM_next_level, a0
+    jmp     (a0)
+    next_level_queued:
+    rts
 **********************************************************
 * Fills the frame with level tiles given a camera location
 **********************************************************

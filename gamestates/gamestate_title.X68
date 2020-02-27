@@ -67,7 +67,7 @@ Init_Title:
 MainLoop_Title:
     CheckABCStart Title_NotSkipped
         bsr.w   ClearCRAM
-        GotoTestRoom
+        jsr     Goto_NextLevel
         EndLoop
 
     Title_NotSkipped:

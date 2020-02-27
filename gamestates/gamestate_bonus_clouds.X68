@@ -227,7 +227,8 @@ Init_BonusClouds:
     move.b  #player_max_hp, MEM_player_hp
 
     ;Set us up some bombs
-    move.l  #BonusEvents1, mem_events_ptr
+    move.l  MEM_next_bonus_stage, d0
+    move.l  d0, mem_events_ptr
     move.b  #BONUS_ROUND_TIME, mem_bonus_time
 
     ; DMA - Sprite buffer, player tiles, and score
@@ -819,5 +820,5 @@ BC_ReplaceItemsWithFont:
     rts
 
 BC_TransitionNext:
-    Goto_End
+    jsr     Goto_NextLevel
     EndLoop

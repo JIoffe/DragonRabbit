@@ -214,6 +214,13 @@ Init_Level:
 LevelCleared_MessageLoop:
     cmp.w   #120, frame_counter
     bcs.s   lvlclrmsg_continue
+        ; If there is a next bonus level defined, then go
+        ; otherwise, assume this is the END OF THE GAME SO FAR
+        move.l  MEM_next_bonus_stage, d0
+        bne.s   lvl_cleared_has_bonus
+            Goto_End
+            EndLoop
+        lvl_cleared_has_bonus:
         Goto_BonusClouds
         EndLoop
     lvlclrmsg_continue:

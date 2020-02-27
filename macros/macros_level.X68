@@ -1,11 +1,4 @@
 *===============================================================================
-* Macros for loading specific levels
-*===============================================================================
-GotoTestRoom    macro
-    Goto_Level  TestRoom_level, TESTROOM_tiles, #10368, Palettes_TESTROOM
-    endm
-
-*===============================================================================
 * Macros for streaming through level data to keep the level loop neat
 *===============================================================================
 * - \1 = Column to target (in bytes)
