@@ -241,6 +241,4 @@ incbin '../assets/bgm/death.vgm'
 fanfare_bgm:
 incbin '../assets/bgm/fanfare.vgm'
 
-;can be swapped out for different levels in the future
 level_bgm:
-incbin '../assets/bgm/level1.vgm'

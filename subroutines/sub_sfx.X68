@@ -2,6 +2,16 @@
 * Uploads the primary gameplay (level) SFX 
 * program to the Z80's memory
 ********************************************
+UploadCoreSoundDriver:
+    movem.l d0/a0-a1, -(SP)
+    lea     CoreSFXDriverBegin, a0
+    lea.l   (z80_ram).l, a1
+    move.l  #CoreSFXDriverEnd-1, d0
+    bsr.s   WritetoZ80
+    bsr.w   CommitZ80Write
+    movem.l (SP)+, d0/a0-a1
+    rts
+
 WritetoZ80:
     bsr.w   PrepareZ80MemWrite
     sub.l   a0, d0
@@ -9,15 +19,6 @@ WritetoZ80:
     ; Just in case, cancel whatever is happening
     move.w  #sfx_no_op, z80_sfx_ptr
     move.w  #0, z80_state
-    bsr.w   CommiteZ80MemWrite
-    rts
-UploadCoreSoundDriver:
-    movem.l d0/a0-a1, -(SP)
-    lea     CoreSFXDriverBegin, a0
-    lea.l   (z80_ram).l, a1
-    move.l  #CoreSFXDriverEnd-1, d0
-    bsr.s   WritetoZ80
-    movem.l (SP)+, d0/a0-a1
     rts
 
 UploadGameplaySFXProgram:
@@ -26,6 +27,14 @@ UploadGameplaySFXProgram:
     lea.l   (z80_ram+sfx_driver_size).l, a1
     move.l  #LevelSFXEnd-1, d0
     bsr.s   WritetoZ80
+
+    ; while we have the bus, upload bgm
+    move.l  MEM_level_bgm_begin, a0
+    move.l  MEM_level_bgm_end, d0
+    lea.l   (sfx_level_bgm).l, a1
+    bsr.w   WritetoZ80
+
+    bsr.w   CommitZ80Write
     movem.l (SP)+, d0/a0-a1
     rts
 
@@ -35,16 +44,18 @@ UploadTitleSFXProgram:
     lea.l   (z80_ram+sfx_driver_size).l, a1
     move.l  #TitleSFXEnd-1, d0
     bsr.s   WritetoZ80
+    bsr.w   CommitZ80Write
     movem.l (SP)+, d0/a0-a1
     rts
 
-; Assumes CORE DRIVER IS ALREADY LOADED
+; Assumes CORE DRIVER and GAME SFX are ALREADY LOADED
 ; Set a0 to start of data
 ; set d0 to end of data
 ; d0, a0, a1 trashed
 UploadBGM:
     lea.l   (sfx_level_bgm).l, a1
     bsr.w   WritetoZ80
+    bsr.w   CommitZ80Write
     rts
 
 PrepareZ80MemWrite:
@@ -53,7 +64,7 @@ PrepareZ80MemWrite:
     WaitZ80
     rts
 
-CommiteZ80MemWrite:
+CommitZ80Write:
     ReloadZ80
     Z80BusSync
     ReleaseZ80

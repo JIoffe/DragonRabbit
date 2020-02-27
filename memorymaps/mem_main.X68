@@ -60,3 +60,5 @@ MEM_end                         EQU $FFFF1A36       ; ("END" of variables to cle
 ; References on where to go when a level is over
 MEM_next_level                  EQU $FFFF1A36       ;LONG pointer to code that calls next level
 MEM_next_bonus_stage            EQU $FFFF1A3A       ;LONG pointer to code that calls next bonus data
+MEM_level_bgm_begin             EQU $FFFF1A3E       ;LONG pointer to BGM to use for next level
+MEM_level_bgm_end               EQU $FFFF1A42       ;LONG pointer to BGM to use for next level

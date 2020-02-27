@@ -14,6 +14,14 @@ BonusThemeBegin:
     incbin './assets/bgm/flyingtutu.vgm'
 BonusThemeEnd:
 
+DayForestThemeBegin:
+    incbin './assets/bgm/level1.vgm'
+DayForestThemeEnd:
+
+DarkForestThemeBegin:
+    incbin './assets/bgm/level0.vgm'
+DarkForestThemeEnd:
+
 EndingThemeBegin:
     incbin './assets/bgm/fanfare_endgame.vgm'
 EndingThemeEnd:
