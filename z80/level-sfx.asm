@@ -243,4 +243,4 @@ incbin '../assets/bgm/fanfare.vgm'
 
 ;can be swapped out for different levels in the future
 level_bgm:
-incbin '../assets/bgm/level0.vgm'
+incbin '../assets/bgm/level1.vgm'
