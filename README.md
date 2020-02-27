@@ -2,6 +2,7 @@
 **Prototype game for Sega Genesis/Mega Drive**
 
 | ![BaoLongTu 1](/screenshots/baolongtu_001.png?raw=true) | ![BaoLongTu 2](/screenshots/baolongtu_002.png?raw=true) |
+| ------------ | ------------ |
 | ![BaoLongTu 3](/screenshots/baolongtu_003.png?raw=true) | ![BaoLongTu 2](/screenshots/baolongtu_004.png?raw=true) |
 
 Pre-assembled binaries can be found on the [releases page](https://github.com/JIoffe/DragonRabbit/releases).
