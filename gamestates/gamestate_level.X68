@@ -203,6 +203,13 @@ Init_Level:
     ; Set up vblank to DMA sprites,score and player
     move.b  #7, MEM_vblank_mode
 
+    ; Some levels may need additional resources or init
+    move.l  MEM_level_post_init_handler, d0
+    beq.s   lvl_post_init_return
+    movea.l d0, a0
+    jmp     (a0)
+    lvl_post_init_return:
+
     ; Make a sound when the player appears, like a pinball table
     ; or at least some BGM
     move.w  #sfx_spawn, d0
@@ -218,10 +225,15 @@ LevelCleared_MessageLoop:
         ; otherwise, assume this is the END OF THE GAME SO FAR
         move.l  MEM_next_bonus_stage, d0
         bne.s   lvl_cleared_has_bonus
+        move.l  MEM_next_level, d0
+        bne.s   lvl_cleared_has_next
             Goto_End
             EndLoop
         lvl_cleared_has_bonus:
         Goto_BonusClouds
+        EndLoop
+        lvl_cleared_has_next:
+        jsr     Goto_NextLevel
         EndLoop
     lvlclrmsg_continue:
     EndLoop

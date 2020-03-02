@@ -14,3 +14,9 @@
     ; Forest (Night)
     include './assets/levels/forest-night/palette.X68'
     include './assets/levels/forest-night/level.X68'
+
+    ; BOSS MAN
+    include './assets/levels/forest-boss/palette.X68'
+    include './assets/levels/forest-boss/level.X68'
+    include './assets/levels/forest-boss/tiles.X68'
+    include './assets/levels/forest-boss/skeleton_boss.X68'

@@ -3,6 +3,7 @@
     include './assets/items/moguren.X68'
     include './assets/items/chicken.X68'
     include './assets/items/chipmunk.X68'
+    include './assets/items/boss_forestskeleton.X68'
 
 Game_ItemTable:
     dc.l    GemsH_Update
@@ -11,3 +12,4 @@ Game_ItemTable:
     dc.l    Chicken_Update
     dc.l    Chipmunk_Update
     dc.l    GoalFlag_Update
+    dc.l    BOSS_ForestSkeleton_Update

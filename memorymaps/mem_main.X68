@@ -51,7 +51,7 @@ mem_events_ptr                  EQU $FFFF1A28       ;LONG
 mem_sprite_link                 EQU $FFFF1A2C       ; BYTE
 mem_sprite_cap                  EQU $FFFF1A2D       ; byte
 mem_bonus_time                  EQU $FFFF1A2E       ; byte
-mem_padding                     EQU $FFFF1A2F       ; byte
+mem_boss_state                  EQU $FFFF1A2F       ; byte
 mem_level_playerscan_offset     EQU $FFFF1A30       ;word
 mem_level_deathbound            EQU $FFFF1A32       ;word
 mem_level_playerscanh_offset    EQU $FFFF1A34       ;word
@@ -62,3 +62,6 @@ MEM_next_level                  EQU $FFFF1A36       ;LONG pointer to code that c
 MEM_next_bonus_stage            EQU $FFFF1A3A       ;LONG pointer to code that calls next bonus data
 MEM_level_bgm_begin             EQU $FFFF1A3E       ;LONG pointer to BGM to use for next level
 MEM_level_bgm_end               EQU $FFFF1A42       ;LONG pointer to BGM to use for next level
+
+; In case any additional init has to happen for a level
+MEM_level_post_init_handler     EQU $FFFF1A46       ;LONG
