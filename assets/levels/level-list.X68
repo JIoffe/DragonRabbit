@@ -24,8 +24,8 @@ LVL_Queue_ForestBoss:
     move.l      #LVL_ForestBoss_PostInit, MEM_level_post_init_handler
     move.l      #0, MEM_next_bonus_stage
     move.l      #0, MEM_next_level
-    move.l      #DarkForestThemeBegin, MEM_level_bgm_begin
-    move.l      #DarkForestThemeEnd-1, MEM_level_bgm_end
+    move.l      #BossActionThemeBegin, MEM_level_bgm_begin
+    move.l      #BossActionThemeEnd-1, MEM_level_bgm_end
 
 
     ; Using the first 263 tiles from the forest set (for ground and bg)

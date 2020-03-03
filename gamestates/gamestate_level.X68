@@ -1,6 +1,7 @@
 ; Controls
 control_jump            EQU joypad_c
 control_attack          EQU joypad_a
+control_attack2         EQU joypad_b
 
 ; Note on velocity - it is by a factor of 8
 ; so this means that gravity is actually at 1/4 pixel per frame per frame
@@ -516,6 +517,9 @@ MainLoop_Level:
     * And the club is jumpin', jumpin'
     *---------------------------------------------------------------------------------
     move.b  (MEM_player_state), d6
+    move.b  #0, (MEM_player_att_strength)                       ; clear the attack strength on each frame
+                                                                ; otherwise, the player can kamikaze any enemy
+                                                                ; by attacking the same frame as death
 
     move.b  (MEM_player_vulnerability), d0
     btst    #player_hurt_recoil, d0
@@ -567,10 +571,12 @@ MainLoop_Level:
         bclr    #player_attack_3, d6
     lvl_player_combo_reset:
 
-    move.b  #0, (MEM_player_att_strength)                       ; clear the attack strength on each frame
-
+    ; Since B Button is not used, A and B can both be for attack
     btst    #control_attack, MEM_buttons_pressed
+    bne.s   lvl_player_attacking
+    btst    #control_attack2, MEM_buttons_pressed
     beq.w   lvl_player_attack_checked
+    lvl_player_attacking:
         move.w  #sfx_swish, d0
         bsr.w   SetSFX
         move.b  #1, (MEM_player_att_strength)                   ; to make it easier for now, all attacks will have 1 strength

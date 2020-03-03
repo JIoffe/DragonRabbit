@@ -22,6 +22,10 @@ DarkForestThemeBegin:
     incbin './assets/bgm/level0.vgm'
 DarkForestThemeEnd:
 
+BossActionThemeBegin:
+    incbin './assets/bgm/tutuaction.vgm'
+BossActionThemeEnd:
+
 EndingThemeBegin:
     incbin './assets/bgm/fanfare_endgame.vgm'
 EndingThemeEnd:
